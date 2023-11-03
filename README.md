@@ -29,8 +29,10 @@ Our repository has the following branches:
 
    -- Then start working on your task.
    -- Once you are done working on your task do the following command:
-   
-   4. git push origin feature/your-feature-name
+
+   4. git add "file name"
+   5. git commit -m "useful comit message"
+   6. git push origin feature/your-feature-name
 
    -- Then go on github to create a pull request and inform any of the SA to review and merge your work.
 
