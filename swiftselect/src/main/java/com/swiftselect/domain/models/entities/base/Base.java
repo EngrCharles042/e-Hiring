@@ -20,6 +20,7 @@ public abstract class Base {
     private Long id;
 
     @CreationTimestamp
+    @Column(name = "created_date", updatable = false, nullable = false)
     private LocalDateTime createDate;
 
     @UpdateTimestamp
