@@ -19,7 +19,7 @@ import java.util.Set;
 public class Employer extends Person {
     private String companyName;
 
-    private String workEmail;
+    private String email;
 
     private String notificationEmail;
 

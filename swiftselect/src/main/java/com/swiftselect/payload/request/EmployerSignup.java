@@ -46,7 +46,7 @@ public class EmployerSignup {
     @Size(min = 8, max = 50)
     @Email(message = "E-mail must be valid")
     @NotBlank(message = "E-mail required")
-    String workEmail;
+    String email;
 
     @Size(min = 8, max = 50)
     @Email(message = "E-mail must be valid")
