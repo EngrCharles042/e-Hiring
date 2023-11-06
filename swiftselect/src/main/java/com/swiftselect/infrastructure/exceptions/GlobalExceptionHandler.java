@@ -1,6 +1,5 @@
 package com.swiftselect.infrastructure.exceptions;
 
-<<<<<<< HEAD
 import com.swiftselect.payload.response.ErrorDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +23,4 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
-=======
-public class GlobalExceptionHandler {
->>>>>>> develop
 }
