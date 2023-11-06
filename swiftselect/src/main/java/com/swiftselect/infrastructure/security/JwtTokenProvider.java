@@ -1,5 +1,6 @@
 package com.swiftselect.infrastructure.security;
 
+<<<<<<< HEAD
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.utils.SecurityConstants;
 import io.jsonwebtoken.*;
@@ -68,4 +69,7 @@ public class JwtTokenProvider {
             throw new ApplicationException("JWT Claims string is empty", HttpStatus.BAD_REQUEST);
         }
     }
+=======
+public class JwtTokenProvider {
+>>>>>>> develop
 }

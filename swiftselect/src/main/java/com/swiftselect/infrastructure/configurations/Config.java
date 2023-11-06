@@ -1,4 +1,5 @@
 package com.swiftselect.infrastructure.configurations;
+<<<<<<< HEAD
 import com.swiftselect.infrastructure.security.JwtAuthenticationEntryPoint;
 import com.swiftselect.infrastructure.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,19 @@ public class Config {
         this.authenticationFilter = authenticationFilter;
     }
 
+=======
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class Config {
+>>>>>>> develop
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
+<<<<<<< HEAD
 
     @Bean
     public PasswordEncoder encoder() {
@@ -71,4 +81,6 @@ public class Config {
 
         return httpSecurity.build();
     }
+=======
+>>>>>>> develop
 }
