@@ -33,7 +33,6 @@ public class AuthServiceImpl implements AuthService {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
     private final ModelMapper modelMapper;
-    private final EmailSenderService emailSenderService;
     private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
     private final EventPublisher publisher;
@@ -69,16 +68,6 @@ public class AuthServiceImpl implements AuthService {
         // Save the jobSeeker to the database
         JobSeeker savedJobseeker = jobSeekerRepository.save(newJobSeeker);
 
-//        // Create a mailRequest Object to be sent to JobSeeker's email for verification
-//        MailRequest mailRequest = MailRequest.builder()
-//                .to(savedJobseeker.getEmail())
-//                .subject("VERIFICATION TOKEN")
-//                .message(RandomTokenGen.generateRandomToken())
-//                .build();
-//
-//        // Send the code with the random token to the JobSeeker
-//        emailSenderService.sendEmailAlert(mailRequest);
-
         // Publish and event to verify Email
         publisher.jsRegistrationCompleteEventPublisher(savedJobseeker, request);
 
@@ -89,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<Employer> registerEmployer(EmployerSignup employerSignup) {
         // Checks if an Employer's email is already in the database
-        boolean isPresent = employerRepository.existsByWorkEmail(employerSignup.getWorkEmail());
+        boolean isPresent = employerRepository.existsByEmail(employerSignup.getWorkEmail());
 
         // Throws and error if the email already exists
         if (isPresent) {
@@ -113,16 +102,6 @@ public class AuthServiceImpl implements AuthService {
 
         // Assigning the roles and isEnabled gotten to the new Employer to be saved to the database
         Employer savedEmployer = employerRepository.save(newEmployer);
-
-//        // Create a mailRequest Object to be sent to Employer's email for verification
-//        MailRequest mailRequest = MailRequest.builder()
-//                .to(savedEmployer.getWorkEmail())
-//                .subject("VERIFICATION TOKEN")
-//                .message(RandomTokenGen.generateRandomToken())
-//                .build();
-//
-//        // Send the code with the random token to the Employer
-//        emailSenderService.sendEmailAlert(mailRequest);
 
         // Publish and event to verify Email
         publisher.emRegistrationCompleteEventPublisher(savedEmployer, request);

@@ -86,7 +86,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             var messageHelper = new MimeMessageHelper(message);
 
             messageHelper.setFrom(sendMail, senderName);
-            messageHelper.setTo(employer.getWorkEmail());
+            messageHelper.setTo(employer.getEmail());
             messageHelper.setSubject(subject);
             messageHelper.setText(mailContent, true);
 
