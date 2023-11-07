@@ -24,8 +24,8 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (employerRepository.existsByWorkEmail(email)) {
-            Employer employer = employerRepository.findByWorkEmail(email).get();
+        if (employerRepository.existsByEmail(email)) {
+            Employer employer = employerRepository.findByEmail(email).get();
 
             Set<GrantedAuthority> authorities = employer.getRoles()
                     .stream()
@@ -33,7 +33,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
                     .collect(Collectors.toSet());
 
             return new User(
-                    employer.getWorkEmail(),
+                    employer.getEmail(),
                     employer.getPassword(),
                     authorities
             );

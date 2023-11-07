@@ -5,9 +5,12 @@ import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.domain.entities.Roles;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
+import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.EmployerSignup;
 import com.swiftselect.payload.request.JobSeekerSignup;
 import com.swiftselect.payload.request.MailRequest;
+import com.swiftselect.payload.request.UserLogin;
+import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.repositories.RolesRepository;
@@ -18,6 +21,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +41,8 @@ public class AuthServiceImpl implements AuthService {
     private final EmailSenderService emailSenderService;
     private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public ResponseEntity<JobSeeker> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
@@ -82,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<Employer> registerEmployer(EmployerSignup employerSignup) {
         // Checks if an Employer's email is already in the database
-        boolean isPresent = employerRepository.existsByWorkEmail(employerSignup.getWorkEmail());
+        boolean isPresent = employerRepository.existsByEmail(employerSignup.getEmail());
 
         // Throws and error if the email already exists
         if (isPresent) {
@@ -109,7 +118,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Create a mailRequest Object to be sent to Employer's email for verification
         MailRequest mailRequest = MailRequest.builder()
-                .to(savedEmployer.getWorkEmail())
+                .to(savedEmployer.getEmail())
                 .subject("VERIFICATION TOKEN")
                 .message(RandomTokenGen.generateRandomToken())
                 .build();
@@ -119,5 +128,34 @@ public class AuthServiceImpl implements AuthService {
 
         // Return a ResponseEntity of a success message
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployer);
+    }
+
+    @Override
+    public ResponseEntity<JwtAuthResponse> login(UserLogin userLogin) {
+
+        // Authentication manager to authenticate user
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        userLogin.getEmail(),
+                        userLogin.getPassword()
+                )
+        );
+
+        // Saving authentication in security context so user won't have to login everytime the network is called
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
+
+        // Generate jwt token
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        JwtAuthResponse.builder()
+                                .accessToken(token)
+                                .tokenType("Bearer")
+                                .build()
+                );
     }
 }

@@ -4,6 +4,7 @@ import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.MailRequest;
+import com.swiftselect.payload.request.ResetPasswordRequest;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.services.EmailSenderService;
 import com.swiftselect.services.EmployerService;
@@ -25,16 +26,16 @@ public class EmployerServiceImpl implements EmployerService {
     private final HelperClass helperClass;
 
     @Override
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, String newPassword) {
+    public ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
 
         Employer employer = employerRepository
-                .findByWorkEmail(email)
-                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+                    .findByEmail(email)
+                    .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
 
-        employer.setPassword(passwordEncoder.encode(newPassword));
+        employer.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
 
         employerRepository.save(employer);
 
@@ -42,7 +43,7 @@ public class EmployerServiceImpl implements EmployerService {
                 new MailRequest(
                     email,
                     "Password Reset",
-                     "Password successfully changed"
+                     "Password successfully changed. \n If you did not initiate this, please send a reply to this email"
                 )
         );
 

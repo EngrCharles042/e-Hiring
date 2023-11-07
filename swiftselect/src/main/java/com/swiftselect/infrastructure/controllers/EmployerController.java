@@ -1,5 +1,6 @@
 package com.swiftselect.infrastructure.controllers;
 
+import com.swiftselect.payload.request.ResetPasswordRequest;
 import com.swiftselect.services.EmployerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class EmployerController {
     private final EmployerService employerService;
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, @RequestParam("newPassword") String newPassword) {
-        return employerService.resetPassword(request, newPassword);
+    public ResponseEntity<String> resetPassword(final HttpServletRequest request, @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        return employerService.resetPassword(request, resetPasswordRequest);
     }
 }

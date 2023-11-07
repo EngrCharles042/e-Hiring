@@ -4,6 +4,7 @@ import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.MailRequest;
+import com.swiftselect.payload.request.ResetPasswordRequest;
 import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.services.EmailSenderService;
 import com.swiftselect.services.JobSeekerService;
@@ -25,7 +26,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final HelperClass helperClass;
 
     @Override
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, String newPassword) {
+    public ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -34,7 +35,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 .findByEmail(email)
                 .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
 
-        jobSeeker.setPassword(passwordEncoder.encode(newPassword));
+        jobSeeker.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
 
         jobSeekerRepository.save(jobSeeker);
 
@@ -42,7 +43,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 new MailRequest(
                         email,
                         "Password Reset",
-                        "Password successfully changed"
+                        "Password successfully changed. \n If you did not initiate this, please send a reply to this email"
                 )
         );
 
