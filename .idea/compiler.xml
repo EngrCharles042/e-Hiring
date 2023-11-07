@@ -7,6 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+      </profile>
+      <profile name="Annotation profile for swiftselect" enabled="true">
+        <sourceOutputDir name="../../../SwiftSelect/SQ17-SwiftSelect-Live-Project-Backend/swiftselect/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../../../SwiftSelect/SQ17-SwiftSelect-Live-Project-Backend/swiftselect/target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
         <module name="swiftselect" />
       </profile>
     </annotationProcessing>
