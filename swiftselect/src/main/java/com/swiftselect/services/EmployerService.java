@@ -1,5 +1,8 @@
 package com.swiftselect.services;
 
-public interface EmployerService {
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
+public interface EmployerService {
+   ResponseEntity<String> resetPassword(HttpServletRequest request, String newPassword);
 }
