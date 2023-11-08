@@ -11,11 +11,13 @@ import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class ForgotPasswordEventListener implements ApplicationListener<ForgotPasswordEvent> {
     private final EmailSenderService emailSenderService;
@@ -36,37 +38,25 @@ public class ForgotPasswordEventListener implements ApplicationListener<ForgotPa
             // Get the newly registered jobSeeker
             jobSeeker = jobSeekerOptional.get();
 
-            // Create a verification token for the user
-            String verificationToken = UUID.randomUUID().toString();
-
-            // Save the verification token for the user
-            jobSeekerService.saveVerificationToken(jobSeeker, verificationToken);
-
             // Build the verification url to be sent to the jobSeeker
-            String url = event.getApplicationUrl() + "/auth/job-seeker/forgot-password/verify-email?token=" + verificationToken;
+            String url = event.getApplicationUrl() + "/auth/job-seeker/forgot-password/reset-page?email=" + event.getEmail();
 
             // Send the email to the jobSeeker
             emailSenderService.sendForgotPasswordEmailVerification(url, event);
 
-            log.info("Click the link to verify your registration : {}", url);
+            log.info("Click the link to verify your email and change ur password : {}", url);
 
         } else {
             // Get the newly registered jobSeeker
             employer = employerOptional.get();
 
-            // Create a verification token for the user
-            String verificationToken = UUID.randomUUID().toString();
-
-            // Save the verification token for the user
-            employerService.saveVerificationToken(employer, verificationToken);
-
             // Build the verification url to be sent to the jobSeeker
-            String url = event.getApplicationUrl() + "/auth/employer/forgot-password/verify-email?token=" + verificationToken;
+            String url = event.getApplicationUrl() + "/auth/job-seeker/forgot-password/reset-page?email=" + event.getEmail();
 
             // Send the email to the jobSeeker
             emailSenderService.sendForgotPasswordEmailVerification(url, event);
 
-            log.info("Click the link to verify your registration : {}", url);
+            log.info("Click the link to verify your email and change ur password : {}", url);
         }
 
     }

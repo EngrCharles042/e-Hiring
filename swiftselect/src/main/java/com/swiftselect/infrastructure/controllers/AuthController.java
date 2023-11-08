@@ -2,9 +2,7 @@ package com.swiftselect.infrastructure.controllers;
 
 import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
-import com.swiftselect.payload.request.EmployerSignup;
-import com.swiftselect.payload.request.JobSeekerSignup;
-import com.swiftselect.payload.request.UserLogin;
+import com.swiftselect.payload.request.*;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.services.AuthService;
 import com.swiftselect.services.EmployerService;
@@ -27,12 +25,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/job-seeker/register")
-    public ResponseEntity<JobSeeker> registerJobSeeker(@Valid @RequestBody JobSeekerSignup jobSeekerDto) {
+    public ResponseEntity<String> registerJobSeeker(@Valid @RequestBody JobSeekerSignup jobSeekerDto) {
         return authService.registerJobSeeker(jobSeekerDto);
     }
 
     @PostMapping("/employer/register")
-    public ResponseEntity<Employer> registerEmployer(@Valid @RequestBody EmployerSignup employerSignup) {
+    public ResponseEntity<String> registerEmployer(@Valid @RequestBody EmployerSignup employerSignup) {
         return authService.registerEmployer(employerSignup);
     }
 
@@ -72,7 +70,17 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam(name = "email") String email) {
-        return authService.forgotPassword(email);
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+        return authService.forgotPassword(forgotPasswordRequest.getEmail());
+    }
+
+    @PostMapping("/job-seeker/forgot-password/reset")
+    public ResponseEntity<String> jobSeekerChangePasswordPage(@RequestParam("email") String email, ResetPasswordRequest resetPasswordRequest) {
+        return jobSeekerService.jSChangePasswordPage(email, resetPasswordRequest);
+    }
+
+    @PostMapping("/employer/forgot-password/reset")
+    public ResponseEntity<String> employerChangePasswordPage(@RequestParam("email") String email, ResetPasswordRequest resetPasswordRequest) {
+        return employerService.eChangePasswordPage(email, resetPasswordRequest);
     }
 }

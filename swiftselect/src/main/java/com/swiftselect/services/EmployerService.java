@@ -9,5 +9,5 @@ public interface EmployerService {
     void saveVerificationToken(Employer employer, String token);
     String validateToken(String token);
     ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
-
+    ResponseEntity<String> eChangePasswordPage(String email, ResetPasswordRequest passwordRequest);
 }

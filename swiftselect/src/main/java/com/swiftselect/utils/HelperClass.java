@@ -31,13 +31,12 @@ public class HelperClass {
     public void sendForgotPasswordEmail(String firstName, String url, JavaMailSender mailSender, String sendMail, String recipient) {
         try{
             String subject = "Email Verification";
-            String senderName = "Swift Select Registration Portal Service";
+            String senderName = "Swift Select Customer Portal Service";
             String mailContent =
-                    "<p> Hi, " + firstName + ", </p>"
-                            + "<p> Thank you for registering with us, <br>"
-                            + "Please follow the link below to complete your registration. </p>"
-                            + "<a href=" + url + "> Verify your email to activate your account </a> <br>"
-                            + "<p> Thank you. <br> Swift Select Registration Portal Service </p>";
+                    "<p> Hi, " + firstName + " </p>"
+                            + "<p> Please follow the link below to change your password.</p>"
+                            + "<a href=" + url + "> Change your password </a> <br>"
+                            + "<p> Thank you. <br> Swift Select Customer Portal Service </p>";
 
             MimeMessage message = mailSender.createMimeMessage();
 

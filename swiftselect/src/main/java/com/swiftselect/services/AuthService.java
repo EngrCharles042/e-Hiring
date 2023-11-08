@@ -9,8 +9,8 @@ import com.swiftselect.payload.response.JwtAuthResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
-    ResponseEntity<JobSeeker> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
-    ResponseEntity<Employer> registerEmployer(EmployerSignup employerSignup);
+    ResponseEntity<String> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
+    ResponseEntity<String> registerEmployer(EmployerSignup employerSignup);
     ResponseEntity<JwtAuthResponse> login(UserLogin userLogin);
     ResponseEntity<String> forgotPassword(String email);
 }

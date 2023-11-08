@@ -9,4 +9,5 @@ public interface JobSeekerService {
     void saveVerificationToken(JobSeeker jobSeeker, String token);
     String validateToken(String token);
     ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
+    ResponseEntity<String> jSChangePasswordPage(String email, ResetPasswordRequest passwordRequest);
 }
