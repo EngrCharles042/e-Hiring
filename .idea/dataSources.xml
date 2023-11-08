@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
+    <data-source source="LOCAL" name="swiftselect@localhost" uuid="4f54b2d0-70fe-4dd1-85e6-8a51569aeecf">
+=======
     <data-source source="LOCAL" name="swiftselect@localhost [2]" uuid="95302041-59f7-4371-9fce-6a682e7819ec">
+>>>>>>> origin
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/swiftselect</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5431/swiftselect</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
