@@ -1,5 +1,6 @@
 package com.swiftselect.infrastructure.security;
 
+import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+    private final HelperClass helperClass;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -28,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         // Get JWT token from HTTP Request
-        String token = getTokenFromHttpRequest(request);
+        String token = helperClass.getTokenFromHttpRequest(request);
 
         // Validate token
         if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
@@ -50,17 +53,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private String getTokenFromHttpRequest(HttpServletRequest request) {
-        // Get the bearer token from the http request
-        String bearerToken = request.getHeader("Authorization");
-
-        // Extract only the Token excluding the prefix "Bearer "
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-
-        return null;
     }
 }

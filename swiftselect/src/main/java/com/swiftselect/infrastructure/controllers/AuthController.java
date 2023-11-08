@@ -4,6 +4,8 @@ import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.payload.request.EmployerSignup;
 import com.swiftselect.payload.request.JobSeekerSignup;
+import com.swiftselect.payload.request.UserLogin;
+import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.services.AuthService;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.services.JobSeekerService;
@@ -62,5 +64,10 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("Invalid Verification Token");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody UserLogin userLogin) {
+        return authService.login(userLogin);
     }
 }
