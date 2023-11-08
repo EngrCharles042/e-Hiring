@@ -2,9 +2,13 @@ package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
+import com.swiftselect.infrastructure.event.events.ForgotPasswordEvent;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
+import com.swiftselect.repositories.EmployerRepository;
+import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.services.EmailSenderService;
 import com.swiftselect.payload.request.MailRequest;
+import com.swiftselect.utils.HelperClass;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +21,18 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class EmailSenderServiceImpl implements EmailSenderService {
     private final JavaMailSender mailSender;
+    private final JobSeekerRepository jobSeekerRepository;
+    private final EmployerRepository employerRepository;
+    private final HelperClass helperClass;
+
+    private JobSeeker jobSeeker;
+    private Employer employer;
 
     @Value("${spring.mail.username}")
     private String sendMail;
@@ -94,6 +105,32 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
         } catch (MailException | MessagingException | UnsupportedEncodingException e) {
             throw new ApplicationException(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @Override
+    public void sendForgotPasswordEmailVerification(String url, ForgotPasswordEvent event) {
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(event.getEmail());
+        Optional<Employer> employerOptional = employerRepository.findByEmail(event.getEmail());
+
+        if (jobSeekerOptional.isPresent()) {
+            jobSeeker = jobSeekerOptional.get();
+
+            helperClass.sendForgotPasswordEmail(
+                    jobSeeker.getFirstName(),
+                    url,
+                    mailSender,
+                    sendMail,
+                    event.getEmail());
+        } else {
+            employer = employerOptional.get();
+
+            helperClass.sendForgotPasswordEmail(
+                    employer.getFirstName(),
+                    url,
+                    mailSender,
+                    sendMail,
+                    event.getEmail());
         }
     }
 }

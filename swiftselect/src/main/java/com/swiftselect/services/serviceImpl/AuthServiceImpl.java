@@ -1,8 +1,6 @@
 package com.swiftselect.services.serviceImpl;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
-import com.swiftselect.domain.entities.Roles;
+import com.swiftselect.domain.entities.*;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
@@ -11,9 +9,7 @@ import com.swiftselect.payload.request.EmployerSignup;
 import com.swiftselect.payload.request.JobSeekerSignup;
 import com.swiftselect.payload.request.UserLogin;
 import com.swiftselect.payload.response.JwtAuthResponse;
-import com.swiftselect.repositories.EmployerRepository;
-import com.swiftselect.repositories.JobSeekerRepository;
-import com.swiftselect.repositories.RolesRepository;
+import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +39,11 @@ public class AuthServiceImpl implements AuthService {
     private final HttpServletRequest request;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final EmployerVerificationTokenRepository employerTokenRepository;
+    private final JobSeekerVerificationTokenRepository jobSeekerTokenRepository;
 
     @Override
-    public ResponseEntity<JobSeeker> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
+    public ResponseEntity<String> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
         // Checks if a jobSeeker's email is already in the database
         boolean isPresent = jobSeekerRepository.existsByEmail(jobSeekerSignup.getEmail());
 
@@ -78,11 +76,11 @@ public class AuthServiceImpl implements AuthService {
         publisher.jsRegistrationCompleteEventPublisher(savedJobseeker, request);
 
         // Return a ResponseEntity of a success message
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedJobseeker);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
     }
 
     @Override
-    public ResponseEntity<Employer> registerEmployer(EmployerSignup employerSignup) {
+    public ResponseEntity<String> registerEmployer(EmployerSignup employerSignup) {
         // Checks if an Employer's email is already in the database
         boolean isPresent = employerRepository.existsByEmail(employerSignup.getEmail());
 
@@ -113,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
         publisher.emRegistrationCompleteEventPublisher(savedEmployer, request);
 
         // Return a ResponseEntity of a success message
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployer);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
     }
 
     @Override
@@ -143,5 +141,23 @@ public class AuthServiceImpl implements AuthService {
                                 .tokenType("Bearer")
                                 .build()
                 );
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(String email) {
+        if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email)) {
+            throw new ApplicationException("Invalid email provided, please check and try again.",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByJobSeeker_Email(email);
+        Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByEmployer_Email(email);
+
+        jobSeekerToken.ifPresent(jobSeekerTokenRepository::delete);
+        employerToken.ifPresent(employerTokenRepository::delete);
+
+        publisher.forgotPasswordEventPublisher(email, request);
+
+        return ResponseEntity.ok("A link has been sent to your email to reset your password");
     }
 }

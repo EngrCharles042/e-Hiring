@@ -1,5 +1,6 @@
 package com.swiftselect.services.serviceImpl;
 
+import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.domain.entities.JobSeekerVerificationToken;
 import com.swiftselect.repositories.JobSeekerRepository;
@@ -79,6 +80,27 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         jobSeeker.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
 
         jobSeekerRepository.save(jobSeeker);
+
+        emailSenderService.sendEmailAlert(
+                new MailRequest(
+                        email,
+                        "Password Reset",
+                        "Password successfully changed. \n If you did not initiate this, please send a reply to this email"
+                )
+        );
+
+        return ResponseEntity.ok("Password successfully changed");
+    }
+
+    @Override
+    public ResponseEntity<String> jSChangePasswordPage(String email, ResetPasswordRequest passwordRequest) {
+        JobSeeker employer = jobSeekerRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+
+        employer.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
+
+        jobSeekerRepository.save(employer);
 
         emailSenderService.sendEmailAlert(
                 new MailRequest(

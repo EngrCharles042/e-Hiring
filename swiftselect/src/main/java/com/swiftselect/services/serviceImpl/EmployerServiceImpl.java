@@ -95,4 +95,25 @@ public class EmployerServiceImpl implements EmployerService {
 
         return ResponseEntity.ok("Password successfully changed");
     }
+
+    @Override
+    public ResponseEntity<String> eChangePasswordPage(String email, ResetPasswordRequest passwordRequest) {
+        Employer employer = employerRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+
+        employer.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
+
+        employerRepository.save(employer);
+
+        emailSenderService.sendEmailAlert(
+                new MailRequest(
+                        email,
+                        "Password Reset",
+                        "Password successfully changed. \n If you did not initiate this, please send a reply to this email"
+                )
+        );
+
+        return ResponseEntity.ok("Password successfully changed");
+    }
 }
