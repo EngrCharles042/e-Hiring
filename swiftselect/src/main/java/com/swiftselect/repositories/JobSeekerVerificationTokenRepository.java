@@ -1,0 +1,10 @@
+package com.swiftselect.repositories;
+
+import com.swiftselect.domain.entities.JobSeekerVerificationToken;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface JobSeekerVerificationTokenRepository extends JpaRepository<JobSeekerVerificationToken, Long> {
+    Optional<JobSeekerVerificationToken> findByToken(String token);
+}

@@ -4,19 +4,18 @@ import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.domain.entities.Roles;
 import com.swiftselect.domain.enums.Role;
+import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.EmployerSignup;
 import com.swiftselect.payload.request.JobSeekerSignup;
-import com.swiftselect.payload.request.MailRequest;
 import com.swiftselect.payload.request.UserLogin;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.repositories.RolesRepository;
 import com.swiftselect.services.AuthService;
-import com.swiftselect.services.EmailSenderService;
-import com.swiftselect.utils.RandomTokenGen;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -38,9 +37,10 @@ public class AuthServiceImpl implements AuthService {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
     private final ModelMapper modelMapper;
-    private final EmailSenderService emailSenderService;
     private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EventPublisher publisher;
+    private final HttpServletRequest request;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -74,15 +74,8 @@ public class AuthServiceImpl implements AuthService {
         // Save the jobSeeker to the database
         JobSeeker savedJobseeker = jobSeekerRepository.save(newJobSeeker);
 
-        // Create a mailRequest Object to be sent to JobSeeker's email for verification
-        MailRequest mailRequest = MailRequest.builder()
-                .to(savedJobseeker.getEmail())
-                .subject("VERIFICATION TOKEN")
-                .message(RandomTokenGen.generateRandomToken())
-                .build();
-
-        // Send the code with the random token to the JobSeeker
-        emailSenderService.sendEmailAlert(mailRequest);
+        // Publish and event to verify Email
+        publisher.jsRegistrationCompleteEventPublisher(savedJobseeker, request);
 
         // Return a ResponseEntity of a success message
         return ResponseEntity.status(HttpStatus.CREATED).body(savedJobseeker);
@@ -116,15 +109,8 @@ public class AuthServiceImpl implements AuthService {
         // Assigning the roles and isEnabled gotten to the new Employer to be saved to the database
         Employer savedEmployer = employerRepository.save(newEmployer);
 
-        // Create a mailRequest Object to be sent to Employer's email for verification
-        MailRequest mailRequest = MailRequest.builder()
-                .to(savedEmployer.getEmail())
-                .subject("VERIFICATION TOKEN")
-                .message(RandomTokenGen.generateRandomToken())
-                .build();
-
-        // Send the code with the random token to the Employer
-        emailSenderService.sendEmailAlert(mailRequest);
+        // Publish and event to verify Email
+        publisher.emRegistrationCompleteEventPublisher(savedEmployer, request);
 
         // Return a ResponseEntity of a success message
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployer);
