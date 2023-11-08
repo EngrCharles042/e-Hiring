@@ -21,8 +21,7 @@ public class EmployerCompleteRegistrationEventListener implements ApplicationLis
 
     @Override
     public void onApplicationEvent(EmployerCompleteRegistrationEvent event) {
-
-            // Get the newly registered jobSeeker
+            // Get the newly registered employer
             employer = event.getEmployer();
 
             // Create a verification token for the user
@@ -31,10 +30,10 @@ public class EmployerCompleteRegistrationEventListener implements ApplicationLis
             // Save the verification token for the user
             employerService.saveVerificationToken(employer, verificationToken);
 
-            // Build the verification url to be sent to the jobSeeker
+            // Build the verification url to be sent to the employer
             String url = event.getApplicationUrl() + "/auth/employer/verify-email?token=" + verificationToken;
 
-            // Send the email to the jobSeeker
+            // Send the email to the employer
             emailSenderService.sendVerificationEmailEmployer(url, employer);
 
             log.info("Click the link to verify your registration : {}", url);

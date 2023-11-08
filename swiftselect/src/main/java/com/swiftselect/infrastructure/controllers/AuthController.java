@@ -70,4 +70,9 @@ public class AuthController {
     public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody UserLogin userLogin) {
         return authService.login(userLogin);
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam(name = "email") String email) {
+        return authService.forgotPassword(email);
+    }
 }

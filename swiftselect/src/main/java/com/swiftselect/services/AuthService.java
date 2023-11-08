@@ -12,4 +12,5 @@ public interface AuthService {
     ResponseEntity<JobSeeker> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
     ResponseEntity<Employer> registerEmployer(EmployerSignup employerSignup);
     ResponseEntity<JwtAuthResponse> login(UserLogin userLogin);
+    ResponseEntity<String> forgotPassword(String email);
 }

@@ -144,4 +144,16 @@ public class AuthServiceImpl implements AuthService {
                                 .build()
                 );
     }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(String email) {
+        if (!jobSeekerRepository.existsByEmail(email) || !employerRepository.existsByEmail(email)) {
+            throw new ApplicationException("Invalid email provided, please check and try again.",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        publisher.forgotPasswordEventPublisher(email, request);
+
+        return ResponseEntity.ok("A link has been sent to your email to reset your password");
+    }
 }

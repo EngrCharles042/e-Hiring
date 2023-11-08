@@ -3,6 +3,7 @@ package com.swiftselect.infrastructure.event.eventpublisher;
 import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.event.events.EmployerCompleteRegistrationEvent;
+import com.swiftselect.infrastructure.event.events.ForgotPasswordEvent;
 import com.swiftselect.infrastructure.event.events.JobSeekerCompleteRegistrationEvent;
 import com.swiftselect.utils.AuthenticationUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,5 +22,9 @@ public class EventPublisher {
 
     public void emRegistrationCompleteEventPublisher(Employer employer, HttpServletRequest request) {
         eventPublisher.publishEvent(new EmployerCompleteRegistrationEvent(employer, AuthenticationUtils.applicationUrl(request)));
+    }
+
+    public void forgotPasswordEventPublisher(String email, HttpServletRequest request) {
+        eventPublisher.publishEvent(new ForgotPasswordEvent(email, AuthenticationUtils.applicationUrl(request)));
     }
 }
