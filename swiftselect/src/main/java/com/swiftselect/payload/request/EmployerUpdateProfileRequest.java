@@ -2,7 +2,6 @@ package com.swiftselect.payload.request;
 
 import com.swiftselect.domain.enums.CompanyType;
 import com.swiftselect.domain.enums.Industry;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +12,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployerSignup {
+public class EmployerUpdateProfileRequest {
     @Size(min = 2, max = 25, message = "company name must be at least 2 characters")
     @NotBlank(message = "company name must not be blank")
     String companyName;
@@ -38,16 +37,23 @@ public class EmployerSignup {
     @NotBlank(message = "City cannot be empty")
     String city;
 
-    @Size(min = 8, max = 50)
-    @Email(message = "E-mail must be valid")
-    @NotBlank(message = "E-mail required")
-    String email;
-
     @NotNull(message = "company type cannot be null")
     Industry industry;
 
     @NotNull(message = "company type cannot be null")
     CompanyType companyType;
+
+    String postalCode;
+
+    Long numberOfEmployees;
+
+    String website;
+
+    String facebook;
+
+    String twitter;
+
+    String instagram;
 
     @Size(min = 2, max = 25, message = "firstName must be at least 2 characters")
     @NotBlank(message = "firstName must not be blank")
@@ -61,7 +67,7 @@ public class EmployerSignup {
     @NotBlank(message = "Please input a valid number")
     String phoneNumber;
 
-    @Size(min = 6, max = 15, message = "password must be at least 6 characters")
-    @NotBlank(message = "password must not be blank")
-    String password;
+    @Size(min = 2, max = 25, message = "position must be at least 2 characters")
+    @NotBlank(message = "position must not be blank")
+    String position;
 }

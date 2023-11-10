@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,8 @@ public class CustomerUserDetailsService implements UserDetailsService {
         if (employerRepository.existsByEmail(email)) {
             Employer employer = employerRepository.findByEmail(email).get();
 
-            Set<GrantedAuthority> authorities = employer.getRoles()
-                    .stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
-                    .collect(Collectors.toSet());
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            authorities.add(new SimpleGrantedAuthority(employer.getRole().toString()));
 
             return new User(
                     employer.getEmail(),
@@ -40,10 +39,8 @@ public class CustomerUserDetailsService implements UserDetailsService {
         } else if (jobSeekerRepository.existsByEmail(email)) {
             JobSeeker jobSeeker = jobSeekerRepository.findByEmail(email).get();
 
-            Set<GrantedAuthority> authorities = jobSeeker.getRoles()
-                    .stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
-                    .collect(Collectors.toSet());
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            authorities.add(new SimpleGrantedAuthority(jobSeeker.getRole().toString()));
 
             return new User(
                     jobSeeker.getEmail(),

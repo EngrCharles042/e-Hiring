@@ -7,12 +7,10 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ResetPasswordRequest {
-    @Size(min = 6, max = 15, message = "password must be at least 6 characters")
-    @NotBlank(message = "password must not be blank")
-    private String oldPassword;
+@NoArgsConstructor
+public class ForgotPasswordResetRequest {
+    private String token;
 
     @Size(min = 6, max = 15, message = "password must be at least 6 characters")
     @NotBlank(message = "password must not be blank")

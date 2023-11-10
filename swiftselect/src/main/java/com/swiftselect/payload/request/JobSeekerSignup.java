@@ -44,6 +44,4 @@ public class JobSeekerSignup {
 
     @NotBlank(message = "Location required")
     String location;
-
-
 }

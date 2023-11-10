@@ -1,8 +1,8 @@
 package com.swiftselect.domain.entities;
 
 import com.swiftselect.domain.entities.base.Person;
-import com.swiftselect.domain.enums.EmployerType;
-import com.swiftselect.domain.enums.Position;
+import com.swiftselect.domain.enums.CompanyType;
+import com.swiftselect.domain.enums.Industry;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,32 +19,32 @@ import java.util.Set;
 public class Employer extends Person {
     private String companyName;
 
-    private String email;
-
-    private String notificationEmail;
+    private String companyDescription;
 
     private boolean isEnabled;
-
-    @Enumerated(value = EnumType.STRING)
-    private Position position;
 
     private Long numberOfEmployees;
 
     private String website;
 
-    private String address;
+    private String facebook;
+
+    private String twitter;
+
+    private String instagram;
+
+    private String position;
 
     @Enumerated(value = EnumType.STRING)
-    private EmployerType employerType;
+    private CompanyType companyType;
 
-    private String contactPerson;
+    @Enumerated(value = EnumType.STRING)
+    private Industry industry;
 
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
     private Set<JobPost> JobPosts = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "employers_roles",
-            joinColumns = @JoinColumn(name = "employer_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Roles> roles = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role")
+    private Roles role;
 }

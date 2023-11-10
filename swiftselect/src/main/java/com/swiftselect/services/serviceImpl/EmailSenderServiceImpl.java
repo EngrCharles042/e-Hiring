@@ -3,24 +3,18 @@ package com.swiftselect.services.serviceImpl;
 import com.swiftselect.domain.entities.Employer;
 import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.event.events.ForgotPasswordEvent;
-import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.services.EmailSenderService;
 import com.swiftselect.payload.request.MailRequest;
 import com.swiftselect.utils.HelperClass;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,6 +27,10 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
     private JobSeeker jobSeeker;
     private Employer employer;
+
+    private Optional<JobSeeker> jobSeekerOptional;
+    private Optional<Employer> employerOptional;
+
 
     @Value("${spring.mail.username}")
     private String sendMail;
@@ -53,84 +51,88 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         }
     }
 
-    public void sendVerificationEmailJobSeeker(String url, JobSeeker jobSeeker) {
-        try{
-            String subject = "Email Verification";
-            String senderName = "Swift Select Registration Portal Service";
-            String mailContent =
-                    "<p> Hi, " + jobSeeker.getFirstName() + ", </p>"
-                            + "<p> Thank you for registering with us, <br>"
-                            + "Please follow the link below to complete your registration. </p>"
-                            + "<a href=" + url + "> Verify your email to activate your account </a> <br>"
-                            + "<p> Thank you. <br> Swift Select Registration Portal Service </p>";
+    @Override
+    public void sendNotificationEmail(String url,
+                                      String email,
+                                      String firstName,
+                                      String subject,
+                                      String description) {
 
-            MimeMessage message = mailSender.createMimeMessage();
+        String action = "Contact Us";
+        String serviceProvider = "Swift Select Customer Service";
 
-            var messageHelper = new MimeMessageHelper(message);
-
-            messageHelper.setFrom(sendMail, senderName);
-            messageHelper.setTo(jobSeeker.getEmail());
-            messageHelper.setSubject(subject);
-            messageHelper.setText(mailContent, true);
-
-            mailSender.send(message);
-
-        } catch (MailException | MessagingException | UnsupportedEncodingException e) {
-            throw new ApplicationException(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
-        }
+        helperClass.sendNotificationEmail(
+                firstName,
+                url,
+                mailSender,
+                sendMail,
+                email,
+                action,
+                serviceProvider,
+                subject,
+                description
+        );
     }
 
     @Override
-    public void sendVerificationEmailEmployer(String url, Employer employer) {
-        try{
-            String subject = "Email Verification";
-            String senderName = "Swift Select Registration Portal Service";
-            String mailContent =
-                    "<p> Hi, " + employer.getFirstName() + ", </p>"
-                            + "<p> Thank you for registering with us, <br>"
-                            + "Please follow the link below to complete your registration. </p>"
-                            + "<a href=" + url + "> Verify your email to activate your account </a> <br>"
-                            + "<p> Thank you. <br> Swift Select Registration Portal Service </p>";
+    public void sendRegistrationEmailVerification(String url, String email, String firstName) {
+        String action = "Verify Email";
+        String serviceProvider = "Swift Select Registration Portal Service";
+        String subject = "Email Verification";
+        String description = "Please follow the link below to complete your registration.";
 
-            MimeMessage message = mailSender.createMimeMessage();
-
-            var messageHelper = new MimeMessageHelper(message);
-
-            messageHelper.setFrom(sendMail, senderName);
-            messageHelper.setTo(employer.getEmail());
-            messageHelper.setSubject(subject);
-            messageHelper.setText(mailContent, true);
-
-            mailSender.send(message);
-
-        } catch (MailException | MessagingException | UnsupportedEncodingException e) {
-            throw new ApplicationException(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
-        }
+        helperClass.sendEmail(
+                firstName,
+                url,
+                mailSender,
+                sendMail,
+                email,
+                action,
+                serviceProvider,
+                subject,
+                description
+            );
     }
 
     @Override
     public void sendForgotPasswordEmailVerification(String url, ForgotPasswordEvent event) {
-        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(event.getEmail());
-        Optional<Employer> employerOptional = employerRepository.findByEmail(event.getEmail());
+        jobSeekerOptional = jobSeekerRepository.findByEmail(event.getEmail());
+        employerOptional = employerRepository.findByEmail(event.getEmail());
+
+        String action = "Change Password";
+        String serviceProvider = "Swift Select Customer Portal Service";
+        String subject = "Email Verification";
+        String description = "Please follow the link below to change your password.";
 
         if (jobSeekerOptional.isPresent()) {
             jobSeeker = jobSeekerOptional.get();
 
-            helperClass.sendForgotPasswordEmail(
+
+            helperClass.sendEmail(
                     jobSeeker.getFirstName(),
                     url,
                     mailSender,
                     sendMail,
-                    event.getEmail());
+                    event.getEmail(),
+                    action,
+                    serviceProvider,
+                    subject,
+                    description
+            );
         } else {
             employer = employerOptional.get();
 
-            helperClass.sendForgotPasswordEmail(
+            helperClass.sendEmail(
                     employer.getFirstName(),
                     url,
                     mailSender,
                     sendMail,
-                    event.getEmail());
+                    event.getEmail(),
+                    action,
+                    serviceProvider,
+                    subject,
+                    description
+            );
         }
     }
 }

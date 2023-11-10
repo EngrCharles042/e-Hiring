@@ -25,7 +25,7 @@ public class EmployerVerificationToken {
 
     private static final int EXPIRATION_TIME = 15;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employer_id")
     private Employer employer;
 

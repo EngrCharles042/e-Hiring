@@ -1,7 +1,7 @@
 package com.swiftselect.domain.entities;
 
 import com.swiftselect.domain.entities.base.Base;
-import com.swiftselect.domain.enums.JobFunc;
+import com.swiftselect.domain.enums.Industry;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +31,7 @@ public class JobPost extends Base {
     private LocalDateTime applicationDeadline;
 
     @Enumerated(EnumType.STRING)
-    private JobFunc jobFunction;
+    private Industry jobFunction;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "employer_id")

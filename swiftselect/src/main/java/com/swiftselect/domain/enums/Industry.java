@@ -1,6 +1,6 @@
 package com.swiftselect.domain.enums;
 
-public enum JobFunc {
+public enum Industry {
     ACCOUNTING,
     ADMIN,
     BUILDING_AND_ARCHITECTURE,
