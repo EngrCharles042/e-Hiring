@@ -8,4 +8,5 @@ import org.springframework.http.ResponseEntity;
 public interface EmployerService {
     ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
     ResponseEntity<String> updateProfile(EmployerUpdateProfileRequest updateProfileRequest);
+    ResponseEntity<String> deleteJobPost(String email, Long postId);
 }
