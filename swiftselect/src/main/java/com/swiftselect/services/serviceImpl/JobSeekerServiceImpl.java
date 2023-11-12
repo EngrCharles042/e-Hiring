@@ -81,6 +81,15 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
+    public void deleteMyAccount() {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        if (jobSeeker!=null) {
+            jobSeekerRepository.delete(jobSeeker);
+        }
+    }
+
+    @Override
     public ResponseEntity<String> contactInfoUpdate(JSContactInfoRequest contactInfoRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
