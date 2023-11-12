@@ -1,6 +1,8 @@
 package com.swiftselect.domain.entities;
 
 import com.swiftselect.domain.entities.base.Base;
+import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.enums.ReportCat;
 import jakarta.persistence.*;
 import lombok.*;

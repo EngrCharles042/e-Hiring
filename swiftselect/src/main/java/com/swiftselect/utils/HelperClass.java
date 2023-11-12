@@ -1,7 +1,7 @@
 package com.swiftselect.utils;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
+import com.swiftselect.domain.entities.employer.Employer;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;

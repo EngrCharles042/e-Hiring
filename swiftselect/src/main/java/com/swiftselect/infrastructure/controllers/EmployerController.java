@@ -1,7 +1,7 @@
 package com.swiftselect.infrastructure.controllers;
 
-import com.swiftselect.payload.request.EmployerUpdateProfileRequest;
-import com.swiftselect.payload.request.ResetPasswordRequest;
+import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
+import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.services.EmployerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

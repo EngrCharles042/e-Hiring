@@ -1,21 +1,20 @@
 package com.swiftselect.infrastructure.controllers;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
-import com.swiftselect.payload.request.*;
+import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
+import com.swiftselect.payload.request.authrequests.UserLogin;
+import com.swiftselect.payload.request.employerreqests.EmployerSignup;
+import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.services.AuthService;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.services.JobSeekerService;
-import com.swiftselect.utils.AppConstants;
 import com.swiftselect.utils.AuthenticationUtils;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

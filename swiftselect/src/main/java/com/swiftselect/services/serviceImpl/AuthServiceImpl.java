@@ -1,12 +1,17 @@
 package com.swiftselect.services.serviceImpl;
 
-import com.swiftselect.domain.entities.*;
+import com.swiftselect.domain.entities.employer.Employer;
+import com.swiftselect.domain.entities.employer.EmployerVerificationToken;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.entities.jobseeker.JobSeekerVerificationToken;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
-import com.swiftselect.infrastructure.event.events.CompleteRegistrationEvent;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
-import com.swiftselect.payload.request.*;
+import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
+import com.swiftselect.payload.request.authrequests.UserLogin;
+import com.swiftselect.payload.request.employerreqests.EmployerSignup;
+import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
@@ -30,7 +35,6 @@ public class AuthServiceImpl implements AuthService {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
     private final ModelMapper modelMapper;
-    private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
     private final EventPublisher publisher;
     private final HttpServletRequest request;
@@ -51,14 +55,12 @@ public class AuthServiceImpl implements AuthService {
             throw new ApplicationException("User with this e-mail already exist", HttpStatus.BAD_REQUEST);
         }
 
-        // Get the instance of the role to be assigned to the jobSeeker
-        Optional<Roles> newRole = rolesRepository.findByName(Role.JOB_SEEKER);
-
         // Maps the jobSeekerSignup dto to a JobSeeker entity, so it can be saved
         JobSeeker newJobSeeker = modelMapper.map(jobSeekerSignup, JobSeeker.class);
 
-        // Assigning the roles and isEnabled gotten to the newJobSeeker to be saved to the database
-        newJobSeeker.setRole(newRole.get());
+        // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
+        newJobSeeker.setRole(Role.JOB_SEEKER);
+
         newJobSeeker.setEnabled(false);
 
         // Encrypt the password using Bcrypt password encoder
@@ -84,12 +86,12 @@ public class AuthServiceImpl implements AuthService {
             throw new ApplicationException("Employer with this e-mail already exist", HttpStatus.BAD_REQUEST);
         }
 
-        // Get the instance of the role to be assigned to the Employer
-        Optional<Roles> newRole = rolesRepository.findByName(Role.EMPLOYER);
-
         // Maps the EmployerSignup dto to an Employer entity, so it can be saved
         Employer newEmployer = modelMapper.map(employerSignup, Employer.class);
-        newEmployer.setRole(newRole.get());
+
+        // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
+        newEmployer.setRole(Role.EMPLOYER);
+
         newEmployer.setEnabled(false);
 
         // Encrypt the password using Bcrypt password encoder
@@ -198,6 +200,8 @@ public class AuthServiceImpl implements AuthService {
                 employer.setEnabled(true);
                 employerRepository.save(employer);
 
+                employerTokenRepository.delete(employerToken.get());
+
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)
                         .body("Valid");
@@ -225,6 +229,8 @@ public class AuthServiceImpl implements AuthService {
             } else {
                 jobSeeker.setEnabled(true);
                 jobSeekerRepository.save(jobSeeker);
+
+                jobSeekerTokenRepository.delete(jobSeekerToken.get());
 
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)

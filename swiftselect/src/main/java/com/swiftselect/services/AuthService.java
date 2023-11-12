@@ -1,9 +1,9 @@
 package com.swiftselect.services;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
-import com.swiftselect.infrastructure.event.events.CompleteRegistrationEvent;
-import com.swiftselect.payload.request.*;
+import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
+import com.swiftselect.payload.request.authrequests.UserLogin;
+import com.swiftselect.payload.request.employerreqests.EmployerSignup;
+import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import org.springframework.http.ResponseEntity;
 

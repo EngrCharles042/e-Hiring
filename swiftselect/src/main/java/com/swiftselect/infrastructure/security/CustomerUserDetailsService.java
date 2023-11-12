@@ -1,7 +1,7 @@
 package com.swiftselect.infrastructure.security;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
+import com.swiftselect.domain.entities.employer.Employer;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
