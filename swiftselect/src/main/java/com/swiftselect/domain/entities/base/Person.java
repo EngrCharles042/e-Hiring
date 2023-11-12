@@ -3,6 +3,7 @@ package com.swiftselect.domain.entities.base;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,14 +27,27 @@ public abstract class Person extends Base {
     @Column(nullable = false)
     private String password;
 
-    @Transient
-    @Column(nullable = false)
-    private String confirmPassword;
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(name = "phone",nullable = false)
     private String phoneNumber;
 
+    private boolean isEnabled;
+
     private String country;
 
-    private String countryCode;
+    private String state;
+
+    private String city;
+
+    private String address;
+
+    private String postalCode;
+
+    private String facebook;
+
+    private String twitter;
+
+    private String instagram;
 }

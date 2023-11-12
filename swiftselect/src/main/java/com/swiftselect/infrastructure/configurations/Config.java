@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+@EnableAsync
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -59,6 +61,11 @@ public class Config {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(antMatcher(HttpMethod.POST, "/auth/**"),
                                 antMatcher(HttpMethod.GET, "/auth/**"))
+                        .permitAll()
+                        .requestMatchers(antMatcher("/job-seeker/**"))
+                        .hasAuthority("JOB_SEEKER")
+                        .requestMatchers(antMatcher("/swagger-ui/**"),
+                                antMatcher("/v3/api-docs/**"))
                         .permitAll()
                         .anyRequest()
                         .authenticated())

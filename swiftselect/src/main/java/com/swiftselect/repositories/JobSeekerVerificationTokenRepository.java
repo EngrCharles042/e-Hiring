@@ -1,6 +1,6 @@
 package com.swiftselect.repositories;
 
-import com.swiftselect.domain.entities.JobSeekerVerificationToken;
+import com.swiftselect.domain.entities.jobseeker.JobSeekerVerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
