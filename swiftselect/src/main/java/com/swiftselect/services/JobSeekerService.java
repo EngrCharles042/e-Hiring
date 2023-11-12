@@ -34,6 +34,7 @@ public interface JobSeekerService {
 
      ResponseEntity<String> socialsUpdate(JSSocialsRequests socialsRequests);
 
+
      // CREATING NEW PROFILE
 
      ResponseEntity<String> newWorkExperience(JSWorkExperienceRequest workExperience);
