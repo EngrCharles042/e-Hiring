@@ -81,6 +81,201 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
+    public ResponseEntity<String> contactInfoUpdate(JSContactInfoRequest contactInfoRequest) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        jobSeeker.setFirstName(contactInfoRequest.getFirstName());
+        jobSeeker.setLastName(contactInfoRequest.getLastName());
+        jobSeeker.setPhoneNumber(contactInfoRequest.getPhoneNumber());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
+    public ResponseEntity<String> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        jobSeeker.setCountry(locationInfoRequest.getCountry());
+        jobSeeker.setState(locationInfoRequest.getState());
+        jobSeeker.setCity(locationInfoRequest.getCity());
+        jobSeeker.setAddress(locationInfoRequest.getAddress());
+        jobSeeker.setPostalCode(locationInfoRequest.getPostalCode());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
+    public ResponseEntity<String> resumeUpdate(JSResumeRequests resumeRequests) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        jobSeeker.setResume(resumeRequests.getResume());
+        jobSeeker.setCoverLetter(resumeRequests.getCoverLetter());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
+    public ResponseEntity<String> workExperienceUpdate(JSWorkExperienceRequest workExperienceRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        WorkExperience workExperience = workExperienceRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (workExperience != null) {
+            workExperience.setJobTitle(workExperienceRequest.getJobTitle());
+            workExperience.setCompanyName(workExperienceRequest.getCompanyName());
+            workExperience.setStartDate(workExperienceRequest.getStartDate());
+            workExperience.setStopDate(workExperienceRequest.getStopDate());
+
+            workExperienceRepository.save(workExperience);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> educationUpdate(EducationRequest educationRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        Education education = educationRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (education != null) {
+            education.setEducationLevel(educationRequest.getEducationLevel());
+            education.setFieldOfStudy(educationRequest.getFieldOfStudy());
+            education.setYearOfGraduation(educationRequest.getYearOfGraduation());
+
+            educationRepository.save(education);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> skillsUpdate(SkillsRequest skillsRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        Skills skills = skillsRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (skills != null) {
+            skills.setSkill(skillsRequest.getSkill());
+            skills.setYearsOfExperience(skillsRequest.getYearsOfExperience());
+
+            skillsRepository.save(skills);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> licenseUpdate(LicenseRequest licenseRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        License license = licenseRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (license != null) {
+            license.setLicenseName(licenseRequest.getLicenseName());
+            license.setExpirationDate(licenseRequest.getExpirationDate());
+
+            licenseRepository.save(license);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> certificationUpdate(CertificationRequest certificationRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        Certification certification = certificationRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (certification != null) {
+            certification.setName(certificationRequest.getName());
+            certification.setExpiration(certificationRequest.getExpiration());
+
+            certificationRepository.save(certification);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> languageUpdate(LanguageRequest languageRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        Language language = languageRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (language != null) {
+            language.setLanguage(languageRequest.getLanguage());
+            language.setProficiency(languageRequest.getProficiency());
+
+            languageRepository.save(language);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> jobPreferenceUpdate(JobPreferenceRequest preferenceRequest, long id) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        JobPreference jobPreference = jobPreferenceRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
+
+        if (jobPreference != null) {
+            jobPreference.setIndustry(preferenceRequest.getIndustry());
+
+            jobPreferenceRepository.save(jobPreference);
+
+            return ResponseEntity.ok("update successful");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+    }
+
+    @Override
+    public ResponseEntity<String> jobExpectationUpdate(JobExpectationsRequest jobExpectationsRequest) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        jobSeeker.setWorkSchedule(jobExpectationsRequest.getWorkSchedule());
+        jobSeeker.setBasePay(jobExpectationsRequest.getBasePay());
+        jobSeeker.setPayRate(jobExpectationsRequest.getPayRate());
+        jobSeeker.setJobType(jobExpectationsRequest.getJobType());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
+    public ResponseEntity<String> socialsUpdate(JSSocialsRequests socialsRequests) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        jobSeeker.setFacebook(socialsRequests.getFacebook());
+        jobSeeker.setTwitter(socialsRequests.getTwitter());
+        jobSeeker.setInstagram(socialsRequests.getInstagram());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
     public ResponseEntity<String> newWorkExperience(JSWorkExperienceRequest workExperienceRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
