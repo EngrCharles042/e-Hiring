@@ -1,4 +1,4 @@
-package com.swiftselect.infrastructure.controllers;
+package com.swiftselect.infrastructure.controllers.authcontroller;
 
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
