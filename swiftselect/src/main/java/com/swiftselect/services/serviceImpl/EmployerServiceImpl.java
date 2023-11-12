@@ -1,17 +1,16 @@
 package com.swiftselect.services.serviceImpl;
 
-import com.swiftselect.domain.entities.Employer;
+import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
-import com.swiftselect.payload.request.EmployerUpdateProfileRequest;
-import com.swiftselect.payload.request.ResetPasswordRequest;
+import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
+import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +27,6 @@ public class EmployerServiceImpl implements EmployerService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final EventPublisher eventPublisher;
-    private final ModelMapper modelMapper;
     private final HttpServletRequest httpRequest;
 
 
@@ -87,7 +85,7 @@ public class EmployerServiceImpl implements EmployerService {
         employer.setFirstName(updateProfileRequest.getFirstName());
         employer.setLastName(updateProfileRequest.getLastName());
         employer.setPosition(updateProfileRequest.getPosition());
-        employer.setPhoneNumber(updateProfileRequest.getAddress());
+        employer.setPhoneNumber(updateProfileRequest.getPhoneNumber());
         employer.setPostalCode(updateProfileRequest.getPostalCode());
 
         Employer savedEmployer = employerRepository.save(employer);

@@ -33,6 +33,8 @@ public abstract class Person extends Base {
     @Column(name = "phone",nullable = false)
     private String phoneNumber;
 
+    private boolean isEnabled;
+
     private String country;
 
     private String state;
@@ -42,4 +44,10 @@ public abstract class Person extends Base {
     private String address;
 
     private String postalCode;
+
+    private String facebook;
+
+    private String twitter;
+
+    private String instagram;
 }

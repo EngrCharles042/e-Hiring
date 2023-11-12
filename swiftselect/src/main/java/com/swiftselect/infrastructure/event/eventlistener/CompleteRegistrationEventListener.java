@@ -1,21 +1,14 @@
 package com.swiftselect.infrastructure.event.eventlistener;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.event.events.CompleteRegistrationEvent;
-import com.swiftselect.repositories.EmployerRepository;
-import com.swiftselect.repositories.JobSeekerRepository;
 import com.swiftselect.services.AuthService;
 import com.swiftselect.services.EmailSenderService;
-import com.swiftselect.services.EmployerService;
-import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j

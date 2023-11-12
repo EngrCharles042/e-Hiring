@@ -1,8 +1,7 @@
 package com.swiftselect.services;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.payload.request.EmployerUpdateProfileRequest;
-import com.swiftselect.payload.request.ResetPasswordRequest;
+import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
+import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 

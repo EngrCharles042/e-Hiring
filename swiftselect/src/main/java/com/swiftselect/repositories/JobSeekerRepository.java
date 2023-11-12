@@ -1,6 +1,6 @@
 package com.swiftselect.repositories;
 
-import com.swiftselect.domain.entities.JobSeeker;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,7 +1,5 @@
 package com.swiftselect.services;
 
-import com.swiftselect.domain.entities.Employer;
-import com.swiftselect.domain.entities.JobSeeker;
 import com.swiftselect.infrastructure.event.events.ForgotPasswordEvent;
 import com.swiftselect.payload.request.MailRequest;
 
