@@ -59,14 +59,13 @@ public class JobPostServiceImpl implements JobPostService {
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
                 .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
 
-        Set<JobResponsibilities> jobResponsibilities = responsibilitiesRequest.stream()
-                .map(jobResponse-> {
-                    JobResponsibilities responsibilities = mapper.map(jobResponse,JobResponsibilities.class);
-                    responsibilities.setJobPost(jobPost);
-                    return responsibilities;
-                }).collect(Collectors.toSet());
-
-        jobResponsibilitiesRepository.saveAll(jobResponsibilities);
+       responsibilitiesRequest.forEach(
+                responsibilities -> {
+                    JobResponsibilities responsibility = mapper.map(responsibilities, JobResponsibilities.class);
+                    responsibility.setJobPost(jobPost);
+                    jobResponsibilitiesRepository.save(responsibility);
+                }
+        );
 
         return ResponseEntity.ok("Responsibilities added successfully");
     }
@@ -78,14 +77,13 @@ public class JobPostServiceImpl implements JobPostService {
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
                 .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
 
-        Set<Qualification> qualificationList = qualificationRequest.stream()
-                .map(qualification-> {
-                    Qualification qualifications = mapper.map(qualification,Qualification.class);
+        qualificationRequest.forEach(
+                qualification -> {
+                    Qualification qualifications = mapper.map(qualification, Qualification.class);
                     qualifications.setJobPost(jobPost);
-                    return qualifications;
-                }).collect(Collectors.toSet());
-
-        qualificationRepository.saveAll(qualificationList);
+                    qualificationRepository.save(qualifications);
+                }
+        );
 
         return ResponseEntity.ok("Qualifications added successfully");
     }
@@ -97,14 +95,13 @@ public class JobPostServiceImpl implements JobPostService {
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
                 .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
 
-        Set<NiceToHave> niceToHaveList = niceToHaveRequest.stream()
-                .map(niceToHaveResponse-> {
-                    NiceToHave niceToHave = mapper.map(niceToHaveResponse, NiceToHave.class);
-                    niceToHave.setJobPost(jobPost);
-                    return niceToHave;
-                }).collect(Collectors.toSet());
-
-        niceToHaveRepository.saveAll(niceToHaveList);
+        niceToHaveRequest.forEach(
+                niceToHave -> {
+                    NiceToHave niceToHaves = mapper.map(niceToHave, NiceToHave.class);
+                    niceToHaves.setJobPost(jobPost);
+                    niceToHaveRepository.save(niceToHaves);
+                }
+        );
 
         return ResponseEntity.ok("NiceToHave added successfully");
     }
