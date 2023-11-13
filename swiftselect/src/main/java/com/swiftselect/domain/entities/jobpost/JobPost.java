@@ -3,7 +3,7 @@ package com.swiftselect.domain.entities.jobpost;
 import com.swiftselect.domain.entities.Report;
 import com.swiftselect.domain.entities.base.Base;
 import com.swiftselect.domain.entities.employer.Employer;
-import com.swiftselect.domain.enums.Industry;
+import com.swiftselect.domain.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,18 +22,48 @@ import java.util.Set;
 public class JobPost extends Base {
     private String title;
 
-    private String description;
+    private Long numOfPeopleToHire;
 
-    private String jobSummary;
+    private String description;
 
     private String location;
 
-    private String employmentType;
-
-    private LocalDateTime applicationDeadline;
+    @Enumerated(EnumType.STRING)
+    private EmploymentType employmentType;
 
     @Enumerated(EnumType.STRING)
-    private Industry jobFunction;
+    private JobType jobType;
+
+    private String applicationDeadline;
+
+    @Enumerated(EnumType.STRING)
+    private Industry jobCategory;
+
+    private Long maximumPay;
+
+    private Long minimumPay;
+
+    @Enumerated(EnumType.STRING)
+    private PayRate payRate;
+
+    private String language;
+
+    @Enumerated(EnumType.STRING)
+    private YearsOfExp yearsOfExp;
+
+    @Enumerated(EnumType.STRING)
+    private EducationLevel educationLevel;
+
+    private String howToApply;
+
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private Set<NiceToHave> niceToHaveSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private Set<JobResponsibilities> responsibilities = new HashSet<>();
+
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private Set<Qualification> qualifications = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "employer_id")
@@ -41,10 +71,6 @@ public class JobPost extends Base {
 
     @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<Applications> applications = new HashSet<>();
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "qualification_id")
-    private Qualification qualification;
 
     @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
