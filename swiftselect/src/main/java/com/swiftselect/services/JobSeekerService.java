@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface JobSeekerService {
      ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
+     void deleteMyAccount();
 
      // UPDATE PROFILE
 
