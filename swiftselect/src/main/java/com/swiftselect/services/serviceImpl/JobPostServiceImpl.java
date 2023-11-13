@@ -106,6 +106,80 @@ public class JobPostServiceImpl implements JobPostService {
         return ResponseEntity.ok("NiceToHave added successfully");
     }
 
+    @Override
+    public ResponseEntity<String> updateJobPost(Long id, JobPostRequest jobPostRequest) {
+        Employer currentEmployer = getCurrentEmployerFromToken(request);
+
+        JobPost jobPost = jobPostRepository
+                .findByIdAndEmployer(id, currentEmployer)
+                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+
+        jobPost.setTitle(jobPostRequest.getTitle());
+        jobPost.setNumOfPeopleToHire(jobPostRequest.getNumOfPeopleToHire());
+        jobPost.setDescription(jobPostRequest.getDescription());
+        jobPost.setLocation(jobPostRequest.getLocation());
+        jobPost.setEmploymentType(jobPostRequest.getEmploymentType());
+        jobPost.setJobType(jobPostRequest.getJobType());
+        jobPost.setApplicationDeadline(jobPostRequest.getApplicationDeadline());
+        jobPost.setJobCategory(jobPostRequest.getJobCategory());
+        jobPost.setMaximumPay(jobPostRequest.getMaximumPay());
+        jobPost.setMinimumPay(jobPostRequest.getMinimumPay());
+        jobPost.setPayRate(jobPostRequest.getPayRate());
+        jobPost.setLanguage(jobPostRequest.getLanguage());
+        jobPost.setYearsOfExp(jobPostRequest.getYearsOfExp());
+        jobPost.setEducationLevel(jobPostRequest.getEducationLevel());
+        jobPost.setHowToApply(jobPostRequest.getHowToApply());
+
+        jobPostRepository.save(jobPost);
+
+        return ResponseEntity.ok("Update Successful");
+    }
+
+    @Override
+    public ResponseEntity<String> updateResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest) {
+        Employer currentEmployer = getCurrentEmployerFromToken(request);
+
+        JobPost jobPost = jobPostRepository
+                .findByIdAndEmployer(postId, currentEmployer)
+                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+
+        Set<JobResponsibilities> jobResponsibilities = jobPost.getResponsibilities();
+
+        jobResponsibilitiesRepository.deleteAll(jobResponsibilities);
+
+        return addResponsibilitiesToJobPost(postId, responsibilitiesRequest);
+    }
+
+    @Override
+    public ResponseEntity<String> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest) {
+        Employer currentEmployer = getCurrentEmployerFromToken(request);
+
+        JobPost jobPost = jobPostRepository
+                .findByIdAndEmployer(postId, currentEmployer)
+                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+
+        Set<Qualification> qualifications = jobPost.getQualifications();
+
+        qualificationRepository.deleteAll(qualifications);
+
+        return addQualificationToJobPost(postId, qualificationRequest);
+    }
+
+    @Override
+    public ResponseEntity<String> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest) {
+        Employer currentEmployer = getCurrentEmployerFromToken(request);
+
+        JobPost jobPost = jobPostRepository
+                .findByIdAndEmployer(postId, currentEmployer)
+                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+
+        Set<NiceToHave> niceToHaves = jobPost.getNiceToHaveSet();
+
+        niceToHaveRepository.deleteAll(niceToHaves);
+
+        return addNiceToHaveToJobPost(postId, niceToHaveRequest);
+    }
+
     private Employer getCurrentEmployerFromToken(HttpServletRequest request) {
         String token = helperClass.getTokenFromHttpRequest(request);
         String email = jwtTokenProvider.getUserName(token);
