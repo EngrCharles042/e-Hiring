@@ -16,4 +16,12 @@ public interface JobPostService {
     ResponseEntity<String> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest);
 
     ResponseEntity<String> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
+
+    ResponseEntity<String> updateJobPost(Long postId, JobPostRequest jobPostRequest);
+
+    ResponseEntity<String> updateResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest);
+
+    ResponseEntity<String> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest);
+
+    ResponseEntity<String> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
 }

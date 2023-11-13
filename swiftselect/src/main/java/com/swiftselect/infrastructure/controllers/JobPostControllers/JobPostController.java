@@ -18,6 +18,9 @@ import java.util.Set;
 public class JobPostController {
     private final JobPostService jobPostService;
 
+
+    // CREATE JOB POST
+
     @PostMapping("/create-job-post")
     public ResponseEntity<String> createJobPost (@Valid @RequestBody JobPostRequest jobPostRequest){
 
@@ -28,14 +31,14 @@ public class JobPostController {
     public ResponseEntity<String> addResponsibilitiesToJobPost(@PathVariable Long jobPostId,
                                                                @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
 
-        return jobPostService.addResponsibilitiesToJobPost(jobPostId,responsibilitiesRequest);
+        return jobPostService.addResponsibilitiesToJobPost(jobPostId, responsibilitiesRequest);
     }
 
     @PostMapping("/{jobPostId}/qualifications")
     public ResponseEntity<String> addQualificationsToJobPost(@PathVariable Long jobPostId,
                                                              @Valid @RequestBody Set<QualificationRequest> qualificationRequest){
 
-        return jobPostService.addQualificationToJobPost(jobPostId,qualificationRequest);
+        return jobPostService.addQualificationToJobPost(jobPostId, qualificationRequest);
     }
 
     @PostMapping("/{jobPostId}/nice_to_haves")
@@ -43,5 +46,36 @@ public class JobPostController {
                                                           @Valid @RequestBody Set<NiceToHaveRequest> niceToHaveRequest) {
 
         return jobPostService.addNiceToHaveToJobPost(jobPostId, niceToHaveRequest);
+    }
+
+
+    // UPDATE JOB POST
+
+    @PutMapping("/{jobPostId}/update-job-post")
+    public ResponseEntity<String> updateJobPost (@PathVariable Long jobPostId,
+                                                 @Valid @RequestBody JobPostRequest jobPostRequest) {
+
+        return jobPostService.updateJobPost(jobPostId, jobPostRequest);
+    }
+
+    @PutMapping("/{jobPostId}/responsibilities")
+    public ResponseEntity<String> updateResponsibilitiesToJobPost(@PathVariable Long jobPostId,
+                                                               @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
+
+        return jobPostService.updateResponsibilitiesToJobPost(jobPostId, responsibilitiesRequest);
+    }
+
+    @PutMapping("/{jobPostId}/qualifications")
+    public ResponseEntity<String> updateQualificationsToJobPost(@PathVariable Long jobPostId,
+                                                             @Valid @RequestBody Set<QualificationRequest> qualificationRequest){
+
+        return jobPostService.updateQualificationToJobPost(jobPostId, qualificationRequest);
+    }
+
+    @PutMapping("/{jobPostId}/nice_to_haves")
+    public ResponseEntity<String> updateNiceToHavesToJobPost(@PathVariable Long jobPostId,
+                                                          @Valid @RequestBody Set<NiceToHaveRequest> niceToHaveRequest) {
+
+        return jobPostService.updateNiceToHaveToJobPost(jobPostId, niceToHaveRequest);
     }
 }
