@@ -4,7 +4,10 @@ import com.swiftselect.payload.request.jobPostRequests.JobPostRequest;
 import com.swiftselect.payload.request.jobPostRequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobPostRequests.NiceToHaveRequest;
 import com.swiftselect.payload.request.jobPostRequests.QualificationRequest;
+import com.swiftselect.payload.response.JobPostResponse;
+import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.services.JobPostService;
+import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,15 @@ import java.util.Set;
 public class JobPostController {
     private final JobPostService jobPostService;
 
+    // GET ALL JOB POSTS
+    @GetMapping
+    public ResponseEntity<PostResponsePage> getAllPosts(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+                                                        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                                                        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
+
+        return jobPostService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
+    }
 
     // CREATE JOB POST
 
