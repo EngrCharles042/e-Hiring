@@ -4,6 +4,8 @@ import com.swiftselect.payload.request.jobPostRequests.JobPostRequest;
 import com.swiftselect.payload.request.jobPostRequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobPostRequests.NiceToHaveRequest;
 import com.swiftselect.payload.request.jobPostRequests.QualificationRequest;
+import com.swiftselect.payload.response.JobPostResponse;
+import com.swiftselect.payload.response.PostResponsePage;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Set;
@@ -24,4 +26,6 @@ public interface JobPostService {
     ResponseEntity<String> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest);
 
     ResponseEntity<String> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
+
+    ResponseEntity<PostResponsePage> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 }

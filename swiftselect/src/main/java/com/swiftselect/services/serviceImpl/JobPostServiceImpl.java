@@ -11,16 +11,24 @@ import com.swiftselect.payload.request.jobPostRequests.JobPostRequest;
 import com.swiftselect.payload.request.jobPostRequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobPostRequests.NiceToHaveRequest;
 import com.swiftselect.payload.request.jobPostRequests.QualificationRequest;
+import com.swiftselect.payload.response.JobPostResponse;
+import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.JobPostService;
+import com.swiftselect.utils.AppConstants;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -178,6 +186,35 @@ public class JobPostServiceImpl implements JobPostService {
         niceToHaveRepository.deleteAll(niceToHaves);
 
         return addNiceToHaveToJobPost(postId, niceToHaveRequest);
+    }
+
+    @Override
+    public ResponseEntity<PostResponsePage> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+        // Sort Condition
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        // Create pageable instance
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<JobPost> jobPosts = jobPostRepository.findAll(pageable);
+
+        List<JobPost> jobPostList = jobPosts.getContent();
+
+        List<JobPostResponse> content = jobPostList.stream()
+                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                .toList();
+
+        return ResponseEntity.ok(
+                PostResponsePage.builder()
+                        .content(content)
+                        .pageNo(jobPosts.getNumber())
+                        .last(jobPosts.isLast())
+                        .pageSize(jobPosts.getSize())
+                        .totalElement(jobPosts.getTotalElements())
+                        .totalPages(jobPosts.getTotalPages())
+                        .build()
+        );
     }
 
     private Employer getCurrentEmployerFromToken(HttpServletRequest request) {
