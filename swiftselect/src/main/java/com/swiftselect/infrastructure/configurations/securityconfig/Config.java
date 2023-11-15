@@ -1,4 +1,4 @@
-package com.swiftselect.infrastructure.configurations;
+package com.swiftselect.infrastructure.configurations.securityconfig;
 
 import com.swiftselect.infrastructure.security.JwtAuthenticationEntryPoint;
 import com.swiftselect.infrastructure.security.JwtAuthenticationFilter;

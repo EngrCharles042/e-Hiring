@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLogin {
+public class LoginRequest {
     @Size(min = 8, max = 50)
     @Email(message = "E-mail must be valid")
     @NotBlank(message = "E-mail required")

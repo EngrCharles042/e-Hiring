@@ -9,10 +9,12 @@ import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
-import com.swiftselect.payload.request.authrequests.UserLogin;
+import com.swiftselect.payload.request.authrequests.LoginRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerSignup;
 import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
+import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -77,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> registerEmployer(EmployerSignup employerSignup) {
+    public ResponseEntity<APIResponse<EmployerSignupResponse>> registerEmployer(EmployerSignup employerSignup) {
         // Checks if an Employer's email is already in the database
         boolean isPresent = employerRepository.existsByEmail(employerSignup.getEmail());
 
@@ -103,22 +105,25 @@ public class AuthServiceImpl implements AuthService {
         // Publish and event to verify Email
         publisher.completeRegistrationEventPublisher(savedEmployer.getEmail(), savedEmployer.getFirstName(), request);
 
+        EmployerSignupResponse signupResponse = modelMapper.map(savedEmployer, EmployerSignupResponse.class);
+
         // Return a ResponseEntity of a success message
-        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new APIResponse<EmployerSignupResponse>("Account Created Successfully", signupResponse));
     }
 
     @Override
-    public ResponseEntity<JwtAuthResponse> login(UserLogin userLogin) {
+    public ResponseEntity<JwtAuthResponse> login(LoginRequest loginRequest) {
 
         // Authentication manager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userLogin.getEmail(),
-                        userLogin.getPassword()
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
                 )
         );
 
-        // Saving authentication in security context so user won't have to login everytime the network is called
+//      Saving authentication in security context so user won't have to login everytime the network is called
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(authentication);
