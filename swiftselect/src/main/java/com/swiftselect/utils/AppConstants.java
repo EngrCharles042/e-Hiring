@@ -6,4 +6,5 @@ public class AppConstants {
     public static final String DEFAULT_PAGE_SIZE = "20";
     public static final String DEFAULT_SORT_BY = "location";
     public static final String DEFAULT_SORT_DIRECTION = "asc";
+    public static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
 }

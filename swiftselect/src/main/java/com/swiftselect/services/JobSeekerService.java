@@ -4,6 +4,7 @@ import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface JobSeekerService {
      ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
@@ -15,7 +16,8 @@ public interface JobSeekerService {
 
      ResponseEntity<String> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest);
 
-     ResponseEntity<String> resumeUpdate(JSResumeRequests resumeRequests);
+     ResponseEntity<String> resumeUpdate(MultipartFile resume);
+     ResponseEntity<String> coverLetterUpdate(MultipartFile coverLetter);
 
      ResponseEntity<String> workExperienceUpdate(JSWorkExperienceRequest workExperience, long id);
 
@@ -51,5 +53,4 @@ public interface JobSeekerService {
      ResponseEntity<String> newLanguage(LanguageRequest languageRequest);
 
      ResponseEntity<String> newJobPreference(JobPreferenceRequest preferenceRequest);
-
 }

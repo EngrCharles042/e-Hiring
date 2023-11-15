@@ -1,9 +1,15 @@
 package com.swiftselect.payload.response;
 
 import com.swiftselect.utils.DateUtils;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class APIResponse<T> {
     private String message;
     private T data;
@@ -17,7 +23,6 @@ public class APIResponse<T> {
 
     public APIResponse(String message) {
         this.message = message;
-//        this.data = null;
         this.responseTime = DateUtils.dateToString(LocalDateTime.now());
     }
 }

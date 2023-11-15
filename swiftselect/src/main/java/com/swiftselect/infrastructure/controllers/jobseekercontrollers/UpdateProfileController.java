@@ -2,9 +2,12 @@ package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.services.JobSeekerService;
+import com.swiftselect.utils.AppConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,9 +30,27 @@ public class UpdateProfileController {
     }
 
     @PutMapping("/resume")
-    public ResponseEntity<String> resumeUpdate(@RequestBody JSResumeRequests resumeRequests) {
+    public ResponseEntity<String> resumeUpdate(@RequestParam("resume") MultipartFile resume) {
 
-        return jobSeekerService.resumeUpdate(resumeRequests);
+        if (resume.getSize() > AppConstants.MAX_FILE_SIZE) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("FIle size exceed the normal limit");
+        }
+
+        return jobSeekerService.resumeUpdate(resume);
+    }
+
+    @PutMapping("/cover-letter")
+    public ResponseEntity<String> coverLetterUpdate(@RequestParam("coverLetter") MultipartFile coverLetter) {
+
+        if (coverLetter.getSize() > AppConstants.MAX_FILE_SIZE) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("FIle size exceed the normal limit");
+        }
+
+        return jobSeekerService.coverLetterUpdate(coverLetter);
     }
 
     @PutMapping("/socials")

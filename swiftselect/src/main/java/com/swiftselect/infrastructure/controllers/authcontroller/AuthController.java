@@ -2,13 +2,13 @@ package com.swiftselect.infrastructure.controllers.authcontroller;
 
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
-import com.swiftselect.payload.request.authrequests.UserLogin;
+import com.swiftselect.payload.request.authrequests.LoginRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerSignup;
 import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
+import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.services.AuthService;
-import com.swiftselect.services.EmployerService;
-import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AuthenticationUtils;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +27,6 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final JobSeekerService jobSeekerService;
-    private final EmployerService employerService;
     private final AuthService authService;
     private final HelperClass helperClass;
 
@@ -38,13 +36,13 @@ public class AuthController {
     }
 
     @PostMapping("/employer/register")
-    public ResponseEntity<String> registerEmployer(@Valid @RequestBody EmployerSignup employerSignup) {
+    public ResponseEntity<APIResponse<EmployerSignupResponse>> registerEmployer(@Valid @RequestBody EmployerSignup employerSignup) {
         return authService.registerEmployer(employerSignup);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody UserLogin userLogin) {
-        return authService.login(userLogin);
+    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 
     @GetMapping("/register/verify-email")

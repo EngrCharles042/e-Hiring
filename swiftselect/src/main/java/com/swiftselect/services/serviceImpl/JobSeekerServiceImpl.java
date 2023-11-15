@@ -6,6 +6,7 @@ import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.security.JwtAuthenticationFilter;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.repositories.*;
+import com.swiftselect.services.FileUpload;
 import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,7 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -41,6 +44,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final ModelMapper modelMapper;
     private final HttpServletRequest request;
     private final CertificationRepository certificationRepository;
+    private final FileUpload fileUpload;
 
 
     private JobSeeker getJobSeeker() {
@@ -118,11 +122,38 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
-    public ResponseEntity<String> resumeUpdate(JSResumeRequests resumeRequests) {
+    public ResponseEntity<String> resumeUpdate(MultipartFile resume) {
         JobSeeker jobSeeker = getJobSeeker();
 
-        jobSeeker.setResume(resumeRequests.getResume());
-        jobSeeker.setCoverLetter(resumeRequests.getCoverLetter());
+        String fileUrl;
+
+        try {
+            fileUrl = fileUpload.uploadFile(resume);
+
+            jobSeeker.setResume(fileUrl);
+
+        } catch (IOException e) {
+            throw new ApplicationException("File upload error, please try again", HttpStatus.NOT_FOUND);
+        }
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return ResponseEntity.ok("update successful");
+    }
+
+    @Override
+    public ResponseEntity<String> coverLetterUpdate(MultipartFile coverLetter) {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        String fileUrl;
+
+        try {
+            fileUrl = fileUpload.uploadFile(coverLetter);
+
+            jobSeeker.setCoverLetter(fileUrl);
+        } catch (IOException e) {
+            throw new ApplicationException("File upload error, please try again", HttpStatus.NOT_FOUND);
+        }
 
         jobSeekerRepository.save(jobSeeker);
 
