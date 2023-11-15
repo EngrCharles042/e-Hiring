@@ -3,7 +3,6 @@ package com.swiftselect.services.serviceImpl;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
-import com.swiftselect.infrastructure.security.JwtAuthenticationFilter;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.FileUpload;
@@ -24,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
