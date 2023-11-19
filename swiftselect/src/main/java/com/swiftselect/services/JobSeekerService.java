@@ -2,55 +2,57 @@ package com.swiftselect.services;
 
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
+import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface JobSeekerService {
-     ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
+     ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
      void deleteMyAccount();
 
      // UPDATE PROFILE
 
-     ResponseEntity<String> contactInfoUpdate(JSContactInfoRequest contactInfoRequest);
+     ResponseEntity<APIResponse<String>> contactInfoUpdate(JSContactInfoRequest contactInfoRequest);
 
-     ResponseEntity<String> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest);
+     ResponseEntity<APIResponse<String>> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest);
 
-     ResponseEntity<String> resumeUpdate(MultipartFile resume);
-     ResponseEntity<String> coverLetterUpdate(MultipartFile coverLetter);
+     ResponseEntity<APIResponse<String>> resumeUpdate(MultipartFile resume);
+     ResponseEntity<APIResponse<String>> coverLetterUpdate(MultipartFile coverLetter);
 
-     ResponseEntity<String> workExperienceUpdate(JSWorkExperienceRequest workExperience, long id);
+     ResponseEntity<APIResponse<String>> workExperienceUpdate(JSWorkExperienceRequest workExperience, long id);
 
-     ResponseEntity<String> educationUpdate(EducationRequest educationRequest, long id);
+     ResponseEntity<APIResponse<String>> educationUpdate(EducationRequest educationRequest, long id);
 
-     ResponseEntity<String> skillsUpdate(SkillsRequest skillsRequest, long id);
+     ResponseEntity<APIResponse<String>> skillsUpdate(SkillsRequest skillsRequest, long id);
 
-     ResponseEntity<String> licenseUpdate(LicenseRequest licenseRequest, long id);
+     ResponseEntity<APIResponse<String>> licenseUpdate(LicenseRequest licenseRequest, long id);
 
-     ResponseEntity<String> certificationUpdate(CertificationRequest certificationRequest, long id);
+     ResponseEntity<APIResponse<String>> certificationUpdate(CertificationRequest certificationRequest, long id);
 
-     ResponseEntity<String> languageUpdate(LanguageRequest languageRequest, long id);
+     ResponseEntity<APIResponse<String>> languageUpdate(LanguageRequest languageRequest, long id);
 
-     ResponseEntity<String> jobPreferenceUpdate(JobPreferenceRequest preferenceRequest, long id);
+     ResponseEntity<APIResponse<String>> jobPreferenceUpdate(JobPreferenceRequest preferenceRequest, long id);
 
-     ResponseEntity<String> jobExpectationUpdate(JobExpectationsRequest jobExpectationsRequest);
+     ResponseEntity<APIResponse<String>> jobExpectationUpdate(JobExpectationsRequest jobExpectationsRequest);
 
-     ResponseEntity<String> socialsUpdate(JSSocialsRequests socialsRequests);
+     ResponseEntity<APIResponse<String>> socialsUpdate(JSSocialsRequests socialsRequests);
 
 
      // CREATING NEW PROFILE
 
-     ResponseEntity<String> newWorkExperience(JSWorkExperienceRequest workExperience);
+     ResponseEntity<APIResponse<String>> newWorkExperience(JSWorkExperienceRequest workExperience);
 
-     ResponseEntity<String> newEducation(EducationRequest educationRequest);
+     ResponseEntity<APIResponse<String>> newEducation(EducationRequest educationRequest);
 
-     ResponseEntity<String> newSkills(SkillsRequest skillsRequest);
+     ResponseEntity<APIResponse<String>> newSkills(SkillsRequest skillsRequest);
 
-     ResponseEntity<String> newLicense(LicenseRequest licenseRequest);
+     ResponseEntity<APIResponse<String>> newLicense(LicenseRequest licenseRequest);
 
-     ResponseEntity<String> newCertification(CertificationRequest certificationRequest);
+     ResponseEntity<APIResponse<String>> newCertification(CertificationRequest certificationRequest);
 
-     ResponseEntity<String> newLanguage(LanguageRequest languageRequest);
+     ResponseEntity<APIResponse<String>> newLanguage(LanguageRequest languageRequest);
 
-     ResponseEntity<String> newJobPreference(JobPreferenceRequest preferenceRequest);
+     ResponseEntity<APIResponse<String>> newJobPreference(JobPreferenceRequest preferenceRequest);
 }

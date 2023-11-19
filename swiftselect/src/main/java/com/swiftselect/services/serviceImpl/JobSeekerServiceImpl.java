@@ -4,6 +4,8 @@ import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
+import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.FileUpload;
 import com.swiftselect.services.JobSeekerService;
@@ -57,7 +59,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
 
     @Override
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
+    public ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         String email = jobSeeker.getEmail();
@@ -79,7 +81,12 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 "Password successfully changed. If you did not initiate this, please send a reply to this email",
                 request);
 
-        return ResponseEntity.ok("Password successfully changed");
+        ResetPasswordResponse resetResponse = ResetPasswordResponse.builder()
+                .id(jobSeeker.getId())
+                .firstName(jobSeeker.getFirstName())
+                .build();
+
+        return ResponseEntity.ok(new APIResponse<>("Password successfully changed", resetResponse));
     }
 
     @Override
@@ -92,7 +99,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
-    public ResponseEntity<String> contactInfoUpdate(JSContactInfoRequest contactInfoRequest) {
+    public ResponseEntity<APIResponse<String>> contactInfoUpdate(JSContactInfoRequest contactInfoRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         jobSeeker.setFirstName(contactInfoRequest.getFirstName());
@@ -101,11 +108,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest) {
+    public ResponseEntity<APIResponse<String>> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         jobSeeker.setCountry(locationInfoRequest.getCountry());
@@ -116,11 +123,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> resumeUpdate(MultipartFile resume) {
+    public ResponseEntity<APIResponse<String>> resumeUpdate(MultipartFile resume) {
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;
@@ -136,11 +143,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> coverLetterUpdate(MultipartFile coverLetter) {
+    public ResponseEntity<APIResponse<String>> coverLetterUpdate(MultipartFile coverLetter) {
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;
@@ -155,11 +162,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> workExperienceUpdate(JSWorkExperienceRequest workExperienceRequest, long id) {
+    public ResponseEntity<APIResponse<String>> workExperienceUpdate(JSWorkExperienceRequest workExperienceRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         WorkExperience workExperience = workExperienceRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -172,14 +179,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             workExperienceRepository.save(workExperience);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> educationUpdate(EducationRequest educationRequest, long id) {
+    public ResponseEntity<APIResponse<String>> educationUpdate(EducationRequest educationRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Education education = educationRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -191,14 +198,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             educationRepository.save(education);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> skillsUpdate(SkillsRequest skillsRequest, long id) {
+    public ResponseEntity<APIResponse<String>> skillsUpdate(SkillsRequest skillsRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Skills skills = skillsRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -209,14 +216,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             skillsRepository.save(skills);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> licenseUpdate(LicenseRequest licenseRequest, long id) {
+    public ResponseEntity<APIResponse<String>> licenseUpdate(LicenseRequest licenseRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         License license = licenseRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -227,14 +234,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             licenseRepository.save(license);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> certificationUpdate(CertificationRequest certificationRequest, long id) {
+    public ResponseEntity<APIResponse<String>> certificationUpdate(CertificationRequest certificationRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Certification certification = certificationRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -245,14 +252,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             certificationRepository.save(certification);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> languageUpdate(LanguageRequest languageRequest, long id) {
+    public ResponseEntity<APIResponse<String>> languageUpdate(LanguageRequest languageRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Language language = languageRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -263,14 +270,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             languageRepository.save(language);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> jobPreferenceUpdate(JobPreferenceRequest preferenceRequest, long id) {
+    public ResponseEntity<APIResponse<String>> jobPreferenceUpdate(JobPreferenceRequest preferenceRequest, long id) {
         JobSeeker jobSeeker = getJobSeeker();
 
         JobPreference jobPreference = jobPreferenceRepository.findByIdAndJobSeeker_Id(id, jobSeeker.getId());
@@ -280,14 +287,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             jobPreferenceRepository.save(jobPreference);
 
-            return ResponseEntity.ok("update successful");
+            return ResponseEntity.ok(new APIResponse<>("update successful"));
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("not found");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new APIResponse<>("not found"));
     }
 
     @Override
-    public ResponseEntity<String> jobExpectationUpdate(JobExpectationsRequest jobExpectationsRequest) {
+    public ResponseEntity<APIResponse<String>> jobExpectationUpdate(JobExpectationsRequest jobExpectationsRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         jobSeeker.setWorkSchedule(jobExpectationsRequest.getWorkSchedule());
@@ -297,11 +304,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> socialsUpdate(JSSocialsRequests socialsRequests) {
+    public ResponseEntity<APIResponse<String>> socialsUpdate(JSSocialsRequests socialsRequests) {
         JobSeeker jobSeeker = getJobSeeker();
 
         jobSeeker.setFacebook(socialsRequests.getFacebook());
@@ -310,11 +317,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobSeekerRepository.save(jobSeeker);
 
-        return ResponseEntity.ok("update successful");
+        return ResponseEntity.ok(new APIResponse<>("update successful"));
     }
 
     @Override
-    public ResponseEntity<String> newWorkExperience(JSWorkExperienceRequest workExperienceRequest) {
+    public ResponseEntity<APIResponse<String>> newWorkExperience(JSWorkExperienceRequest workExperienceRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         WorkExperience workExperience = modelMapper.map(workExperienceRequest, WorkExperience.class);
@@ -322,11 +329,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         workExperienceRepository.save(workExperience);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newEducation(EducationRequest educationRequest) {
+    public ResponseEntity<APIResponse<String>> newEducation(EducationRequest educationRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Education education = modelMapper.map(educationRequest, Education.class);
@@ -334,11 +341,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         educationRepository.save(education);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newSkills(SkillsRequest skillsRequest) {
+    public ResponseEntity<APIResponse<String>> newSkills(SkillsRequest skillsRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Skills skills = modelMapper.map(skillsRequest, Skills.class);
@@ -346,11 +353,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         skillsRepository.save(skills);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newLicense(LicenseRequest licenseRequest) {
+    public ResponseEntity<APIResponse<String>> newLicense(LicenseRequest licenseRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         License license = modelMapper.map(licenseRequest, License.class);
@@ -358,11 +365,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         licenseRepository.save(license);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newCertification(CertificationRequest certificationRequest) {
+    public ResponseEntity<APIResponse<String>> newCertification(CertificationRequest certificationRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Certification certification = modelMapper.map(certificationRequest, Certification.class);
@@ -370,11 +377,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         certificationRepository.save(certification);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newLanguage(LanguageRequest languageRequest) {
+    public ResponseEntity<APIResponse<String>> newLanguage(LanguageRequest languageRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         Language language = modelMapper.map(languageRequest,  Language.class);
@@ -382,11 +389,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         languageRepository.save(language);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 
     @Override
-    public ResponseEntity<String> newJobPreference(JobPreferenceRequest preferenceRequest) {
+    public ResponseEntity<APIResponse<String>> newJobPreference(JobPreferenceRequest preferenceRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
         JobPreference jobPreference = modelMapper.map(preferenceRequest, JobPreference.class);
@@ -394,6 +401,6 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         jobPreferenceRepository.save(jobPreference);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
     }
 }

@@ -1,5 +1,7 @@
 package com.swiftselect.payload.response;
 
+import com.swiftselect.domain.enums.Gender;
+import com.swiftselect.domain.enums.Role;
 import lombok.*;
 
 @Setter
@@ -8,6 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class JwtAuthResponse {
+    private Long id;
+    private String firstName;
+    private Gender gender;
+    private Role role;
     private String accessToken;
     private String tokenType = "Bearer";
 }
