@@ -54,7 +54,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         return  jobSeekerRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email));
     }
 
 
@@ -138,7 +138,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             jobSeeker.setResume(fileUrl);
 
         } catch (IOException e) {
-            throw new ApplicationException("File upload error, please try again", HttpStatus.NOT_FOUND);
+            throw new ApplicationException("File upload error, please try again");
         }
 
         jobSeekerRepository.save(jobSeeker);
@@ -157,7 +157,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             jobSeeker.setCoverLetter(fileUrl);
         } catch (IOException e) {
-            throw new ApplicationException("File upload error, please try again", HttpStatus.NOT_FOUND);
+            throw new ApplicationException("File upload error, please try again");
         }
 
         jobSeekerRepository.save(jobSeeker);

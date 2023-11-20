@@ -72,7 +72,7 @@ public class HelperClass {
             mailSender.send(message);
 
         } catch (MailException | MessagingException | UnsupportedEncodingException e) {
-            throw new ApplicationException(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            throw new ApplicationException(e.getMessage());
         }
     }
 
@@ -111,7 +111,7 @@ public class HelperClass {
             mailSender.send(message);
 
         } catch (MailException | MessagingException | UnsupportedEncodingException e) {
-            throw new ApplicationException(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            throw new ApplicationException(e.getMessage());
         }
     }
 

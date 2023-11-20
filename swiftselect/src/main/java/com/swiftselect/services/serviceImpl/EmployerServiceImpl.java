@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,7 +57,7 @@ public class EmployerServiceImpl implements EmployerService {
 
         Employer employer = employerRepository
                     .findByEmail(email)
-                    .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+                    .orElseThrow(() -> new ApplicationException("User does not exist with email " + email));
 
         employer.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
 
@@ -122,13 +121,13 @@ public class EmployerServiceImpl implements EmployerService {
                     return ResponseEntity.ok(new APIResponse<>("Post successfully deleted"));
                 }
                 // If not, throw an exception indicating that the user is not permitted to delete this post
-                throw new ApplicationException("You are not permitted to delete this post", HttpStatus.BAD_REQUEST);
+                throw new ApplicationException("You are not permitted to delete this post");
             }
             // If the job post with the specified ID does not exist
-            throw new ApplicationException("Job post not found", HttpStatus.NOT_FOUND);
+            throw new ApplicationException("Job post not found");
         }
         // If the employer with the specified email does not exist
-        throw new ApplicationException("Employer not found", HttpStatus.NOT_FOUND);
+        throw new ApplicationException("Employer not found");
     }
 
     @Override

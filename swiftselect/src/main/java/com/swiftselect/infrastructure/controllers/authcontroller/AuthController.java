@@ -66,7 +66,7 @@ public class AuthController {
 
 
         if (!Objects.equals(Objects.requireNonNull(result.getBody()).getMessage(), "Valid")) {
-            throw new ApplicationException(result.getBody().getMessage(), HttpStatus.FORBIDDEN);
+            throw new ApplicationException(result.getBody().getMessage());
         }
 
         String action = "SwiftSelect | Password Change";

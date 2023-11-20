@@ -15,7 +15,6 @@ import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -41,7 +40,7 @@ public class JobApplicationImpl implements JobApplicationService {
 
         return jobSeekerRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email));
     }
 
     @Override
@@ -51,7 +50,7 @@ public class JobApplicationImpl implements JobApplicationService {
         Optional<JobPost> jobPostOptional = jobPostRepository.findById(jobPostId);
 
         if (jobPostOptional.isEmpty()) {
-            throw new ApplicationException("Job Post not found", HttpStatus.NOT_FOUND);
+            throw new ApplicationException("Job Post not found");
         }
         Applications applications = Applications.builder()
                 .jobPost(jobPostOptional.get())
