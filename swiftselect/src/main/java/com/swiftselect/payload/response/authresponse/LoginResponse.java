@@ -11,12 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    @Size(min = 8, max = 50)
-    @Email(message = "E-mail must be valid")
-    @NotBlank(message = "E-mail required")
-    private String email;
 
-    @Size(min = 6, max = 15, message = "password must be at least 6 characters")
-    @NotBlank(message = "password must not be blank")
-    private String password;
+    Long id;
+
+    String email;
+
 }

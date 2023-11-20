@@ -7,6 +7,7 @@ import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
+import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.EmployerService;
@@ -36,7 +37,7 @@ public class EmployerServiceImpl implements EmployerService {
 
 
     @Override
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
+    public ResponseEntity<APIResponse<String>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -62,11 +63,11 @@ public class EmployerServiceImpl implements EmployerService {
                 "Password successfully changed. If you did not initiate this, please send a reply to this email",
                 request);
 
-        return ResponseEntity.ok("Password successfully changed");
+        return ResponseEntity.ok(new APIResponse<>("Password successfully changed"));
     }
 
     @Override
-    public ResponseEntity<String> updateProfile(EmployerUpdateProfileRequest updateProfileRequest) {
+    public ResponseEntity<APIResponse<String>> updateProfile(EmployerUpdateProfileRequest updateProfileRequest) {
         String token = helperClass.getTokenFromHttpRequest(httpRequest);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -94,11 +95,11 @@ public class EmployerServiceImpl implements EmployerService {
 
         Employer savedEmployer = employerRepository.save(employer);
 
-        return ResponseEntity.ok("Update Successful");
+        return ResponseEntity.ok(new APIResponse<>("Update Successful"));
     }
 
     @Override
-    public ResponseEntity<String> deleteJobPost(String email, Long postId) {
+    public ResponseEntity<APIResponse<String>> deleteJobPost(String email, Long postId) {
 
         Optional<JobPost> jobPostOptional = jobPostRepository.findById(postId);
 
@@ -112,7 +113,7 @@ public class EmployerServiceImpl implements EmployerService {
                 if (jobPostOptional.get().getEmployer().equals(employerOptional.get())) {
                     // If yes, delete the job post
                     jobPostRepository.delete(jobPostOptional.get());
-                    return ResponseEntity.ok("Post successfully deleted");
+                    return ResponseEntity.ok(new APIResponse<>("Post successfully deleted"));
                 }
                 // If not, throw an exception indicating that the user is not permitted to delete this post
                 throw new ApplicationException("You are not permitted to delete this post", HttpStatus.BAD_REQUEST);

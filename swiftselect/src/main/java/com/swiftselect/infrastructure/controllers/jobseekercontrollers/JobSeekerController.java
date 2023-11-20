@@ -1,6 +1,8 @@
 package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
+import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.services.JobSeekerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +16,14 @@ public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(final HttpServletRequest request, @RequestBody ResetPasswordRequest resetPasswordRequest) {
+    public ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(final HttpServletRequest request, @RequestBody ResetPasswordRequest resetPasswordRequest) {
         return jobSeekerService.resetPassword(request, resetPasswordRequest);
     }
 
     @DeleteMapping("/delete-profile")
-    public ResponseEntity<String> deleteMyAccount(){
+    public ResponseEntity<APIResponse<String>> deleteMyAccount(){
         jobSeekerService.deleteMyAccount();
 
-        return ResponseEntity.ok("Account deleted successfully");
+        return ResponseEntity.ok(new APIResponse<>("Account deleted successfully"));
     }
 }
