@@ -3,7 +3,7 @@ package com.swiftselect.infrastructure.controllers.employercontrollers;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
-import com.swiftselect.payload.response.employerresponse.EmployeeResponsePage;
+import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,12 +34,13 @@ public class EmployerController {
                                                 @PathVariable("post-id") Long postId) {
         return employerService.deleteJobPost(userDetails.getUsername(), postId);
     }
+
     @GetMapping
-    public ResponseEntity<EmployeeResponsePage> getAllEmployers(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+    public ResponseEntity<EmployerResponsePage> getAllEmployers(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
                                                                 @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE,required = false) int pageSize,
                                                                 @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                                                                 @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir){
-        return employerService.getAllEmployers(pageNo,pageSize, sortBy,sortDir);
+        return employerService.getAllEmployers(pageNo, pageSize, sortBy, sortDir);
 
     }
 }

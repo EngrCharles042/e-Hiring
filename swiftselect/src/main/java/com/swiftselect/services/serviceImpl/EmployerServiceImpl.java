@@ -8,7 +8,7 @@ import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
-import com.swiftselect.payload.response.employerresponse.EmployeeResponsePage;
+import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
 import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobPostRepository;
@@ -132,28 +132,29 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public ResponseEntity<EmployeeResponsePage> getAllEmployers(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public ResponseEntity<EmployerResponsePage> getAllEmployers(int pageNo, int pageSize, String sortBy, String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of( pageNo, pageSize);
+
+        Pageable pageable = PageRequest.of( pageNo, pageSize, sort);
 
         Slice<Employer> employers = employerRepository.findAll(pageable);
+
         List<Employer> employerList = employers.getContent();
 
         List<EmployerListResponse> content = employerList.stream()
-                .map(employer ->mapper.map(employer,EmployerListResponse.class))
+                .map(employer -> mapper.map(employer, EmployerListResponse.class))
                 .toList();
+
         return ResponseEntity.ok(
-                EmployeeResponsePage.builder()
+                EmployerResponsePage.builder()
                         .content(content)
                         .pageNo(employers.getNumber())
                         .pageSize(employers.getSize())
                         .totalElement(employers.getNumberOfElements())
                         .last(employers.isLast())
                         .build()
-
         );
-
     }
 }

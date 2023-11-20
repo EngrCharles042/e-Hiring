@@ -8,13 +8,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmployeeResponsePage {
-
+public class EmployerResponsePage {
         private List<EmployerListResponse> content;
         private int pageNo;
         private int pageSize;
         private long totalElement;
         private int totalPages;
         private boolean last;
-
 }

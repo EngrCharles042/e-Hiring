@@ -4,6 +4,8 @@ import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
+import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,4 +57,6 @@ public interface JobSeekerService {
      ResponseEntity<APIResponse<String>> newLanguage(LanguageRequest languageRequest);
 
      ResponseEntity<APIResponse<String>> newJobPreference(JobPreferenceRequest preferenceRequest);
+
+     ResponseEntity<APIResponse<JobSeekerResponsePage>> getAllJobSeekers(int pageNo, int pageSize, String sortBy, String sortDir);
 }

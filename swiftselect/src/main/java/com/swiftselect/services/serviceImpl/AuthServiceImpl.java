@@ -18,6 +18,7 @@ import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
+import com.swiftselect.utils.SecurityConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -136,8 +137,10 @@ public class AuthServiceImpl implements AuthService {
                 .setAuthentication(authentication);
 
         // Generate jwt token
-        String token = jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(authentication, SecurityConstants.JWT_EXPIRATION);
 
+        // Generate jwt refresh token
+        String refreshToken = jwtTokenProvider.generateToken(authentication, SecurityConstants.JWT_REFRESH_TOKEN_EXPIRATION);
 
         if (jobSeekerOptional.isPresent()) {
 
@@ -150,6 +153,7 @@ public class AuthServiceImpl implements AuthService {
                                     "Login Successful",
                                     JwtAuthResponse.builder()
                                             .accessToken(token)
+                                            .refreshToken(refreshToken)
                                             .tokenType("Bearer")
                                             .id(jobSeeker.getId())
                                             .firstName(jobSeeker.getFirstName())
@@ -168,6 +172,7 @@ public class AuthServiceImpl implements AuthService {
                                     "Login Successful",
                                     JwtAuthResponse.builder()
                                             .accessToken(token)
+                                            .refreshToken(refreshToken)
                                             .tokenType("Bearer")
                                             .id(employer.getId())
                                             .firstName(employer.getFirstName())
@@ -363,5 +368,10 @@ public class AuthServiceImpl implements AuthService {
 
         APIResponse<String> response = new APIResponse<>("Password Changed Successfully");
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public void logout() {
+        SecurityContextHolder.clearContext();
     }
 }

@@ -15,5 +15,6 @@ public class JwtAuthResponse {
     private Gender gender;
     private Role role;
     private String accessToken;
+    private String refreshToken;
     private String tokenType = "Bearer";
 }

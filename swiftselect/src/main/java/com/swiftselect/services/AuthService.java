@@ -15,6 +15,7 @@ public interface AuthService {
     ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
     ResponseEntity<APIResponse<EmployerSignupResponse>> registerEmployer(EmployerSignup employerSignup);
     ResponseEntity<APIResponse<JwtAuthResponse>> login(LoginRequest loginRequest);
+    void logout();
     ResponseEntity<APIResponse<String>> forgotPassword(String email);
     ResponseEntity<APIResponse<String>> validateToken(String receivedToken);
     ResponseEntity<APIResponse<String>> validateTokenForgotPassword(String receivedToken);

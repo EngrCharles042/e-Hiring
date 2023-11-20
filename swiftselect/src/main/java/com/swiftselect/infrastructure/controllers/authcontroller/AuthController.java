@@ -91,4 +91,10 @@ public class AuthController {
 
         return authService.resetForgotPassword(forgotPasswordResetRequest);
     }
+
+    @GetMapping("/logout")
+    private ResponseEntity<APIResponse<String>> logout(){
+        authService.logout();
+        return ResponseEntity.ok(new APIResponse<>("Logout Successfully"));
+    }
 }

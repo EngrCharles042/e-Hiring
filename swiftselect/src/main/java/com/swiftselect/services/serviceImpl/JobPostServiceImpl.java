@@ -22,6 +22,7 @@ import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JobPostServiceImpl implements JobPostService {
@@ -87,13 +89,13 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<String>> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest) {
+    public ResponseEntity<APIResponse<String>> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques) {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
                 .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
 
-        qualificationRequest.forEach(
+        qualificationReques.forEach(
                 qualification -> {
                     Qualification qualifications = mapper.map(qualification, Qualification.class);
                     qualifications.setJobPost(jobPost);
@@ -105,13 +107,13 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest) {
+    public ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques) {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
                 .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
 
-        niceToHaveRequest.forEach(
+        niceToHaveReques.forEach(
                 niceToHave -> {
                     NiceToHave niceToHaves = mapper.map(niceToHave, NiceToHave.class);
                     niceToHaves.setJobPost(jobPost);
@@ -168,7 +170,7 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest) {
+    public ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques) {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository
@@ -179,11 +181,11 @@ public class JobPostServiceImpl implements JobPostService {
 
         qualificationRepository.deleteAll(qualifications);
 
-        return addQualificationToJobPost(postId, qualificationRequest);
+        return addQualificationToJobPost(postId, qualificationReques);
     }
 
     @Override
-    public ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest) {
+    public ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques) {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository
@@ -194,11 +196,11 @@ public class JobPostServiceImpl implements JobPostService {
 
         niceToHaveRepository.deleteAll(niceToHaves);
 
-        return addNiceToHaveToJobPost(postId, niceToHaveRequest);
+        return addNiceToHaveToJobPost(postId, niceToHaveReques);
     }
 
     @Override
-    public ResponseEntity<PostResponsePage> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
         // Sort Condition
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
@@ -215,14 +217,17 @@ public class JobPostServiceImpl implements JobPostService {
                 .toList();
 
         return ResponseEntity.ok(
-                PostResponsePage.builder()
-                        .content(content)
-                        .pageNo(jobPosts.getNumber())
-                        .last(jobPosts.isLast())
-                        .pageSize(jobPosts.getSize())
-                        .totalElement(jobPosts.getTotalElements())
-                        .totalPages(jobPosts.getTotalPages())
-                        .build()
+                new APIResponse<>(
+                        "Success",
+                    PostResponsePage.builder()
+                            .content(content)
+                            .pageNo(jobPosts.getNumber())
+                            .last(jobPosts.isLast())
+                            .pageSize(jobPosts.getSize())
+                            .totalElement(jobPosts.getTotalElements())
+                            .totalPages(jobPosts.getTotalPages())
+                            .build()
+                )
         );
     }
 

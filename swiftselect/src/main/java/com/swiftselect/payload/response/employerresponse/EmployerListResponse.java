@@ -13,6 +13,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployerListResponse {
+    private Long id;
+
     private String companyName;
 
     private String companyDescription;
@@ -28,9 +30,4 @@ public class EmployerListResponse {
 
     @Enumerated(value = EnumType.STRING)
     private Industry industry;
-
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
-
-
 }
