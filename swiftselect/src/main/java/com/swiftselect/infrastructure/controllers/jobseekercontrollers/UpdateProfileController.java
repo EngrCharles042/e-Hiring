@@ -1,6 +1,7 @@
 package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
+import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
 import lombok.RequiredArgsConstructor;
@@ -18,43 +19,43 @@ public class UpdateProfileController {
     // PERSONAL INFORMATION
 
     @PutMapping("/contact-info")
-    public ResponseEntity<String> contactInfoUpdate(@RequestBody JSContactInfoRequest contactInfoRequest) {
+    public ResponseEntity<APIResponse<String>> contactInfoUpdate(@RequestBody JSContactInfoRequest contactInfoRequest) {
 
         return jobSeekerService.contactInfoUpdate(contactInfoRequest);
     }
 
     @PutMapping("/location-info")
-    public ResponseEntity<String> locationInfoUpdate(@RequestBody JSLocationInfoRequest locationInfoRequest) {
+    public ResponseEntity<APIResponse<String>> locationInfoUpdate(@RequestBody JSLocationInfoRequest locationInfoRequest) {
 
         return jobSeekerService.locationInfoUpdate(locationInfoRequest);
     }
 
     @PutMapping("/resume")
-    public ResponseEntity<String> resumeUpdate(@RequestParam("resume") MultipartFile resume) {
+    public ResponseEntity<APIResponse<String>> resumeUpdate(@RequestParam("resume") MultipartFile resume) {
 
         if (resume.getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("FIle size exceed the normal limit");
+                    .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
         return jobSeekerService.resumeUpdate(resume);
     }
 
     @PutMapping("/cover-letter")
-    public ResponseEntity<String> coverLetterUpdate(@RequestParam("coverLetter") MultipartFile coverLetter) {
+    public ResponseEntity<APIResponse<String>> coverLetterUpdate(@RequestParam("coverLetter") MultipartFile coverLetter) {
 
         if (coverLetter.getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("FIle size exceed the normal limit");
+                    .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
         return jobSeekerService.coverLetterUpdate(coverLetter);
     }
 
     @PutMapping("/socials")
-    public ResponseEntity<String> socialsUpdate(@RequestBody JSSocialsRequests socialsRequests) {
+    public ResponseEntity<APIResponse<String>> socialsUpdate(@RequestBody JSSocialsRequests socialsRequests) {
 
         return jobSeekerService.socialsUpdate(socialsRequests);
     }
@@ -62,42 +63,42 @@ public class UpdateProfileController {
     // QUALIFICATIONS
 
     @PutMapping("/work-experience/{id}")
-    public ResponseEntity<String> workExperienceUpdate(@RequestBody JSWorkExperienceRequest workExperience,
+    public ResponseEntity<APIResponse<String>> workExperienceUpdate(@RequestBody JSWorkExperienceRequest workExperience,
                                                        @PathVariable("id") long id) {
 
         return jobSeekerService.workExperienceUpdate(workExperience, id);
     }
 
     @PutMapping("/education/{id}")
-    public ResponseEntity<String> educationUpdate(@RequestBody EducationRequest educationRequest,
+    public ResponseEntity<APIResponse<String>> educationUpdate(@RequestBody EducationRequest educationRequest,
                                                   @PathVariable("id") long id) {
 
         return jobSeekerService.educationUpdate(educationRequest, id);
     }
 
     @PutMapping("/skill/{id}")
-    public ResponseEntity<String> skillsUpdate(@RequestBody SkillsRequest skillsRequest,
+    public ResponseEntity<APIResponse<String>> skillsUpdate(@RequestBody SkillsRequest skillsRequest,
                                                @PathVariable("id") long id) {
 
         return jobSeekerService.skillsUpdate(skillsRequest, id);
     }
 
     @PutMapping("/license/{id}")
-    public ResponseEntity<String> licenseUpdate(@RequestBody LicenseRequest licenseRequest,
+    public ResponseEntity<APIResponse<String>> licenseUpdate(@RequestBody LicenseRequest licenseRequest,
                                                 @PathVariable("id") long id) {
 
         return jobSeekerService.licenseUpdate(licenseRequest, id);
     }
 
     @PutMapping("/certification/{id}")
-    public ResponseEntity<String> certificationUpdate(@RequestBody CertificationRequest certificationRequest,
+    public ResponseEntity<APIResponse<String>> certificationUpdate(@RequestBody CertificationRequest certificationRequest,
                                                       @PathVariable("id") long id) {
 
         return jobSeekerService.certificationUpdate(certificationRequest, id);
     }
 
     @PutMapping("/language/{id}")
-    public ResponseEntity<String> languageUpdate(@RequestBody LanguageRequest languageRequest,
+    public ResponseEntity<APIResponse<String>> languageUpdate(@RequestBody LanguageRequest languageRequest,
                                                  @PathVariable("id") long id) {
 
         return jobSeekerService.languageUpdate(languageRequest, id);
@@ -106,14 +107,14 @@ public class UpdateProfileController {
     // JOB PREFERENCES
 
     @PutMapping("/job-preference/{id}")
-    public ResponseEntity<String> jobPreferenceUpdate(@RequestBody JobPreferenceRequest preferenceRequest,
+    public ResponseEntity<APIResponse<String>> jobPreferenceUpdate(@RequestBody JobPreferenceRequest preferenceRequest,
                                                       @PathVariable("id") long id) {
 
         return jobSeekerService.jobPreferenceUpdate(preferenceRequest, id);
     }
 
     @PutMapping("/job-expectation")
-    public ResponseEntity<String> jobExpectationUpdate(@RequestBody JobExpectationsRequest jobExpectationsRequest) {
+    public ResponseEntity<APIResponse<String>> jobExpectationUpdate(@RequestBody JobExpectationsRequest jobExpectationsRequest) {
 
         return jobSeekerService.jobExpectationUpdate(jobExpectationsRequest);
     }

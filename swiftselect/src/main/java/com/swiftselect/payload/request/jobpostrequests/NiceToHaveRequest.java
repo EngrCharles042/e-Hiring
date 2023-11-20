@@ -1,4 +1,4 @@
-package com.swiftselect.payload.request.jobPostRequests;
+package com.swiftselect.payload.request.jobpostrequests;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QualificationRequest {
+public class NiceToHaveRequest {
     @NotBlank(message = "required")
-    private String qualificationDetails;
+    private String niceToHave;
 }

@@ -1,4 +1,4 @@
-package com.swiftselect.payload.request.jobPostRequests;
+package com.swiftselect.payload.request.jobpostrequests;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

@@ -7,12 +7,17 @@ import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
+import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
+import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,10 +39,11 @@ public class EmployerServiceImpl implements EmployerService {
     private final EventPublisher eventPublisher;
     private final HttpServletRequest httpRequest;
     private final JobPostRepository jobPostRepository;
+    private final ModelMapper mapper;
 
 
     @Override
-    public ResponseEntity<String> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
+    public ResponseEntity<APIResponse<String>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -62,11 +69,11 @@ public class EmployerServiceImpl implements EmployerService {
                 "Password successfully changed. If you did not initiate this, please send a reply to this email",
                 request);
 
-        return ResponseEntity.ok("Password successfully changed");
+        return ResponseEntity.ok(new APIResponse<>("Password successfully changed"));
     }
 
     @Override
-    public ResponseEntity<String> updateProfile(EmployerUpdateProfileRequest updateProfileRequest) {
+    public ResponseEntity<APIResponse<String>> updateProfile(EmployerUpdateProfileRequest updateProfileRequest) {
         String token = helperClass.getTokenFromHttpRequest(httpRequest);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -94,11 +101,11 @@ public class EmployerServiceImpl implements EmployerService {
 
         Employer savedEmployer = employerRepository.save(employer);
 
-        return ResponseEntity.ok("Update Successful");
+        return ResponseEntity.ok(new APIResponse<>("Update Successful"));
     }
 
     @Override
-    public ResponseEntity<String> deleteJobPost(String email, Long postId) {
+    public ResponseEntity<APIResponse<String>> deleteJobPost(String email, Long postId) {
 
         Optional<JobPost> jobPostOptional = jobPostRepository.findById(postId);
 
@@ -112,7 +119,7 @@ public class EmployerServiceImpl implements EmployerService {
                 if (jobPostOptional.get().getEmployer().equals(employerOptional.get())) {
                     // If yes, delete the job post
                     jobPostRepository.delete(jobPostOptional.get());
-                    return ResponseEntity.ok("Post successfully deleted");
+                    return ResponseEntity.ok(new APIResponse<>("Post successfully deleted"));
                 }
                 // If not, throw an exception indicating that the user is not permitted to delete this post
                 throw new ApplicationException("You are not permitted to delete this post", HttpStatus.BAD_REQUEST);
@@ -122,5 +129,32 @@ public class EmployerServiceImpl implements EmployerService {
         }
         // If the employer with the specified email does not exist
         throw new ApplicationException("Employer not found", HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<EmployerResponsePage> getAllEmployers(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of( pageNo, pageSize, sort);
+
+        Slice<Employer> employers = employerRepository.findAll(pageable);
+
+        List<Employer> employerList = employers.getContent();
+
+        List<EmployerListResponse> content = employerList.stream()
+                .map(employer -> mapper.map(employer, EmployerListResponse.class))
+                .toList();
+
+        return ResponseEntity.ok(
+                EmployerResponsePage.builder()
+                        .content(content)
+                        .pageNo(employers.getNumber())
+                        .pageSize(employers.getSize())
+                        .totalElement(employers.getNumberOfElements())
+                        .last(employers.isLast())
+                        .build()
+        );
     }
 }

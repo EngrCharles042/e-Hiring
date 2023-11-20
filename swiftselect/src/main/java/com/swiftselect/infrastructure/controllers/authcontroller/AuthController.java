@@ -42,30 +42,31 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<APIResponse<JwtAuthResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
     @GetMapping("/register/verify-email")
-    public ResponseEntity<String> verifyToken(@RequestParam("token") String token) {
+    public ResponseEntity<APIResponse<String>> verifyToken(@RequestParam("token") String token) {
 
         return authService.validateToken(token);
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam("email") String email) {
+    public ResponseEntity<APIResponse<String>> forgotPassword(@RequestParam("email") String email) {
         return authService.forgotPassword(email);
     }
 
     @GetMapping(value = "/forgot-password/reset-password-page", produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<String> resetPasswordPage(@RequestParam("email") String email,
+    public ResponseEntity<APIResponse<String>> resetPasswordPage(@RequestParam("email") String email,
                                                     @RequestParam("token") String token,
                                                     final HttpServletRequest request) {
 
-        ResponseEntity<String> result = authService.validateTokenForgotPassword(token);
+        ResponseEntity<APIResponse<String>> result = authService.validateTokenForgotPassword(token);
 
-        if (!Objects.equals(result.getBody(), "Valid")) {
-            throw new ApplicationException(result.getBody(), HttpStatus.BAD_REQUEST);
+
+        if (!Objects.equals(Objects.requireNonNull(result.getBody()).getMessage(), "Valid")) {
+            throw new ApplicationException(result.getBody().getMessage(), HttpStatus.FORBIDDEN);
         }
 
         String action = "SwiftSelect | Password Change";
@@ -73,11 +74,16 @@ public class AuthController {
         String url = AuthenticationUtils.applicationUrl(request) + "/auth/success";
         String description = "Please provide the details below to change your password.";
 
-        return ResponseEntity.ok(helperClass.restPasswordHtml(token, email, url, action, serviceProvider, description));
+        String htmlResponse = helperClass.restPasswordHtml(token, email, url, action, serviceProvider, description);
+
+        // Create an APIResponse object with the HTML response
+        APIResponse<String> response = new APIResponse<>("Success", htmlResponse);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/success")
-    public ResponseEntity<String> success(@RequestParam("token") String token,
+    public ResponseEntity<APIResponse<String>> success(@RequestParam("token") String token,
                                           @RequestParam("newPassword") String newPassword,
                                           @RequestParam("confirmNewPassword") String confirmNewPassword) {
 

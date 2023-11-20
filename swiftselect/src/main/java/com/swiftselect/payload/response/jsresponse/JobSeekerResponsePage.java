@@ -1,6 +1,6 @@
-package com.swiftselect.payload.response;
+package com.swiftselect.payload.response.jsresponse;
 
-import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import lombok.*;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostResponsePage {
-    private List<JobPostResponse> content;
+public class JobSeekerResponsePage {
+    private List<JobSeekerListResponse> content;
     private int pageNo;
     private int pageSize;
     private long totalElement;

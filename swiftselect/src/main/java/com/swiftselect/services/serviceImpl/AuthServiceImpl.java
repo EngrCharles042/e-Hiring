@@ -119,7 +119,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<JwtAuthResponse> login(LoginRequest loginRequest) {
+    public ResponseEntity<APIResponse<JwtAuthResponse>> login(LoginRequest loginRequest) {
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(loginRequest.getEmail());
+        Optional<Employer> employerOptional = employerRepository.findByEmail(loginRequest.getEmail());
 
         // Authentication manager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
@@ -140,15 +142,45 @@ public class AuthServiceImpl implements AuthService {
         // Generate jwt refresh token
         String refreshToken = jwtTokenProvider.generateToken(authentication, SecurityConstants.JWT_REFRESH_TOKEN_EXPIRATION);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                        JwtAuthResponse.builder()
-                                .accessToken(token)
-                                .refreshToken(refreshToken)
-                                .tokenType("Bearer")
-                                .build()
-                );
+        if (jobSeekerOptional.isPresent()) {
+
+            JobSeeker jobSeeker = jobSeekerOptional.get();
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(
+                            new APIResponse<>(
+                                    "Login Successful",
+                                    JwtAuthResponse.builder()
+                                            .accessToken(token)
+                                            .refreshToken(refreshToken)
+                                            .tokenType("Bearer")
+                                            .id(jobSeeker.getId())
+                                            .firstName(jobSeeker.getFirstName())
+                                            .gender(jobSeeker.getGender())
+                                            .role(jobSeeker.getRole())
+                                            .build()
+                            )
+                    );
+        } else {
+            Employer employer = employerOptional.get();
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(
+                            new APIResponse<>(
+                                    "Login Successful",
+                                    JwtAuthResponse.builder()
+                                            .accessToken(token)
+                                            .refreshToken(refreshToken)
+                                            .tokenType("Bearer")
+                                            .id(employer.getId())
+                                            .firstName(employer.getFirstName())
+                                            .role(employer.getRole())
+                                            .build()
+                            )
+                    );
+        }
     }
 
     @Override
@@ -170,7 +202,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> forgotPassword(String email) {
+    public ResponseEntity<APIResponse<String>> forgotPassword(String email) {
         if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email)) {
             throw new ApplicationException("Invalid email provided, please check and try again.",
                     HttpStatus.BAD_REQUEST);
@@ -184,11 +216,11 @@ public class AuthServiceImpl implements AuthService {
 
         publisher.forgotPasswordEventPublisher(email, request);
 
-        return ResponseEntity.ok("A link has been sent to your email to reset your password");
+        return ResponseEntity.ok(new APIResponse<>("A link has been sent to your email to reset your password"));
     }
 
     @Override
-    public ResponseEntity<String> validateToken(String receivedToken) {
+    public ResponseEntity<APIResponse<String>> validateToken(String receivedToken) {
         Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(receivedToken);
         Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByToken(receivedToken);
 
@@ -198,7 +230,7 @@ public class AuthServiceImpl implements AuthService {
             if (employer.isEnabled()) {
                 return ResponseEntity
                         .status(HttpStatus.ALREADY_REPORTED)
-                        .body("This account has already been verified, please proceed to login");
+                        .body(new APIResponse<>("This account has already been verified, please proceed to login"));
             }
 
             Calendar calendar = Calendar.getInstance();
@@ -210,7 +242,7 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.FORBIDDEN)
-                        .body("Expired");
+                        .body(new APIResponse<>("Expired"));
             } else {
                 employer.setEnabled(true);
                 employerRepository.save(employer);
@@ -219,7 +251,7 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)
-                        .body("Valid");
+                        .body(new APIResponse<>("Valid"));
             }
 
         } else if (jobSeekerToken.isPresent()) {
@@ -228,7 +260,7 @@ public class AuthServiceImpl implements AuthService {
             if (jobSeeker.isEnabled()) {
                 return ResponseEntity
                         .status(HttpStatus.ALREADY_REPORTED)
-                        .body("This account has already been verified, please proceed to login");
+                        .body(new APIResponse<>("This account has already been verified, please proceed to login"));
             }
 
             Calendar calendar = Calendar.getInstance();
@@ -240,7 +272,7 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.FORBIDDEN)
-                        .body("Expired");
+                        .body(new APIResponse<>("Expired"));
             } else {
                 jobSeeker.setEnabled(true);
                 jobSeekerRepository.save(jobSeeker);
@@ -249,17 +281,17 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)
-                        .body("Valid");
+                        .body(new APIResponse<>("Valid"));
             }
         }
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body("Invalid");
+                .body(new APIResponse<>("Invalid"));
     }
 
     @Override
-    public ResponseEntity<String> validateTokenForgotPassword(String receivedToken) {
+    public ResponseEntity<APIResponse<String>> validateTokenForgotPassword(String receivedToken) {
         Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(receivedToken);
         Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByToken(receivedToken);
 
@@ -273,12 +305,12 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.FORBIDDEN)
-                        .body("Expired");
+                        .body(new APIResponse<>("Expired"));
             } else {
 
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)
-                        .body("Valid");
+                        .body(new APIResponse<>("Valid"));
             }
 
         } else if (jobSeekerToken.isPresent()) {
@@ -291,25 +323,25 @@ public class AuthServiceImpl implements AuthService {
 
                 return ResponseEntity
                         .status(HttpStatus.FORBIDDEN)
-                        .body("Expired");
+                        .body(new APIResponse<>("Expired"));
             } else {
 
                 return ResponseEntity
                         .status(HttpStatus.ACCEPTED)
-                        .body("Valid");
+                        .body(new APIResponse<>("Valid"));
             }
         }
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body("Invalid");
+                .body(new APIResponse<>("Invalid"));
     }
 
-    public ResponseEntity<String> resetForgotPassword(ForgotPasswordResetRequest forgotPasswordResetRequest) {
-        String result = validateTokenForgotPassword(forgotPasswordResetRequest.getToken()).getBody();
+    public ResponseEntity<APIResponse<String>> resetForgotPassword(ForgotPasswordResetRequest forgotPasswordResetRequest) {
+        ResponseEntity<APIResponse<String>> result = validateTokenForgotPassword(forgotPasswordResetRequest.getToken());
 
-        if (!Objects.equals(result, "Valid")) {
-            throw  new ApplicationException("Invalid Token", HttpStatus.BAD_REQUEST);
+       if (!Objects.requireNonNull(result.getBody()).getMessage().equals("Valid")) {
+            throw new ApplicationException("Invalid Token", HttpStatus.BAD_REQUEST);
         }
 
         Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(forgotPasswordResetRequest.getToken());
@@ -334,7 +366,8 @@ public class AuthServiceImpl implements AuthService {
             jobSeekerTokenRepository.delete(jobSeekerToken.get());
         }
 
-        return ResponseEntity.ok("Password Changed Successfully");
+        APIResponse<String> response = new APIResponse<>("Password Changed Successfully");
+        return ResponseEntity.ok(response);
     }
 
     @Override
