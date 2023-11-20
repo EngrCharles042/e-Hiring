@@ -7,15 +7,17 @@ import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
     void saveVerificationToken(String email, String token);
-    ResponseEntity<String> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
+    ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(JobSeekerSignup jobSeekerSignup);
     ResponseEntity<APIResponse<EmployerSignupResponse>> registerEmployer(EmployerSignup employerSignup);
     ResponseEntity<JwtAuthResponse> login(LoginRequest loginRequest);
     ResponseEntity<String> forgotPassword(String email);
     ResponseEntity<String> validateToken(String receivedToken);
     ResponseEntity<String> validateTokenForgotPassword(String receivedToken);
     ResponseEntity<String> resetForgotPassword(ForgotPasswordResetRequest forgotPasswordResetRequest);
+    void logout();
 }

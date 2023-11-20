@@ -14,11 +14,10 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private long jwtExpirationDate = SecurityConstants.JWT_EXPIRATION;
     private String jwtSecret = SecurityConstants.JWT_SECRET_KEY;
 
     // Utility method to generate token
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, long jwtExpirationDate) {
         String email = authentication.getName();
         Date issueDate = new Date();
         Date expirationDate = new Date(issueDate.getTime() + jwtExpirationDate);

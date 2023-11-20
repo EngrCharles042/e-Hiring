@@ -4,6 +4,8 @@ import com.swiftselect.domain.enums.Gender;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -40,5 +42,5 @@ public class JobSeekerSignup {
     @NotNull
     Gender gender;
 
-    String dateOfBirth;
+    LocalDate dateOfBirth;
 }

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,10 +24,11 @@ public class JobPostController {
 
     // GET ALL JOB POSTS
     @GetMapping
-    public ResponseEntity<PostResponsePage> getAllPosts(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
-                                                        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                                                        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-                                                        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
+    public ResponseEntity<PostResponsePage> getAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
 
         return jobPostService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
@@ -89,5 +91,10 @@ public class JobPostController {
                                                           @Valid @RequestBody Set<NiceToHaveRequest> niceToHaveRequest) {
 
         return jobPostService.updateNiceToHaveToJobPost(jobPostId, niceToHaveRequest);
+    }
+
+    @GetMapping("/testing")
+    public List<String> getList() {
+        return List.of("Emmanuel", "Ibenwankwo", "Frank", "Anthony", "ChukwuEbuka");
     }
 }

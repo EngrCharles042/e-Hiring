@@ -15,8 +15,10 @@ import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
+import com.swiftselect.utils.SecurityConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -48,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     private final EmployerVerificationTokenRepository employerVerificationTokenRepository;
 
     @Override
-    public ResponseEntity<String> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
+    public ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
         // Checks if a jobSeeker's email is already in the database
         boolean isPresent = jobSeekerRepository.existsByEmail(jobSeekerSignup.getEmail());
 
@@ -74,8 +76,12 @@ public class AuthServiceImpl implements AuthService {
         // Publish and event to verify Email
         publisher.completeRegistrationEventPublisher(savedJobseeker.getEmail(), savedJobseeker.getFirstName(), request);
 
+        JobSeekerSignupResponse signupResponse = modelMapper.map(savedJobseeker, JobSeekerSignupResponse.class);
+
         // Return a ResponseEntity of a success message
-        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new APIResponse<>("Account created successfully", signupResponse)
+        );
     }
 
     @Override
@@ -129,13 +135,17 @@ public class AuthServiceImpl implements AuthService {
                 .setAuthentication(authentication);
 
         // Generate jwt token
-        String token = jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(authentication, SecurityConstants.JWT_EXPIRATION);
+
+        // Generate jwt refresh token
+        String refreshToken = jwtTokenProvider.generateToken(authentication, SecurityConstants.JWT_REFRESH_TOKEN_EXPIRATION);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
                         JwtAuthResponse.builder()
                                 .accessToken(token)
+                                .refreshToken(refreshToken)
                                 .tokenType("Bearer")
                                 .build()
                 );
@@ -325,5 +335,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return ResponseEntity.ok("Password Changed Successfully");
+    }
+
+    @Override
+    public void logout() {
+        SecurityContextHolder.clearContext();
     }
 }

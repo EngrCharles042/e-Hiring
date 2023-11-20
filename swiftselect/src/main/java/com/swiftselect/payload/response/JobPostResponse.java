@@ -7,13 +7,17 @@ import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.enums.*;
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobPostResponse {
     LocalDateTime updateDate;
     String title;

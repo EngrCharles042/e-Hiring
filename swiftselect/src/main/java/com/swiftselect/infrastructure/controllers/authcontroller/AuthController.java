@@ -8,6 +8,7 @@ import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.services.AuthService;
 import com.swiftselect.utils.AuthenticationUtils;
 import com.swiftselect.utils.HelperClass;
@@ -31,7 +32,7 @@ public class AuthController {
     private final HelperClass helperClass;
 
     @PostMapping("/job-seeker/register")
-    public ResponseEntity<String> registerJobSeeker(@Valid @RequestBody JobSeekerSignup jobSeekerDto) {
+    public ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(@Valid @RequestBody JobSeekerSignup jobSeekerDto) {
         return authService.registerJobSeeker(jobSeekerDto);
     }
 
@@ -83,5 +84,11 @@ public class AuthController {
         ForgotPasswordResetRequest forgotPasswordResetRequest = new ForgotPasswordResetRequest(token, newPassword, confirmNewPassword);
 
         return authService.resetForgotPassword(forgotPasswordResetRequest);
+    }
+
+    @GetMapping("/logout")
+    private ResponseEntity<APIResponse<String>> logout(){
+        authService.logout();
+        return ResponseEntity.ok(new APIResponse<>("Logout Successfully"));
     }
 }

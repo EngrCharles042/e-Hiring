@@ -8,6 +8,7 @@ import com.swiftselect.payload.response.JobPostResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Set;
 
 public interface JobPostService {
