@@ -125,21 +125,21 @@ public class HelperClass {
     ) {
 
         String firstName = extractFirstName(email);
-
+//        rgb(138, 36, 36)
         return "<head>"
                 + "<title> " + action + " </title> "
                 + "</head>"
                 + "<body style='height: 100vh; overflow: hidden; margin: 0'>"
-                + "<div style='padding: 2rem; background-color: rgb(138, 36, 36); color: white; height: 100vh; width: 100vw; font-size: 20px; display: flex; justify-content: center; overflow: hidden'>"
-                + "<form action=" + url + " method='get' style='width: 35vw'>"
+                + "<div style='padding: 2rem; background-color: white; color: gray; height: 100vh; width: 100vw; font-size: 20px; display: flex; justify-content: center; overflow: hidden'>"
+                + "<form action=" + url + " method='get' style='width: 35vw; color: black'>"
                 + "<p style='text-align: center'>"
                 + "<img src=" + AppConstants.LOGO + " style='width: 8rem; height: 10rem'></p>"
                 + "<hr style='color: black'>"
                 + "<p style='font-family: Academy Engraved LET; font-size: 30px'> Hi, " + firstName + " </p>"
                 + "<p style='font-family: Cochin'> " + description + " </p>"
                 + "<input type='password' name='token' value=" + token + " id='description' placeholder='****' style='width: 35vw; height: 3rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; opacity: 0.5; padding-inline: 2rem; display: none' />"
-                + "<input type='password' name='newPassword' id='description' placeholder='New Password' style='width: 35vw; height: 3rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; opacity: 0.5; padding-inline: 2rem' />"
-                + "<input type='password' name='confirmNewPassword' id='description' placeholder='Confirm New Password' style='width: 35vw; height: 3rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; opacity: 0.5; padding-inline: 2rem' />"
+                + "<input type='password' name='newPassword' id='description' placeholder='New Password' style='width: 35vw; height: 3rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; opacity: 0.5; padding-inline: 2rem; background-color: black' />"
+                + "<input type='password' name='confirmNewPassword' id='description' placeholder='Confirm New Password' style='width: 35vw; height: 3rem; border-radius: 0.5rem; border: none; margin-bottom: 1rem; opacity: 0.5; padding-inline: 2rem; background-color: black' />"
                 + "<input type='submit' name='Submit' id='submit' class='form-submit' value='Submit Change' style='font-family: Cochin; width: 35vw; height: 4rem; border-radius: 0.5rem; border: 1px solid saddlebrown; margin-top: 1rem; margin-bottom: 4rem; opacity: 0.8; background-color: rgb(36,36,138); color: white; font-size: 18px; cursor: pointer' /><br>"
                 + "<p style='font-family: Cochin; text-align: center'> &copy; &nbsp;" + serviceProvider + " </p>"
                 + "</form>"

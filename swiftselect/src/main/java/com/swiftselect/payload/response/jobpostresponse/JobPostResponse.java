@@ -19,7 +19,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobPostResponse {
-
     private Long id;
     private LocalDateTime updateDate;
     private String title;

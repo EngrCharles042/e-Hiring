@@ -11,6 +11,7 @@ import com.swiftselect.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class JobSeeker extends Person {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private String resume;
 

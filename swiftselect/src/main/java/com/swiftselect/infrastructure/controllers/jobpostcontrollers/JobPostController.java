@@ -25,10 +25,11 @@ public class JobPostController {
 
     // GET ALL JOB POSTS
     @GetMapping
-    public ResponseEntity<PostResponsePage> getAllPosts(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
-                                                        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                                                        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-                                                        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
+    public ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
 
         return jobPostService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
@@ -43,7 +44,7 @@ public class JobPostController {
 
     @PostMapping("/{jobPostId}/responsibilities")
     public ResponseEntity<APIResponse<String>> addResponsibilitiesToJobPost(@PathVariable Long jobPostId,
-                                                                                                 @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
+                                                                            @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
 
         return jobPostService.addResponsibilitiesToJobPost(jobPostId, responsibilitiesRequest);
     }

@@ -1,16 +1,25 @@
 package com.swiftselect.services.serviceImpl;
 
+import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
+import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.FileUpload;
 import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -25,6 +34,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -402,5 +412,34 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         jobPreferenceRepository.save(jobPreference);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>("created successfully"));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<JobSeekerResponsePage>> getAllJobSeekers(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of( pageNo, pageSize, sort);
+
+        Slice<JobSeeker> jobSeekers = jobSeekerRepository.findAll(pageable);
+
+        List<JobSeeker> jobSeekerList = jobSeekers.getContent();
+
+        List<JobSeekerListResponse> content = jobSeekerList.stream()
+                .map(employer -> modelMapper.map(employer, JobSeekerListResponse.class))
+                .toList();
+
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "Success",
+                JobSeekerResponsePage.builder()
+                        .content(content)
+                        .pageNo(jobSeekers.getNumber())
+                        .pageSize(jobSeekers.getSize())
+                        .totalElement(jobSeekers.getNumberOfElements())
+                        .last(jobSeekers.isLast())
+                        .build()
+                )
+        );
     }
 }
