@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Throws and error if the email already exists
         if (isPresent) {
-            throw new ApplicationException("User with this e-mail already exist", HttpStatus.BAD_REQUEST);
+            throw new ApplicationException("User with this e-mail already exist");
         }
 
         // Maps the jobSeekerSignup dto to a JobSeeker entity, so it can be saved
@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Throws and error if the email already exists
         if (isPresent) {
-            throw new ApplicationException("Employer with this e-mail already exist", HttpStatus.BAD_REQUEST);
+            throw new ApplicationException("Employer with this e-mail already exist");
         }
 
         // Maps the EmployerSignup dto to an Employer entity, so it can be saved
@@ -204,8 +204,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<APIResponse<String>> forgotPassword(String email) {
         if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email)) {
-            throw new ApplicationException("Invalid email provided, please check and try again.",
-                    HttpStatus.BAD_REQUEST);
+            throw new ApplicationException("Invalid email provided, please check and try again.");
         }
 
         Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByJobSeeker_Email(email);
@@ -341,7 +340,7 @@ public class AuthServiceImpl implements AuthService {
         ResponseEntity<APIResponse<String>> result = validateTokenForgotPassword(forgotPasswordResetRequest.getToken());
 
        if (!Objects.requireNonNull(result.getBody()).getMessage().equals("Valid")) {
-            throw new ApplicationException("Invalid Token", HttpStatus.BAD_REQUEST);
+            throw new ApplicationException("Invalid Token");
         }
 
         Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(forgotPasswordResetRequest.getToken());

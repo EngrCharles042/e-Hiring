@@ -28,7 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,11 @@ public class JobPostServiceImpl implements JobPostService {
 
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
+        List<Report> reports = reportRepository.findByJobPostEmployer(currentEmployer);
+        if(reports.size()>=2){
+            throw new ApplicationException("You are Blocked from posting because of excessive reports");
+        }
+
         // Map the request to the JobPost entity
         JobPost jobPost = mapper.map(jobPostRequest, JobPost.class);
 
@@ -74,7 +78,7 @@ public class JobPostServiceImpl implements JobPostService {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
+                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
 
         responsibilitiesRequest.forEach(
                 responsibilities -> {
@@ -93,7 +97,7 @@ public class JobPostServiceImpl implements JobPostService {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
+                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
 
         qualificationReques.forEach(
                 qualification -> {
@@ -111,7 +115,7 @@ public class JobPostServiceImpl implements JobPostService {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post",HttpStatus.FORBIDDEN));
+                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
 
         niceToHaveReques.forEach(
                 niceToHave -> {
@@ -130,7 +134,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         JobPost jobPost = jobPostRepository
                 .findByIdAndEmployer(id, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
 
         jobPost.setTitle(jobPostRequest.getTitle());
         jobPost.setNumOfPeopleToHire(jobPostRequest.getNumOfPeopleToHire());
@@ -160,7 +164,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         JobPost jobPost = jobPostRepository
                 .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
 
         Set<JobResponsibilities> jobResponsibilities = jobPost.getResponsibilities();
 
@@ -175,7 +179,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         JobPost jobPost = jobPostRepository
                 .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
 
         Set<Qualification> qualifications = jobPost.getQualifications();
 
@@ -190,7 +194,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         JobPost jobPost = jobPostRepository
                 .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
 
         Set<NiceToHave> niceToHaves = jobPost.getNiceToHaveSet();
 
@@ -235,7 +239,7 @@ public class JobPostServiceImpl implements JobPostService {
         String token = helperClass.getTokenFromHttpRequest(request);
         String email = jwtTokenProvider.getUserName(token);
         return employerRepository.findByEmail(email)
-                .orElseThrow(() -> new ApplicationException("Invalid token or authentication issue",HttpStatus.FORBIDDEN));
+                .orElseThrow(() -> new ApplicationException("Invalid token or authentication issue"));
     }
 
     private JobSeeker getJobSeeker() {
@@ -245,17 +249,24 @@ public class JobPostServiceImpl implements JobPostService {
 
         return  jobSeekerRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email));
     }
 
     @Override
     public ResponseEntity<APIResponse<String>> reportJobPost(Long jobId, String comment, ReportCat reportCategory) {
         JobPost jobPost = jobPostRepository.findById(jobId)
-                .orElseThrow(() -> new ApplicationException("Job post not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException("Job post not found"));
 
         JobSeeker jobSeeker = getJobSeeker();
 
+        Boolean reportExist = reportRepository.existsByJobSeekerId(jobSeeker.getId());
+
+        if (reportExist){
+            throw new ApplicationException("You can't report a post more than once. ");
+        }
+
         Report report = new Report();
+
         report.setJobPost(jobPost);
         report.setJobSeeker(jobSeeker);
         report.setComment(comment);
