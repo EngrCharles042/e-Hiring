@@ -8,12 +8,16 @@ import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.employerresponse.EmployeeResponsePage;
+import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +39,7 @@ public class EmployerServiceImpl implements EmployerService {
     private final EventPublisher eventPublisher;
     private final HttpServletRequest httpRequest;
     private final JobPostRepository jobPostRepository;
+    private final ModelMapper mapper;
 
 
     @Override
@@ -123,5 +129,31 @@ public class EmployerServiceImpl implements EmployerService {
         }
         // If the employer with the specified email does not exist
         throw new ApplicationException("Employer not found", HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<EmployeeResponsePage> getAllEmployers(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of( pageNo, pageSize);
+
+        Slice<Employer> employers = employerRepository.findAll(pageable);
+        List<Employer> employerList = employers.getContent();
+
+        List<EmployerListResponse> content = employerList.stream()
+                .map(employer ->mapper.map(employer,EmployerListResponse.class))
+                .toList();
+        return ResponseEntity.ok(
+                EmployeeResponsePage.builder()
+                        .content(content)
+                        .pageNo(employers.getNumber())
+                        .pageSize(employers.getSize())
+                        .totalElement(employers.getNumberOfElements())
+                        .last(employers.isLast())
+                        .build()
+
+        );
+
     }
 }
