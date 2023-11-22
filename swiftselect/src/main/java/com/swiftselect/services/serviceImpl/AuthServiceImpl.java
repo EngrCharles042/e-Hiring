@@ -1,9 +1,7 @@
 package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.employer.Employer;
-import com.swiftselect.domain.entities.employer.EmployerVerificationToken;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
-import com.swiftselect.domain.entities.jobseeker.JobSeekerVerificationToken;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
@@ -44,10 +42,6 @@ public class AuthServiceImpl implements AuthService {
     private final HttpServletRequest request;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final EmployerVerificationTokenRepository employerTokenRepository;
-    private final JobSeekerVerificationTokenRepository jobSeekerTokenRepository;
-    private final JobSeekerVerificationTokenRepository jobSeekerVerificationTokenRepository;
-    private final EmployerVerificationTokenRepository employerVerificationTokenRepository;
 
     @Override
     public ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(JobSeekerSignup jobSeekerSignup) {
@@ -184,34 +178,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void saveVerificationToken(String email, String token) {
-        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
-        Optional<Employer> employerOptional = employerRepository.findByEmail(email);
-
-        if (jobSeekerOptional.isPresent()) {
-            JobSeekerVerificationToken verificationToken =
-                    new JobSeekerVerificationToken(token, jobSeekerOptional.get());
-
-            jobSeekerVerificationTokenRepository.save(verificationToken);
-        } else {
-            EmployerVerificationToken verificationToken =
-                    new EmployerVerificationToken(token, employerOptional.get());
-
-            employerVerificationTokenRepository.save(verificationToken);
-        }
-    }
-
-    @Override
     public ResponseEntity<APIResponse<String>> forgotPassword(String email) {
         if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email)) {
             throw new ApplicationException("Invalid email provided, please check and try again.");
         }
-
-        Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByJobSeeker_Email(email);
-        Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByEmployer_Email(email);
-
-        jobSeekerToken.ifPresent(jobSeekerTokenRepository::delete);
-        employerToken.ifPresent(employerTokenRepository::delete);
 
         publisher.forgotPasswordEventPublisher(email, request);
 
@@ -220,153 +190,93 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<APIResponse<String>> validateToken(String receivedToken) {
-        Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(receivedToken);
-        Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByToken(receivedToken);
+        if (!jwtTokenProvider.validateToken(receivedToken)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>("Token expired, please request for a new one", "expired"));
+        }
 
-        if (employerToken.isPresent()) {
-            Employer employer = employerToken.get().getEmployer();
+        String email = jwtTokenProvider.getUserName(receivedToken);
+
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
+        Optional<Employer> employerOptional = employerRepository.findByEmail(email);
+
+        if (employerOptional.isPresent()) {
+            Employer employer = employerOptional.get();
 
             if (employer.isEnabled()) {
                 return ResponseEntity
                         .status(HttpStatus.ALREADY_REPORTED)
-                        .body(new APIResponse<>("This account has already been verified, please proceed to login"));
+                        .body(new APIResponse<>("This account has already been verified, please proceed to login", "already verified"));
             }
 
-            Calendar calendar = Calendar.getInstance();
+            employer.setEnabled(true);
+            employerRepository.save(employer);
 
-            long timeRemaining = employerToken.get().getExpirationTime().getTime() - calendar.getTime().getTime();
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Verification Successful", "valid"));
 
-            if (timeRemaining <= 0) {
-                employerTokenRepository.delete(employerToken.get());
-
-                return ResponseEntity
-                        .status(HttpStatus.FORBIDDEN)
-                        .body(new APIResponse<>("Expired"));
-            } else {
-                employer.setEnabled(true);
-                employerRepository.save(employer);
-
-                employerTokenRepository.delete(employerToken.get());
-
-                return ResponseEntity
-                        .status(HttpStatus.ACCEPTED)
-                        .body(new APIResponse<>("Valid"));
-            }
-
-        } else if (jobSeekerToken.isPresent()) {
-            JobSeeker jobSeeker = jobSeekerToken.get().getJobSeeker();
+        } else if (jobSeekerOptional.isPresent()) {
+            JobSeeker jobSeeker = jobSeekerOptional.get();
 
             if (jobSeeker.isEnabled()) {
                 return ResponseEntity
                         .status(HttpStatus.ALREADY_REPORTED)
-                        .body(new APIResponse<>("This account has already been verified, please proceed to login"));
+                        .body(new APIResponse<>("This account has already been verified, please proceed to login", "already verified"));
             }
 
-            Calendar calendar = Calendar.getInstance();
+            jobSeeker.setEnabled(true);
+            jobSeekerRepository.save(jobSeeker);
 
-            long timeRemaining = jobSeekerToken.get().getExpirationTime().getTime() - calendar.getTime().getTime();
-
-            if (timeRemaining <= 0) {
-                jobSeekerTokenRepository.delete(jobSeekerToken.get());
-
-                return ResponseEntity
-                        .status(HttpStatus.FORBIDDEN)
-                        .body(new APIResponse<>("Expired"));
-            } else {
-                jobSeeker.setEnabled(true);
-                jobSeekerRepository.save(jobSeeker);
-
-                jobSeekerTokenRepository.delete(jobSeekerToken.get());
-
-                return ResponseEntity
-                        .status(HttpStatus.ACCEPTED)
-                        .body(new APIResponse<>("Valid"));
-            }
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Verification Successful", "valid"));
         }
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(new APIResponse<>("Invalid"));
-    }
-
-    @Override
-    public ResponseEntity<APIResponse<String>> validateTokenForgotPassword(String receivedToken) {
-        Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(receivedToken);
-        Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByToken(receivedToken);
-
-        if (employerToken.isPresent()) {
-
-            Calendar calendar = Calendar.getInstance();
-
-            long timeRemaining = employerToken.get().getExpirationTime().getTime() - calendar.getTime().getTime();
-
-            if (timeRemaining <= 0) {
-
-                return ResponseEntity
-                        .status(HttpStatus.FORBIDDEN)
-                        .body(new APIResponse<>("Expired"));
-            } else {
-
-                return ResponseEntity
-                        .status(HttpStatus.ACCEPTED)
-                        .body(new APIResponse<>("Valid"));
-            }
-
-        } else if (jobSeekerToken.isPresent()) {
-
-            Calendar calendar = Calendar.getInstance();
-
-            long timeRemaining = jobSeekerToken.get().getExpirationTime().getTime() - calendar.getTime().getTime();
-
-            if (timeRemaining <= 0) {
-
-                return ResponseEntity
-                        .status(HttpStatus.FORBIDDEN)
-                        .body(new APIResponse<>("Expired"));
-            } else {
-
-                return ResponseEntity
-                        .status(HttpStatus.ACCEPTED)
-                        .body(new APIResponse<>("Valid"));
-            }
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(new APIResponse<>("Invalid"));
+                .body(new APIResponse<>("invalid token", "invalid"));
     }
 
     public ResponseEntity<APIResponse<String>> resetForgotPassword(ForgotPasswordResetRequest forgotPasswordResetRequest) {
-        ResponseEntity<APIResponse<String>> result = validateTokenForgotPassword(forgotPasswordResetRequest.getToken());
-
-       if (!Objects.requireNonNull(result.getBody()).getMessage().equals("Valid")) {
-            throw new ApplicationException("Invalid Token");
+        if (!jwtTokenProvider.validateToken(forgotPasswordResetRequest.getToken())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>("Token expired, please request for a new one"));
         }
 
-        Optional<EmployerVerificationToken> employerToken = employerTokenRepository.findByToken(forgotPasswordResetRequest.getToken());
-        Optional<JobSeekerVerificationToken> jobSeekerToken = jobSeekerTokenRepository.findByToken(forgotPasswordResetRequest.getToken());
+        String email = jwtTokenProvider.getUserName(forgotPasswordResetRequest.getToken());
 
-        if (employerToken.isPresent()) {
-            Employer employer = employerToken.get().getEmployer();
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
+        Optional<Employer> employerOptional = employerRepository.findByEmail(email);
+
+        if (employerOptional.isPresent()) {
+            Employer employer = employerOptional.get();
 
             employer.setPassword(passwordEncoder.encode(forgotPasswordResetRequest.getNewPassword()));
 
             employerRepository.save(employer);
 
-            employerTokenRepository.delete(employerToken.get());
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Password Changed Successfully"));
 
-        } else {
-            JobSeeker jobSeeker = jobSeekerToken.get().getJobSeeker();
+        } else if (jobSeekerOptional.isPresent()) {
+            JobSeeker jobSeeker = jobSeekerOptional.get();
 
             jobSeeker.setPassword(passwordEncoder.encode(forgotPasswordResetRequest.getNewPassword()));
 
             jobSeekerRepository.save(jobSeeker);
 
-            jobSeekerTokenRepository.delete(jobSeekerToken.get());
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Password Changed Successfully"));
         }
 
-        APIResponse<String> response = new APIResponse<>("Password Changed Successfully");
-        return ResponseEntity.ok(response);
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new APIResponse<>("Invalid"));
     }
 
     @Override

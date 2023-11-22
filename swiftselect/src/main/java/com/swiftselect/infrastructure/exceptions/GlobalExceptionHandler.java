@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ErrorDetails> handleApplicationException(final ApplicationException exception) {
         ErrorDetails errorResponse = new ErrorDetails();
