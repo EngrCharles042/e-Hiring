@@ -30,6 +30,18 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String generateValidationToken(String email, long jwtExpirationDate) {
+        Date issueDate = new Date();
+        Date expirationDate = new Date(issueDate.getTime() + jwtExpirationDate);
+
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(expirationDate)
+                .signWith(key())
+                .compact();
+    }
+
     // key Decoder
     private Key key() {
         return Keys.hmacShaKeyFor(

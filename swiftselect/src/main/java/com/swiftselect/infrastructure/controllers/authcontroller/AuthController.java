@@ -1,6 +1,8 @@
 package com.swiftselect.infrastructure.controllers.authcontroller;
 
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
+import com.swiftselect.infrastructure.security.JwtTokenProvider;
+import com.swiftselect.payload.request.authrequests.ForgotPasswordRequest;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
 import com.swiftselect.payload.request.authrequests.LoginRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerSignup;
@@ -30,6 +32,7 @@ import java.util.Objects;
 public class AuthController {
     private final AuthService authService;
     private final HelperClass helperClass;
+    private final JwtTokenProvider tokenProvider;
 
     @PostMapping("/job-seeker/register")
     public ResponseEntity<APIResponse<JobSeekerSignupResponse>> registerJobSeeker(@Valid @RequestBody JobSeekerSignup jobSeekerDto) {
@@ -46,48 +49,35 @@ public class AuthController {
         return authService.login(loginRequest);
     }
 
-    @GetMapping("/register/verify-email")
-    public ResponseEntity<APIResponse<String>> verifyToken(@RequestParam("token") String token) {
+    @GetMapping(value = "/register/verify-email", produces = MediaType.TEXT_HTML_VALUE)
+    public String verifyToken(@RequestParam("token") String token) {
+        ResponseEntity<APIResponse<String>> response = authService.validateToken(token);
 
-        return authService.validateToken(token);
+        String email = tokenProvider.getUserName(token);
+        String action = "SwiftSelect | Email Verification";
+        String serviceProvider = "Swift Select Customer Portal Service";
+        String description = Objects.requireNonNull(response.getBody()).getMessage();
+
+        String htmlResponse = helperClass.emailVerification(email, action, "Go to Login Page", serviceProvider, description);
+
+
+
+        String state = Objects.requireNonNull(response.getBody()).getData();
+
+        if (state.equals("valid")) {
+            return htmlResponse;
+        }
+
+        return "invalid";
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<APIResponse<String>> forgotPassword(@RequestParam("email") String email) {
-        return authService.forgotPassword(email);
+    public ResponseEntity<APIResponse<String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+        return authService.forgotPassword(forgotPasswordRequest.getEmail());
     }
 
-    @GetMapping(value = "/forgot-password/reset-password-page", produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<APIResponse<String>> resetPasswordPage(@RequestParam("email") String email,
-                                                    @RequestParam("token") String token,
-                                                    final HttpServletRequest request) {
-
-        ResponseEntity<APIResponse<String>> result = authService.validateTokenForgotPassword(token);
-
-
-        if (!Objects.equals(Objects.requireNonNull(result.getBody()).getMessage(), "Valid")) {
-            throw new ApplicationException(result.getBody().getMessage());
-        }
-
-        String action = "SwiftSelect | Password Change";
-        String serviceProvider = "Swift Select Customer Portal Service";
-        String url = AuthenticationUtils.applicationUrl(request) + "/auth/success";
-        String description = "Please provide the details below to change your password.";
-
-        String htmlResponse = helperClass.restPasswordHtml(token, email, url, action, serviceProvider, description);
-
-        // Create an APIResponse object with the HTML response
-        APIResponse<String> response = new APIResponse<>("Success", htmlResponse);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping(value = "/success")
-    public ResponseEntity<APIResponse<String>> success(@RequestParam("token") String token,
-                                          @RequestParam("newPassword") String newPassword,
-                                          @RequestParam("confirmNewPassword") String confirmNewPassword) {
-
-        ForgotPasswordResetRequest forgotPasswordResetRequest = new ForgotPasswordResetRequest(token, newPassword, confirmNewPassword);
+    @PostMapping(value = "/reset-forgot-password")
+    public ResponseEntity<APIResponse<String>> resetForgotPassword(@Valid @RequestBody ForgotPasswordResetRequest forgotPasswordResetRequest) {
 
         return authService.resetForgotPassword(forgotPasswordResetRequest);
     }
@@ -98,3 +88,54 @@ public class AuthController {
         return ResponseEntity.ok(new APIResponse<>("Logout Successfully"));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @GetMapping(value = "/forgot-password/reset-password-page", produces = MediaType.TEXT_HTML_VALUE)
+//    public ResponseEntity<APIResponse<String>> resetPasswordPage(@RequestParam("email") String email,
+//                                                    @RequestParam("token") String token,
+//                                                    final HttpServletRequest request) {
+//
+//        ResponseEntity<APIResponse<String>> result = authService.validateTokenForgotPassword(token);
+//
+//
+//        if (!Objects.equals(Objects.requireNonNull(result.getBody()).getMessage(), "Valid")) {
+//            throw new ApplicationException(result.getBody().getMessage());
+//        }
+//
+//        String action = "SwiftSelect | Email Verification";
+//        String serviceProvider = "Swift Select Customer Portal Service";
+//        String url = AuthenticationUtils.applicationUrl(request) + "/auth/success";
+//        String description = "Please provide the details below to change your password.";
+//
+//        String htmlResponse = helperClass.restPasswordHtml(token, email, url, action, serviceProvider, description);
+//
+//        // Create an APIResponse object with the HTML response
+//        APIResponse<String> response = new APIResponse<>("Success", htmlResponse);
+//
+//        return ResponseEntity.ok(response);
+//    }

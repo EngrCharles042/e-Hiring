@@ -71,7 +71,4 @@ public class JobSeeker extends Person {
 
     @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
     private Set<Report> report = new HashSet<>();
-
-    @OneToOne(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
-    private JobSeekerVerificationToken jobSeekerVerificationToken;
 }
