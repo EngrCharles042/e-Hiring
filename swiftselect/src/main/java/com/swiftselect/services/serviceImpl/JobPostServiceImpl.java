@@ -7,6 +7,7 @@ import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
@@ -277,4 +278,11 @@ public class JobPostServiceImpl implements JobPostService {
         return ResponseEntity.ok(new APIResponse<>("Job post reported successfully"));
     }
 
+    @Override
+    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType) {
+
+        List<JobPost> jobPosts = jobPostRepository.findAllByJobType(jobType);
+
+        return ResponseEntity.ok(new APIResponse<>(jobPosts.toString()));
+    }
 }
