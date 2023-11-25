@@ -2,6 +2,7 @@ package com.swiftselect.infrastructure.controllers.authcontroller;
 
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
+import com.swiftselect.payload.request.adminrequest.AdminSignup;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordRequest;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
 import com.swiftselect.payload.request.authrequests.LoginRequest;
@@ -9,6 +10,7 @@ import com.swiftselect.payload.request.employerreqests.EmployerSignup;
 import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
+import com.swiftselect.payload.response.adminresponse.AdminSignupResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.services.AuthService;
@@ -42,6 +44,11 @@ public class AuthController {
     @PostMapping("/employer/register")
     public ResponseEntity<APIResponse<EmployerSignupResponse>> registerEmployer(@Valid @RequestBody EmployerSignup employerSignup) {
         return authService.registerEmployer(employerSignup);
+    }
+
+    @PostMapping("/admin/register")
+    public ResponseEntity<APIResponse<AdminSignupResponse>> registerAdmin(@Valid @RequestBody AdminSignup adminSignup) {
+        return authService.registerAdmin(adminSignup);
     }
 
     @PostMapping("/login")

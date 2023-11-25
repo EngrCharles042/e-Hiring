@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class EmployerResponsePage {
-        private List<EmployerListResponse> content;
+        private List<EmployerResponse> content;
         private int pageNo;
         private int pageSize;
         private long totalElement;

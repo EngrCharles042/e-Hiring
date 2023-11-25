@@ -1,8 +1,10 @@
 package com.swiftselect.utils;
 
+import com.swiftselect.domain.entities.admin.Admin;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
+import com.swiftselect.repositories.AdminRepository;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import jakarta.mail.MessagingException;
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class HelperClass {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
+    private final AdminRepository adminRepository;
 
     public String getTokenFromHttpRequest(HttpServletRequest request) {
         // Get the bearer token from the http request
@@ -148,11 +151,14 @@ public class HelperClass {
     public String extractFirstName(String email) {
         Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
         Optional<Employer> employerOptional = employerRepository.findByEmail(email);
+        Optional<Admin> adminOptional = adminRepository.findByEmail(email);
 
         if (jobSeekerOptional.isPresent()) {
             return jobSeekerOptional.get().getFirstName();
+        } else if (employerOptional.isPresent()) {
+            return employerOptional.get().getFirstName();
+        } else {
+            return adminOptional.get().getFirstName();
         }
-
-        return employerOptional.get().getFirstName();
     }
 }

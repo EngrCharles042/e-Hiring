@@ -1,6 +1,5 @@
-package com.swiftselect.payload.response.jsresponse;
+package com.swiftselect.payload.response.adminresponse;
 
-import com.swiftselect.domain.enums.Gender;
 import lombok.*;
 
 @Getter
@@ -8,7 +7,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobSeekerListResponse {
+public class AdminSignupResponse {
+
     private Long id;
 
     private String firstName;
@@ -16,6 +16,4 @@ public class JobSeekerListResponse {
     private String lastName;
 
     private String email;
-
-    private Gender gender;
 }
