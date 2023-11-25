@@ -1,6 +1,9 @@
 package com.swiftselect.infrastructure.controllers.jobpostcontrollers;
 
+import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
+import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
 import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
@@ -12,9 +15,11 @@ import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -99,5 +104,11 @@ public class JobPostController {
                                                              @RequestParam String comment,
                                                              @RequestParam ReportCat reportCategory) {
         return jobPostService.reportJobPost(jobId, comment, reportCategory);
+    }
+
+    @GetMapping("/jobType")
+    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(@RequestParam JobType jobType) {
+
+        return jobPostService.getJobPostByJobType(jobType);
     }
 }

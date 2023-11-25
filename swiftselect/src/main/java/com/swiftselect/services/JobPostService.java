@@ -1,5 +1,7 @@
 package com.swiftselect.services;
 
+import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
 import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
@@ -10,6 +12,7 @@ import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Set;
 
 public interface JobPostService {
@@ -32,4 +35,6 @@ public interface JobPostService {
     ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 
     ResponseEntity<APIResponse<String>> reportJobPost(Long jobId, String comment, ReportCat reportCategory);
+
+    ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType);
 }
