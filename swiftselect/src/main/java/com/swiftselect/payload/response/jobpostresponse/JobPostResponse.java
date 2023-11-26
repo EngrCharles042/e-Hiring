@@ -11,6 +11,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,10 +37,4 @@ public class JobPostResponse {
     private YearsOfExp yearsOfExp;
     private EducationLevel educationLevel;
     private String howToApply;
-    private Set<NiceToHave> niceToHaveSet;
-    private Set<JobResponsibilities> responsibilities;
-    private Set<Qualification> qualifications;
-    private Employer employer;
-    private Set<Applications> applications;
-    private Set<Report> reports;
 }
