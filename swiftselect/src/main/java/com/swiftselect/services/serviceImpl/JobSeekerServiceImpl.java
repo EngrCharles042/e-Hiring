@@ -1,14 +1,11 @@
 package com.swiftselect.services.serviceImpl;
 
-import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
-import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
-import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
 import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.*;

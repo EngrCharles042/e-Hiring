@@ -9,13 +9,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobSeekerSignupResponse {
-    Long id;
+    private Long id;
 
-    String firstName;
+    private String firstName;
 
-    String lastName;
+    private String lastName;
 
-    String email;
+    private String email;
 
-    Gender gender;
+    private Gender gender;
 }

@@ -2,7 +2,6 @@ package com.swiftselect.payload.response.employerresponse;
 
 import com.swiftselect.domain.enums.CompanyType;
 import com.swiftselect.domain.enums.Industry;
-import com.swiftselect.domain.enums.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
@@ -12,8 +11,12 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployerListResponse {
+public class EmployerResponse {
     private Long id;
+
+    private String firstName;;
+
+    private String lastName;
 
     private String companyName;
 

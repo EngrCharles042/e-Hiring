@@ -1,17 +1,20 @@
 package com.swiftselect.services.serviceImpl;
 
+import com.swiftselect.domain.entities.admin.Admin;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
+import com.swiftselect.payload.request.adminrequest.AdminSignup;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordResetRequest;
 import com.swiftselect.payload.request.authrequests.LoginRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerSignup;
 import com.swiftselect.payload.request.jsrequests.JobSeekerSignup;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
+import com.swiftselect.payload.response.adminresponse.AdminSignupResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.repositories.*;
@@ -36,6 +39,7 @@ import java.util.*;
 public class AuthServiceImpl implements AuthService {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
+    private final AdminRepository adminRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final EventPublisher publisher;
@@ -113,9 +117,44 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public ResponseEntity<APIResponse<AdminSignupResponse>> registerAdmin(AdminSignup adminSignup) {
+        // Checks if an Employer's email is already in the database
+        boolean isPresent = adminRepository.existsByEmail(adminSignup.getEmail());
+
+        // Throws and error if the email already exists
+        if (isPresent) {
+            throw new ApplicationException("Employer with this e-mail already exist");
+        }
+
+        // Maps the EmployerSignup dto to an Employer entity, so it can be saved
+        Admin newAdmin = modelMapper.map(adminSignup, Admin.class);
+
+        // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
+        newAdmin.setRole(Role.ADMIN);
+
+        newAdmin.setEnabled(false);
+
+        // Encrypt the password using Bcrypt password encoder
+        newAdmin.setPassword(passwordEncoder.encode(adminSignup.getPassword()));
+
+        // Assigning the roles and isEnabled gotten to the new Employer to be saved to the database
+        Admin savedAdmin = adminRepository.save(newAdmin);
+
+        // Publish and event to verify Email
+        publisher.completeRegistrationEventPublisher(savedAdmin.getEmail(), savedAdmin.getFirstName(), request);
+
+        AdminSignupResponse signupResponse = modelMapper.map(savedAdmin, AdminSignupResponse.class);
+
+        // Return a ResponseEntity of a success message
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new APIResponse<AdminSignupResponse>("Account Created Successfully", signupResponse));
+    }
+
+    @Override
     public ResponseEntity<APIResponse<JwtAuthResponse>> login(LoginRequest loginRequest) {
         Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(loginRequest.getEmail());
         Optional<Employer> employerOptional = employerRepository.findByEmail(loginRequest.getEmail());
+        Optional<Admin> adminOptional = adminRepository.findByEmail(loginRequest.getEmail());
 
         // Authentication manager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
@@ -156,7 +195,7 @@ public class AuthServiceImpl implements AuthService {
                                             .build()
                             )
                     );
-        } else {
+        } else if (employerOptional.isPresent()) {
             Employer employer = employerOptional.get();
 
             return ResponseEntity
@@ -174,12 +213,31 @@ public class AuthServiceImpl implements AuthService {
                                             .build()
                             )
                     );
+        } else {
+            Admin admin = adminOptional.get();
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(
+                            new APIResponse<>(
+                                    "Login Successful",
+                                    JwtAuthResponse.builder()
+                                            .accessToken(token)
+                                            .refreshToken(refreshToken)
+                                            .tokenType("Bearer")
+                                            .id(admin.getId())
+                                            .firstName(admin.getFirstName())
+                                            .role(admin.getRole())
+                                            .build()
+                            )
+                    );
+
         }
     }
 
     @Override
     public ResponseEntity<APIResponse<String>> forgotPassword(String email) {
-        if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email)) {
+        if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email) && !adminRepository.existsByEmail(email)) {
             throw new ApplicationException("Invalid email provided, please check and try again.");
         }
 
@@ -200,6 +258,7 @@ public class AuthServiceImpl implements AuthService {
 
         Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
         Optional<Employer> employerOptional = employerRepository.findByEmail(email);
+        Optional<Admin> adminOptional = adminRepository.findByEmail(email);
 
         if (employerOptional.isPresent()) {
             Employer employer = employerOptional.get();
@@ -232,6 +291,22 @@ public class AuthServiceImpl implements AuthService {
             return ResponseEntity
                     .status(HttpStatus.ACCEPTED)
                     .body(new APIResponse<>("Verification Successful", "valid"));
+
+        } else if (adminOptional.isPresent()) {
+            Admin admin = adminOptional.get();
+
+            if (admin.isEnabled()) {
+                return ResponseEntity
+                        .status(HttpStatus.ALREADY_REPORTED)
+                        .body(new APIResponse<>("This account has already been verified, please proceed to login", "already verified"));
+            }
+
+            admin.setEnabled(true);
+            adminRepository.save(admin);
+
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Verification Successful", "valid"));
         }
 
         return ResponseEntity
@@ -250,6 +325,7 @@ public class AuthServiceImpl implements AuthService {
 
         Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);
         Optional<Employer> employerOptional = employerRepository.findByEmail(email);
+        Optional<Admin> adminOptional = adminRepository.findByEmail(email);
 
         if (employerOptional.isPresent()) {
             Employer employer = employerOptional.get();
@@ -268,6 +344,17 @@ public class AuthServiceImpl implements AuthService {
             jobSeeker.setPassword(passwordEncoder.encode(forgotPasswordResetRequest.getNewPassword()));
 
             jobSeekerRepository.save(jobSeeker);
+
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(new APIResponse<>("Password Changed Successfully"));
+
+        }else if (adminOptional.isPresent()) {
+            Admin admin = adminOptional.get();
+
+            admin.setPassword(passwordEncoder.encode(forgotPasswordResetRequest.getNewPassword()));
+
+            adminRepository.save(admin);
 
             return ResponseEntity
                     .status(HttpStatus.ACCEPTED)

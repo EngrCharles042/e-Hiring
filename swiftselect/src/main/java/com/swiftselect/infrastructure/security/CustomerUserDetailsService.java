@@ -1,7 +1,9 @@
 package com.swiftselect.infrastructure.security;
 
+import com.swiftselect.domain.entities.admin.Admin;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.repositories.AdminRepository;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobSeekerRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.Set;
 public class CustomerUserDetailsService implements UserDetailsService {
     private final EmployerRepository employerRepository;
     private final JobSeekerRepository jobSeekerRepository;
+    private final AdminRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -44,6 +47,17 @@ public class CustomerUserDetailsService implements UserDetailsService {
             return new User(
                     jobSeeker.getEmail(),
                     jobSeeker.getPassword(),
+                    authorities
+            );
+        } else if (adminRepository.existsByEmail(email)) {
+            Admin admin = adminRepository.findByEmail(email).get();
+
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            authorities.add(new SimpleGrantedAuthority(admin.getRole().toString()));
+
+            return new User(
+                    admin.getEmail(),
+                    admin.getPassword(),
                     authorities
             );
         }
