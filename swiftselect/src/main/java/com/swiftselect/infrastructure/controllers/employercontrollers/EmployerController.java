@@ -1,13 +1,11 @@
 package com.swiftselect.infrastructure.controllers.employercontrollers;
 
 import com.swiftselect.domain.entities.employer.Employer;
-import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
-import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
-import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,13 +23,14 @@ public class EmployerController {
 
 
     @GetMapping
-    public ResponseEntity<APIResponse<EmployerListResponse>> getJobSeeker() {
+    public ResponseEntity<APIResponse<EmployerResponse>> getEmployer() {
         Employer employer = employerService.getEmployer();
         System.out.println(employer.getFirstName());
         return ResponseEntity.ok(
                 new APIResponse<>(
                         "Retrieved Successfully",
-                        EmployerListResponse.builder()
+
+                        EmployerResponse.builder()
                                 .id(employer.getId())
                                 .firstName(employer.getFirstName())
                                 .lastName(employer.getLastName())

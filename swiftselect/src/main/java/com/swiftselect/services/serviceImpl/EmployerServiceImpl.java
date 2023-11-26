@@ -10,7 +10,7 @@ import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequ
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
-import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerResponse;
 import com.swiftselect.repositories.EmployerRepository;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.EmployerService;
@@ -154,8 +154,8 @@ public class EmployerServiceImpl implements EmployerService {
 
         List<Employer> employerList = employers.getContent();
 
-        List<EmployerListResponse> content = employerList.stream()
-                .map(employer -> mapper.map(employer, EmployerListResponse.class))
+        List<EmployerResponse> content = employerList.stream()
+                .map(employer -> mapper.map(employer, EmployerResponse.class))
                 .toList();
 
         return ResponseEntity.ok(

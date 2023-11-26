@@ -16,4 +16,5 @@ import java.util.Optional;
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     Optional<JobPost> findByIdAndEmployer(Long id, Employer employer);
     Page<JobPost> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
+    List<JobPost> findAllByJobType(JobType jobType);
 }

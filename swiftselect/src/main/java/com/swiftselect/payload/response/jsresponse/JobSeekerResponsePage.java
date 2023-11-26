@@ -1,6 +1,5 @@
 package com.swiftselect.payload.response.jsresponse;
 
-import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import lombok.*;
 
 import java.util.List;
