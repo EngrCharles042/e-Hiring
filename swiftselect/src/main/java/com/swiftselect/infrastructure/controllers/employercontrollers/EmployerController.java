@@ -1,9 +1,13 @@
 package com.swiftselect.infrastructure.controllers.employercontrollers;
 
+import com.swiftselect.domain.entities.employer.Employer;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.employerresponse.EmployerListResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
+import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
 import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +22,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employer")
 public class EmployerController {
     private final EmployerService employerService;
+
+
+    @GetMapping
+    public ResponseEntity<APIResponse<EmployerListResponse>> getJobSeeker() {
+        Employer employer = employerService.getEmployer();
+        System.out.println(employer.getFirstName());
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "Retrieved Successfully",
+                        EmployerListResponse.builder()
+                                .id(employer.getId())
+                                .firstName(employer.getFirstName())
+                                .lastName(employer.getLastName())
+                                .email(employer.getEmail())
+                                .companyDescription(employer.getCompanyDescription())
+                                .companyName(employer.getCompanyName())
+                                .companyType(employer.getCompanyType())
+                                .industry(employer.getIndustry())
+                                .numberOfEmployees(employer.getNumberOfEmployees())
+                                .position(employer.getPosition())
+                                .website(employer.getWebsite())
+                                .build()
+                )
+        );
+    }
 
     @PostMapping("/reset-password")
     public ResponseEntity<APIResponse<String>> resetPassword(final HttpServletRequest request, @RequestBody ResetPasswordRequest resetPasswordRequest) {
@@ -35,7 +64,7 @@ public class EmployerController {
         return employerService.deleteJobPost(userDetails.getUsername(), postId);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<EmployerResponsePage> getAllEmployers(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
                                                                 @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE,required = false) int pageSize,
                                                                 @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,

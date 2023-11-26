@@ -1,5 +1,6 @@
 package com.swiftselect.services;
 
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.response.APIResponse;
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface JobSeekerService {
      ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
      void deleteMyAccount();
+
+     JobSeeker getJobSeeker();
 
      // UPDATE PROFILE
 

@@ -31,6 +31,7 @@ public class HelperClass {
 
         // Extract only the Token excluding the prefix "Bearer "
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            System.out.println(bearerToken);
             return bearerToken.substring(7);
         }
 
@@ -89,7 +90,7 @@ public class HelperClass {
     ) {
 
         try {
-            String mailContent ="<div style='padding: 1rem; background-color: rgb(138, 36, 36); color: white'>"
+            String mailContent ="<div style='padding: 1rem; background-color: white; color: black'>"
                     + "<p style='text-align: center'>"
                     + "<img src=" + AppConstants.LOGO + " style='width: 8rem; height: 10rem'></p>"
                     + "<hr style='color: black'>"
@@ -136,7 +137,7 @@ public class HelperClass {
                 + "<hr style='color: black'>"
                 + "<p style='font-family: Academy Engraved LET; font-size: 30px'> Hi, " + firstName + " </p>"
                 + "<p style='font-family: Cochin; margin-bottom: 1.5rem'> " + description + " </p>"
-                + "<a href='http://127.0.0.1:1123/' style='font-family: Cochin; width: 35vw; height: 4rem; border-radius: 1rem; border: 1px solid saddlebrown; margin-top: 1rem; margin-bottom: 4rem; opacity: 0.8; background-color: rgb(36,36,138); color: white; font-size: 18px; cursor: pointer; padding: 1rem 2rem; text-align: center; text-decoration: none' />"
+                + "<a href='http://127.0.0.1:1123/login' style='font-family: Cochin; width: 35vw; height: 4rem; border-radius: 1rem; border: 1px solid saddlebrown; margin-top: 1rem; margin-bottom: 4rem; opacity: 0.8; background-color: rgb(36,36,138); color: white; font-size: 18px; cursor: pointer; padding: 1rem 2rem; text-align: center; text-decoration: none' />"
                 + buttonName
                 + "</a>"
                 + "<p style='font-family: Cochin; margin-top: 1.5rem'> &copy; &nbsp;" + serviceProvider + " </p>"

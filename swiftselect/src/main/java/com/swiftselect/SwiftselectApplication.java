@@ -10,5 +10,4 @@ public class SwiftselectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SwiftselectApplication.class, args);
 	}
-
 }

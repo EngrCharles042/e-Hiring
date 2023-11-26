@@ -2,6 +2,7 @@ package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
@@ -40,6 +41,17 @@ public class EmployerServiceImpl implements EmployerService {
     private final JobPostRepository jobPostRepository;
     private final ModelMapper mapper;
 
+
+    @Override
+    public Employer getEmployer() {
+        String token = helperClass.getTokenFromHttpRequest(httpRequest);
+
+        String email = jwtTokenProvider.getUserName(token);
+
+        return  employerRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new ApplicationException("User does not exist with email " + email));
+    }
 
     @Override
     public ResponseEntity<APIResponse<String>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest) {

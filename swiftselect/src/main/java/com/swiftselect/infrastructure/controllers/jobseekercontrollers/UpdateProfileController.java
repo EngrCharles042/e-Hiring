@@ -1,5 +1,7 @@
 package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
+import com.swiftselect.payload.request.CoverLetterRequest;
+import com.swiftselect.payload.request.ResumeRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.services.JobSeekerService;
@@ -31,27 +33,27 @@ public class UpdateProfileController {
     }
 
     @PutMapping("/resume")
-    public ResponseEntity<APIResponse<String>> resumeUpdate(@RequestParam("resume") MultipartFile resume) {
+    public ResponseEntity<APIResponse<String>> resumeUpdate(@RequestBody ResumeRequest resume) {
 
-        if (resume.getSize() > AppConstants.MAX_FILE_SIZE) {
+        if (resume.getResume().getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
-        return jobSeekerService.resumeUpdate(resume);
+        return jobSeekerService.resumeUpdate(resume.getResume());
     }
 
     @PutMapping("/cover-letter")
-    public ResponseEntity<APIResponse<String>> coverLetterUpdate(@RequestParam("coverLetter") MultipartFile coverLetter) {
+    public ResponseEntity<APIResponse<String>> coverLetterUpdate(@RequestBody CoverLetterRequest coverLetter) {
 
-        if (coverLetter.getSize() > AppConstants.MAX_FILE_SIZE) {
+        if (coverLetter.getCoverLetter().getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
-        return jobSeekerService.coverLetterUpdate(coverLetter);
+        return jobSeekerService.coverLetterUpdate(coverLetter.getCoverLetter());
     }
 
     @PutMapping("/socials")

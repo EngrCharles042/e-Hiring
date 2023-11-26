@@ -151,6 +151,7 @@ public class AuthServiceImpl implements AuthService {
                                             .tokenType("Bearer")
                                             .id(jobSeeker.getId())
                                             .firstName(jobSeeker.getFirstName())
+                                            .lastName(jobSeeker.getLastName())
                                             .gender(jobSeeker.getGender())
                                             .role(jobSeeker.getRole())
                                             .build()
