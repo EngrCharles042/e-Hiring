@@ -1,6 +1,6 @@
 package com.swiftselect.domain.enums;
 
-public enum ExpLvl {
+public enum ExperienceLevel {
     ENTRY_LEVEL,
     JUNIOR_LEVEL,
     MID_LEVEL,

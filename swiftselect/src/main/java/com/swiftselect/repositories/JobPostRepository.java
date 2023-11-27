@@ -2,10 +2,8 @@ package com.swiftselect.repositories;
 
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
-import com.swiftselect.domain.enums.EmploymentType;
-import com.swiftselect.domain.enums.Industry;
+import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.JobType;
-import com.swiftselect.domain.enums.PayRate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -18,4 +16,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     Optional<JobPost> findByIdAndEmployer(Long id, Employer employer);
     Page<JobPost> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
     List<JobPost> findAllByJobType(JobType jobType);
+
+    Slice<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel, Pageable pageable);
+    List<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel);
 }
