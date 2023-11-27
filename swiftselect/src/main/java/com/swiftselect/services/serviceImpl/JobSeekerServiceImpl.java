@@ -54,7 +54,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final FileUpload fileUpload;
 
 
-    private JobSeeker getJobSeeker() {
+    public JobSeeker getJobSeeker() {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -122,7 +122,6 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     public ResponseEntity<APIResponse<String>> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
-        jobSeeker.setCountry(locationInfoRequest.getCountry());
         jobSeeker.setState(locationInfoRequest.getState());
         jobSeeker.setCity(locationInfoRequest.getCity());
         jobSeeker.setAddress(locationInfoRequest.getAddress());
