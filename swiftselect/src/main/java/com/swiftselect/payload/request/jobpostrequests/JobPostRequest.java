@@ -54,6 +54,8 @@ public class JobPostRequest {
     @NotNull(message = "required")
     private YearsOfExp yearsOfExp;
 
+    private ExperienceLevel experienceLevel;
+
     @NotNull(message = "required")
     private EducationLevel educationLevel;
 

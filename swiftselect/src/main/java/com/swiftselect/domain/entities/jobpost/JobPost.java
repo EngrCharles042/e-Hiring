@@ -52,6 +52,9 @@ public class JobPost extends Base {
     private YearsOfExp yearsOfExp;
 
     @Enumerated(EnumType.STRING)
+    private ExperienceLevel experienceLevel;
+
+    @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;
 
     private String howToApply;
