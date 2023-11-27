@@ -13,6 +13,7 @@ public class JwtAuthResponse {
     private Long id;
     private String firstName;
     private String lastName;
+    private String email;
     private Gender gender;
     private Role role;
     private String accessToken;

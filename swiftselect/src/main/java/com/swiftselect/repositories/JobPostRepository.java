@@ -2,10 +2,8 @@ package com.swiftselect.repositories;
 
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
-import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.JobType;
-import com.swiftselect.domain.enums.PayRate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
