@@ -12,6 +12,7 @@ import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
+import com.swiftselect.payload.response.jobpostresponse.JobSearchResponse;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
@@ -128,5 +129,11 @@ public class JobPostController {
 
         return jobPostService.getJobPostByExperienceLevel(
                 experienceLevel, pageNo, pageSize, sortBy, sortDir);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchWithKeyword (@RequestParam(required = false) String title,
+                                                                                      @RequestParam(required = false) String location,
+                                                                                      @RequestParam(required = false) JobType workMode) {
+        return jobPostService.jobSearchByKeywords(title, location, workMode);
     }
 }

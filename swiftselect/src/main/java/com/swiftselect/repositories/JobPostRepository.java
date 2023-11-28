@@ -16,7 +16,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     Optional<JobPost> findByIdAndEmployer(Long id, Employer employer);
     Page<JobPost> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
     List<JobPost> findAllByJobType(JobType jobType);
-
     Slice<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel, Pageable pageable);
     List<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel);
+    List<JobPost> findByTitleContainingIgnoreCaseOrLocationContainingIgnoreCaseOrJobType(String title, String location, JobType jobType);
 }
