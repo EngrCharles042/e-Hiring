@@ -1,6 +1,7 @@
 package com.swiftselect.services.serviceImpl;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.swiftselect.services.FileUpload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUploadImpl implements FileUpload {
     private final Cloudinary cloudinary;
-
     @Override
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         return cloudinary.uploader()
-                .upload(multipartFile.getBytes(), Map.of("public_id", UUID.randomUUID().toString()))
-                .get("url")
+                .upload(multipartFile.getBytes(), ObjectUtils.emptyMap())
+                .get("secure_url")
                 .toString();
     }
 }
