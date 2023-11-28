@@ -31,12 +31,10 @@ import java.util.Set;
 @RequestMapping("/job-post")
 public class JobPostController {
     private final JobPostService jobPostService;
-    private final JobPostRepository jobPostRepository;
-    private final ModelMapper mapper;
 
     // GET ALL JOB POSTS
     @GetMapping
-    public ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(
+    public ResponseEntity<APIResponse<PostResponsePage>> getAllPosts (
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,

@@ -212,12 +212,17 @@ public class JobPostServiceImpl implements JobPostService {
         // Create pageable instance
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
-        Page<JobPost> jobPosts = jobPostRepository.findAll(pageable);
+        Slice<JobPost> jobPosts = jobPostRepository.findAll(pageable);
 
         List<JobPost> jobPostList = jobPosts.getContent();
 
         List<JobPostResponse> content = jobPostList.stream()
-                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                .map(jobPost -> {
+                    JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+
+                    return jobPostResponse;
+                })
                 .toList();
 
         return ResponseEntity.ok(
@@ -228,8 +233,7 @@ public class JobPostServiceImpl implements JobPostService {
                             .pageNo(jobPosts.getNumber())
                             .last(jobPosts.isLast())
                             .pageSize(jobPosts.getSize())
-                            .totalElement(jobPosts.getTotalElements())
-                            .totalPages(jobPosts.getTotalPages())
+                            .totalElement(jobPosts.getNumberOfElements())
                             .build()
                 )
         );
