@@ -2,6 +2,7 @@ package com.swiftselect.services;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
@@ -42,4 +43,6 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByExperienceLevel(
             ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
+
+    ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);
 }
