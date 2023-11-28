@@ -1,5 +1,7 @@
 package com.swiftselect.services.serviceImpl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
@@ -32,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final ModelMapper modelMapper;
     private final HttpServletRequest request;
     private final CertificationRepository certificationRepository;
-    private final FileUpload fileUpload;
+    private final FileUploadImpl fileUpload;
+    private final Cloudinary cloudinary;
 
 
     public JobSeeker getJobSeeker() {
@@ -134,6 +138,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Override
     public ResponseEntity<APIResponse<String>> resumeUpdate(MultipartFile resume) {
+
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;
@@ -154,6 +159,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Override
     public ResponseEntity<APIResponse<String>> coverLetterUpdate(MultipartFile coverLetter) {
+
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;

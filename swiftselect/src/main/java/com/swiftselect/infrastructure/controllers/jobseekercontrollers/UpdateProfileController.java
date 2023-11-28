@@ -33,27 +33,27 @@ public class UpdateProfileController {
     }
 
     @PutMapping("/resume")
-    public ResponseEntity<APIResponse<String>> resumeUpdate(@RequestBody ResumeRequest resume) {
+    public ResponseEntity<APIResponse<String>> resumeUpdate(@RequestParam MultipartFile resume) {
 
-        if (resume.getResume().getSize() > AppConstants.MAX_FILE_SIZE) {
+        if (resume.getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
-        return jobSeekerService.resumeUpdate(resume.getResume());
+        return jobSeekerService.resumeUpdate(resume);
     }
 
     @PutMapping("/cover-letter")
-    public ResponseEntity<APIResponse<String>> coverLetterUpdate(@RequestBody CoverLetterRequest coverLetter) {
+    public ResponseEntity<APIResponse<String>> coverLetterUpdate(@RequestParam MultipartFile coverLetter) {
 
-        if (coverLetter.getCoverLetter().getSize() > AppConstants.MAX_FILE_SIZE) {
+        if (coverLetter.getSize() > AppConstants.MAX_FILE_SIZE) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new APIResponse<>("FIle size exceed the normal limit"));
         }
 
-        return jobSeekerService.coverLetterUpdate(coverLetter.getCoverLetter());
+        return jobSeekerService.coverLetterUpdate(coverLetter);
     }
 
     @PutMapping("/socials")
