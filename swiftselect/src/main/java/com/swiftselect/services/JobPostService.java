@@ -2,6 +2,7 @@ package com.swiftselect.services;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
@@ -24,15 +25,15 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<String>> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques);
 
-    ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques);
+    ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
 
     ResponseEntity<APIResponse<String>> updateJobPost(Long postId, JobPostRequest jobPostRequest);
 
     ResponseEntity<APIResponse<String>> updateResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest);
 
-    ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques);
+    ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest);
 
-    ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques);
+    ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
 
     ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostByExperienceLevel(ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
 
@@ -41,4 +42,6 @@ public interface JobPostService {
     ResponseEntity<APIResponse<String>> reportJobPost(Long jobId, String comment, ReportCat reportCategory);
 
     ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType);
+
+    ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);
 }

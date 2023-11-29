@@ -8,6 +8,7 @@ import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
@@ -304,10 +305,27 @@ public class JobPostServiceImpl implements JobPostService {
         List<JobPostResponse> jobPostResponses = jobPostsSlice.getContent().stream()
                 .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
                 .collect(Collectors.toList());
-
         Slice<JobPostResponse> jobPostResponseSlice = new SliceImpl<>(
                 jobPostResponses, pageable, jobPostsSlice.hasNext());
 
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponseSlice));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<List<JobPost>>> searchJobPost(String query, JobType jobType, Industry jobCategory) {
+        List<JobPost> allJobPosts = jobPostRepository.searchJobs(query, jobType, jobCategory);
+
+        String queryLowerCase = query.toLowerCase();
+
+        List<JobPost> suggestedJobPosts = allJobPosts.stream()
+                .filter(jobPost ->
+                        jobPost.getTitle().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getJobType().toString().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getJobCategory().toString().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getEmployer().getCompanyName().toLowerCase().contains(queryLowerCase)
+                )
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new APIResponse<>(suggestedJobPosts.toString()));
     }
 }

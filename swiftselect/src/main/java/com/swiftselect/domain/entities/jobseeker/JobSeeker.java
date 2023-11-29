@@ -45,30 +45,30 @@ public class JobSeeker extends Person {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<WorkExperience> workExperiences = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Education> educations = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Skills> skills = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<License> licenses = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Certification> certifications = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Language> languages = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JobPreference> jobPreferences = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Applications> applications = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Report> report = new HashSet<>();
 }

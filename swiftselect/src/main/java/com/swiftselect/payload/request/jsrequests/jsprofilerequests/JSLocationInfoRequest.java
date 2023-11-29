@@ -14,10 +14,6 @@ public class JSLocationInfoRequest {
     @NotBlank(message = "Address is required")
     String address;
 
-    @Size(min = 3, max = 25, message = "country must be at least 3 characters")
-    @NotBlank(message = "Country cannot be blank")
-    String country;
-
     @Size(min = 3, max = 25, message = "state must be at least 3 characters")
     @NotBlank(message = "State cannot be empty")
     String state;

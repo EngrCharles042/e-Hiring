@@ -14,13 +14,15 @@ import lombok.*;
 public class EmployerResponse {
     private Long id;
 
-    private String firstName;;
+    private String firstName;
 
     private String lastName;
 
     private String companyName;
 
     private String companyDescription;
+
+    private String email;
 
     private Long numberOfEmployees;
 

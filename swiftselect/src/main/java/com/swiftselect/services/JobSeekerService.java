@@ -5,6 +5,7 @@ import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.request.notificationRequest.SubscriptionRequest;
@@ -21,6 +22,8 @@ import java.util.List;
 public interface JobSeekerService {
      ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
      void deleteMyAccount();
+
+     JobSeeker getJobSeeker();
 
      // UPDATE PROFILE
 

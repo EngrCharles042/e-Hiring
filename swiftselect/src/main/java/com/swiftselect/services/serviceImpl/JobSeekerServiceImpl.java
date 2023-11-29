@@ -1,6 +1,8 @@
 package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -40,8 +43,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -65,11 +70,12 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final FileUpload fileUpload;
     private final SubscriberRepository subscriberRepository;
     private final JavaMailSender mailSender;
+    private final Cloudinary cloudinary;
 
     @Value("${spring.mail.username}")
     private String sendMail;
 
-    private JobSeeker getJobSeeker() {
+    public JobSeeker getJobSeeker() {
         String token = helperClass.getTokenFromHttpRequest(request);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -137,7 +143,6 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     public ResponseEntity<APIResponse<String>> locationInfoUpdate(JSLocationInfoRequest locationInfoRequest) {
         JobSeeker jobSeeker = getJobSeeker();
 
-        jobSeeker.setCountry(locationInfoRequest.getCountry());
         jobSeeker.setState(locationInfoRequest.getState());
         jobSeeker.setCity(locationInfoRequest.getCity());
         jobSeeker.setAddress(locationInfoRequest.getAddress());
@@ -150,6 +155,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Override
     public ResponseEntity<APIResponse<String>> resumeUpdate(MultipartFile resume) {
+
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;
@@ -170,6 +176,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Override
     public ResponseEntity<APIResponse<String>> coverLetterUpdate(MultipartFile coverLetter) {
+
         JobSeeker jobSeeker = getJobSeeker();
 
         String fileUrl;
@@ -519,16 +526,17 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
 
-    private void sendNotificationEmail(String email, String firstName, String subject, String description) {
+    @Async
+    public void sendNotificationEmail(String email, String firstName, String subject, String description) {
         String action = "New Job Post Notification";
         String serviceProvider = "Swift Select Customer Service";
 
-        helperClass.sendNotificationEmail(
+        helperClass.sendNotificationEmailTosubscribers(
                 firstName,
                 "",
                 mailSender,
                 sendMail,
-                email,
+                Collections.singletonList(email),
                 action,
                 serviceProvider,
                 subject,

@@ -2,9 +2,9 @@ package com.swiftselect.infrastructure.controllers.jobpostcontrollers;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
-import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
 import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
@@ -17,7 +17,6 @@ import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,5 +123,10 @@ public class JobPostController {
 
         return jobPostService.getJobPostByExperienceLevel(
                 experienceLevel, pageNo, pageSize, sortBy, sortDir);
+    }
+    @GetMapping("/search_job_post")
+    public ResponseEntity<APIResponse<List<JobPost>>> searchJobPost(@RequestParam("query") String query, JobType jobType, Industry jobCategory){
+
+        return jobPostService.searchJobPost(query, jobType, jobCategory);
     }
 }
