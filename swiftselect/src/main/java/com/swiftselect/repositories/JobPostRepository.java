@@ -3,6 +3,7 @@ package com.swiftselect.repositories;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,11 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
             nativeQuery = true)
     List<JobPost> searchJobs(@Param("query") String query);
 
+    @Query("SELECT p FROM JobPost p " +
+            "WHERE p.title LIKE CONCAT('%', :query, '%') OR " +
+            "p.jobType = :jobType OR " +
+            "p.jobCategory = :jobCategory")
+    List<JobPost> searchJobs(String query, JobType jobType, Industry jobCategory);
 }
 
 

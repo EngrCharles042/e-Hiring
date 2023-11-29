@@ -8,6 +8,7 @@ import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
@@ -303,12 +304,31 @@ public class JobPostServiceImpl implements JobPostService {
 
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponses));
     }
-public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {
-    List<JobPost> jobPostSearch = jobPostRepository.searchJobs(query);
 
-    List<JobSearchResponse> searchResponses = jobPostSearch.stream()
-            .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
-            .toList();
-    return ResponseEntity.ok(new APIResponse<>("search completed",searchResponses));
-}
+    public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {
+        List<JobPost> jobPostSearch = jobPostRepository.searchJobs(query);
+
+        List<JobSearchResponse> searchResponses = jobPostSearch.stream()
+                .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
+                .toList();
+        return ResponseEntity.ok(new APIResponse<>("search completed",searchResponses));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<List<JobPost>>> searchJobPost(String query, JobType jobType, Industry jobCategory) {
+        List<JobPost> allJobPosts = jobPostRepository.searchJobs(query, jobType, jobCategory);
+
+        String queryLowerCase = query.toLowerCase();
+
+        List<JobPost> suggestedJobPosts = allJobPosts.stream()
+                .filter(jobPost ->
+                        jobPost.getTitle().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getJobType().toString().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getJobCategory().toString().toLowerCase().contains(queryLowerCase) ||
+                                jobPost.getEmployer().getCompanyName().toLowerCase().contains(queryLowerCase)
+                )
+                .toList();
+
+        return ResponseEntity.ok(new APIResponse<>(suggestedJobPosts.toString()));
+    }
 }
