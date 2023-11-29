@@ -39,6 +39,9 @@ public class JobPost extends Base {
     @Enumerated(EnumType.STRING)
     private Industry jobCategory;
 
+    @Enumerated(EnumType.STRING)
+    private ExperienceLevel experienceLevel;
+
     private Long maximumPay;
 
     private Long minimumPay;

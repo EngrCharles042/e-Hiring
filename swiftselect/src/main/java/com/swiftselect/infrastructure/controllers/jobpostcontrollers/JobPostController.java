@@ -1,6 +1,7 @@
 package com.swiftselect.infrastructure.controllers.jobpostcontrollers;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
@@ -15,6 +16,7 @@ import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -110,5 +112,17 @@ public class JobPostController {
     public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(@RequestParam JobType jobType) {
 
         return jobPostService.getJobPostByJobType(jobType);
+    }
+
+    @GetMapping("/by-experience-level/{experienceLevel}")
+    public ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostsByExperienceLevel(
+            @PathVariable ExperienceLevel experienceLevel,
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDir) {
+
+        return jobPostService.getJobPostByExperienceLevel(
+                experienceLevel, pageNo, pageSize, sortBy, sortDir);
     }
 }

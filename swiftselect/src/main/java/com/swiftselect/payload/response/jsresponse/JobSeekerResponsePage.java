@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class JobSeekerResponsePage {
-    private List<JobSeekerListResponse> content;
+    private List<JobSeekerResponse> content;
     private int pageNo;
     private int pageSize;
     private long totalElement;

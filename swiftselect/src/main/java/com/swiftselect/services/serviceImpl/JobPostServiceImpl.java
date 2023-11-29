@@ -7,8 +7,10 @@ import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
+import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
@@ -25,15 +27,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -50,6 +51,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JobSeekerRepository jobSeekerRepository;
     private final ReportRepository reportRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public ResponseEntity<APIResponse<JobPostResponse>> createJobPost(JobPostRequest jobPostRequest) {
@@ -70,6 +72,8 @@ public class JobPostServiceImpl implements JobPostService {
         jobPostRepository.save(jobPost);
 
         JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+
+        applicationEventPublisher.publishEvent(new JobPostCreatedEvent(this, jobPost));
 
         return ResponseEntity.ok(new APIResponse<>("Job post created successfully", jobPostResponse));
     }
@@ -284,5 +288,26 @@ public class JobPostServiceImpl implements JobPostService {
         List<JobPost> jobPosts = jobPostRepository.findAllByJobType(jobType);
 
         return ResponseEntity.ok(new APIResponse<>(jobPosts.toString()));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostByExperienceLevel(
+            ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Slice<JobPost> jobPostsSlice = jobPostRepository.findAllByExperienceLevel(experienceLevel, pageable);
+
+        List<JobPostResponse> jobPostResponses = jobPostsSlice.getContent().stream()
+                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                .collect(Collectors.toList());
+
+        Slice<JobPostResponse> jobPostResponseSlice = new SliceImpl<>(
+                jobPostResponses, pageable, jobPostsSlice.hasNext());
+
+        return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponseSlice));
     }
 }
