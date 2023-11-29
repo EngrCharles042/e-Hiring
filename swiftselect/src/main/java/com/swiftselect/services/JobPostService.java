@@ -43,5 +43,5 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByExperienceLevel(
             ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
-    ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchByKeywords(String title, String location, JobType workMode);
+    ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 }

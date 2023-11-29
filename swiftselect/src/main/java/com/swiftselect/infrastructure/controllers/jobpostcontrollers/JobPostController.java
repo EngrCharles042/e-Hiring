@@ -130,10 +130,8 @@ public class JobPostController {
         return jobPostService.getJobPostByExperienceLevel(
                 experienceLevel, pageNo, pageSize, sortBy, sortDir);
     }
-    @GetMapping("/search")
-    public ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchWithKeyword (@RequestParam(required = false) String title,
-                                                                                      @RequestParam(required = false) String location,
-                                                                                      @RequestParam(required = false) JobType workMode) {
-        return jobPostService.jobSearchByKeywords(title, location, workMode);
-    }
+@GetMapping("/search")
+public ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchWithKeyword (@RequestParam("query")String query) {
+    return jobPostService.searchJobs(query);
+}
 }

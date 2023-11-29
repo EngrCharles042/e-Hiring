@@ -303,15 +303,12 @@ public class JobPostServiceImpl implements JobPostService {
 
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponses));
     }
-    @Override
-    public ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchByKeywords(String title, String location, JobType workMode) {
-        List<JobPost> jobPostSearch = jobPostRepository.findByTitleContainingIgnoreCaseOrLocationContainingIgnoreCaseOrJobType(title, location, workMode);
-        // Mapping entities to DTOs using ModelMapper
-        List<JobSearchResponse> searchResponses = jobPostSearch.stream()
-                .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
-                .toList();
-        // Returning the response entity with the list of DTOs
-        return ResponseEntity.ok(new APIResponse<>("search successful", searchResponses));
+public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {
+    List<JobPost> jobPostSearch = jobPostRepository.searchJobs(query);
 
-    }
+    List<JobSearchResponse> searchResponses = jobPostSearch.stream()
+            .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
+            .toList();
+    return ResponseEntity.ok(new APIResponse<>("search completed",searchResponses));
+}
 }
