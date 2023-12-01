@@ -26,7 +26,9 @@ public class JobPost extends Base {
 
     private String description;
 
-    private String location;
+    private String country;
+
+    private String state;
 
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;

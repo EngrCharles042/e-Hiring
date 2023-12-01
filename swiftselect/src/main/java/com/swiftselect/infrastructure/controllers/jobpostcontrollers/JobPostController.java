@@ -137,4 +137,12 @@ public class JobPostController {
 
         return jobPostService.searchJobPost(query, jobType, jobCategory);
     }
+
+    @GetMapping("/state-country")
+    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(
+            @RequestParam String state,
+            @RequestParam String country
+    ) {
+        return jobPostService.getJobPostByStateAndCountry(state, country);
+    }
 }
