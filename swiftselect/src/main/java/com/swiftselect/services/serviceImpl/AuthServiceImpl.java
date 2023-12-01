@@ -254,6 +254,43 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public ResponseEntity<APIResponse<String>> resendVerificationEmail(LoginRequest loginRequest) {
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(loginRequest.getEmail());
+        Optional<Employer> employerOptional = employerRepository.findByEmail(loginRequest.getEmail());
+        Optional<Admin> adminOptional = adminRepository.findByEmail(loginRequest.getEmail());
+
+        if (jobSeekerOptional.isEmpty() && employerOptional.isEmpty() && adminOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>("User with this email does not exist"));
+        }
+
+        // If a user with the provided email exists, resend verification email
+        String email;
+        String firstName;
+
+        if (jobSeekerOptional.isPresent()) {
+            JobSeeker jobSeeker = jobSeekerOptional.get();
+            email = jobSeeker.getEmail();
+            firstName = jobSeeker.getFirstName();
+
+        } else if (employerOptional.isPresent()) {
+            Employer employer = employerOptional.get();
+            email = employer.getEmail();
+            firstName = employer.getFirstName();
+
+        } else {
+            Admin admin = adminOptional.get();
+            email = admin.getEmail();
+            firstName = admin.getFirstName();
+
+        }
+        // Send verification email logic here
+        publisher.completeRegistrationEventPublisher(email, firstName, request);
+
+        return ResponseEntity.ok(new APIResponse<>("Verification email has been resent to " + email));
+    }
+
+    @Override
     public ResponseEntity<APIResponse<String>> forgotPassword(String email) {
         if (!jobSeekerRepository.existsByEmail(email) && !employerRepository.existsByEmail(email) && !adminRepository.existsByEmail(email)) {
             throw new ApplicationException("Invalid email provided, please check and try again.");

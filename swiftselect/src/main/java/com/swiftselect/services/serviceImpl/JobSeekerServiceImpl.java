@@ -517,7 +517,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             String description = "Check it out and apply now!\n\n" +
                     "Job Title: " + jobPost.getTitle() + "\n" +
                     "Description: " + jobPost.getDescription() + "\n" +
-                    "Location: " + jobPost.getLocation() + "\n" +
+                    "Country: " + jobPost.getCountry() + "\n" +
+                    "State: " + jobPost.getState() + "\n" +
                     "Application Deadline: " + jobPost.getApplicationDeadline();
 
             log.info("Sending notification email to {}: {}", subscriber.getEmail(), subject);

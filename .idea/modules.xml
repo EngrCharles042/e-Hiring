@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SQ17-SwiftSelect-Live-Project-Backend.iml" filepath="$PROJECT_DIR$/.idea/SQ17-SwiftSelect-Live-Project-Backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/swiftselect/swiftselect.iml" filepath="$PROJECT_DIR$/swiftselect/swiftselect.iml" />
     </modules>
   </component>
 </project>
