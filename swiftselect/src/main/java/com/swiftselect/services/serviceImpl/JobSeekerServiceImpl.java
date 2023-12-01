@@ -1,24 +1,33 @@
 package com.swiftselect.services.serviceImpl;
 
+import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
+import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
+import com.swiftselect.domain.entities.notification.Notification;
+import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
+import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
+import com.swiftselect.payload.request.notificationRequest.SubscriptionRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
-import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.FileUpload;
 import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -30,12 +39,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JobSeekerServiceImpl implements JobSeekerService {
@@ -54,9 +66,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final ModelMapper modelMapper;
     private final HttpServletRequest request;
     private final CertificationRepository certificationRepository;
-    private final FileUploadImpl fileUpload;
+    private final FileUpload fileUpload;
+    private final SubscriberRepository subscriberRepository;
+    private final JavaMailSender mailSender;
     private final Cloudinary cloudinary;
+    private final NotificationRepository notificationRepository;
 
+    @Value("${spring.mail.username}")
+    private String sendMail;
 
     public JobSeeker getJobSeeker() {
         String token = helperClass.getTokenFromHttpRequest(request);
@@ -427,8 +444,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         List<JobSeeker> jobSeekerList = jobSeekers.getContent();
 
-        List<JobSeekerListResponse> content = jobSeekerList.stream()
-                .map(employer -> modelMapper.map(employer, JobSeekerListResponse.class))
+        List<JobSeekerResponse> content = jobSeekerList.stream()
+                .map(employer -> modelMapper.map(employer, JobSeekerResponse.class))
                 .toList();
 
         return ResponseEntity.ok(
@@ -443,5 +460,129 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                         .build()
                 )
         );
+    }
+
+
+
+
+    @Override
+    public List<JobSeeker> getSubscribersByIndustry(Industry industry) {
+        List<Subscriber> subscribers = subscriberRepository.findBySubscribedIndustry(industry);
+        return subscribers.stream()
+                .map(Subscriber::getJobSeeker)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void subscribeJobSeekerToIndustry(SubscriptionRequest request) {
+        JobSeeker jobSeeker = getJobSeeker();
+        Industry industry = request.getIndustry();
+
+        if (!isSubscribed(jobSeeker.getId().toString(), industry)) {
+            // If not subscribed, add the subscription
+
+            // Create the Subscriber entity and associate it with the retrieved JobSeeker
+            Subscriber subscriber = Subscriber.builder()
+                    .jobSeeker(jobSeeker)
+                    .subscribedIndustry(industry)
+                    .build();
+
+            // Save the subscriber details to the database
+            subscribe(subscriber);
+        }
+    }
+
+    @Override
+    public boolean isSubscribed(String email, Industry industry) {
+        return subscriberRepository.existsByJobSeeker_EmailAndSubscribedIndustry(email, industry);
+    }
+    @Override
+    public void subscribe(Subscriber subscriber) {
+        // You can add additional logic here if needed
+        subscriberRepository.save(subscriber);
+    }
+
+    @Override
+    @Transactional
+    public void handleJobPostCreatedEvent(JobPostCreatedEvent event) {
+        JobPost jobPost = event.getJobPost();
+        Industry jobType = jobPost.getJobCategory();
+        List<JobSeeker> subscribers = getSubscribersByIndustry(jobType);
+
+        log.info("Subscribers for {}: {}", jobType, subscribers);
+
+        // Send personalized notification emails to each subscriber
+        for (JobSeeker subscriber : subscribers) {
+            String subject = "New job post in " + jobType + ": " + jobPost.getTitle();
+            String description = "Check it out and apply now!\n\n" +
+                    "Job Title: " + jobPost.getTitle() + "\n" +
+                    "Description: " + jobPost.getDescription() + "\n" +
+                    "Location: " + jobPost.getLocation() + "\n" +
+                    "Application Deadline: " + jobPost.getApplicationDeadline();
+
+            log.info("Sending notification email to {}: {}", subscriber.getEmail(), subject);
+
+            Notification notification = Notification.builder()
+                    .recipient(subscriber)
+                    .message(subject)
+                    .read(false)
+                    .relatedJobPost(jobPost)
+                    .build();
+
+            notificationRepository.save(notification);
+
+            sendNotification(notification);
+
+            sendNotificationEmail(subscriber.getEmail(), subscriber.getFirstName(), subject, description);
+        }
+
+    }
+
+    @Override
+    public void sendNotification(Notification notification) {
+        String recipientEmail = notification.getRecipient().getEmail();
+        String subject = "New Notification: " + notification.getMessage();
+        String content = "You have a new notification: " + notification.getMessage();
+
+        helperClass.sendNotificationEmailTosubscribers(
+                notification.getRecipient().getFirstName(),
+                "",
+                mailSender,
+                sendMail,
+                Collections.singletonList(recipientEmail),
+                "New Job Post Notification",
+                "Swift Select Customer Service",
+                subject,
+                content
+        );
+    }
+
+
+    @Async
+    public void sendNotificationEmail(String email, String firstName, String subject, String description) {
+        String action = "New Job Post Notification";
+        String serviceProvider = "Swift Select Customer Service";
+
+        helperClass.sendNotificationEmailTosubscribers(
+                firstName,
+                "",
+                mailSender,
+                sendMail,
+                Collections.singletonList(email),
+                action,
+                serviceProvider,
+                subject,
+                description
+        );
+    }
+
+    @Override
+    @Transactional
+    public void markNotificationAsRead(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new ApplicationException("Notification not found with id: " + notificationId));
+
+        notification.setRead(true);
+        notificationRepository.save(notification);
     }
 }

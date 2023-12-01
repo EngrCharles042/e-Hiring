@@ -11,6 +11,7 @@ import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
+import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
@@ -28,6 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JobSeekerRepository jobSeekerRepository;
     private final ReportRepository reportRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public ResponseEntity<APIResponse<JobPostResponse>> createJobPost(JobPostRequest jobPostRequest) {
@@ -59,7 +62,7 @@ public class JobPostServiceImpl implements JobPostService {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         List<Report> reports = reportRepository.findByJobPostEmployer(currentEmployer);
-        if(reports.size()>=2){
+        if(reports.size()>=100){
             throw new ApplicationException("You are Blocked from posting because of excessive reports");
         }
 
@@ -71,6 +74,8 @@ public class JobPostServiceImpl implements JobPostService {
         jobPostRepository.save(jobPost);
 
         JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+
+        applicationEventPublisher.publishEvent(new JobPostCreatedEvent(this, jobPost));
 
         return ResponseEntity.ok(new APIResponse<>("Job post created successfully", jobPostResponse));
     }
@@ -288,7 +293,7 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByExperienceLevel(
+    public ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostByExperienceLevel(
             ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
@@ -301,8 +306,10 @@ public class JobPostServiceImpl implements JobPostService {
         List<JobPostResponse> jobPostResponses = jobPostsSlice.getContent().stream()
                 .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
                 .collect(Collectors.toList());
+        Slice<JobPostResponse> jobPostResponseSlice = new SliceImpl<>(
+                jobPostResponses, pageable, jobPostsSlice.hasNext());
 
-        return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponses));
+        return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponseSlice));
     }
 
     public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {

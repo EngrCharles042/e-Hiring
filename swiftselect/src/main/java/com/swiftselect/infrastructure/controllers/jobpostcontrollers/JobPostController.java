@@ -5,7 +5,6 @@ import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
-import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
 import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
 import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
@@ -19,9 +18,7 @@ import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +30,6 @@ import java.util.Set;
 @RequestMapping("/job-post")
 public class JobPostController {
     private final JobPostService jobPostService;
-    private final JobPostRepository jobPostRepository;
-    private final ModelMapper mapper;
 
     // GET ALL JOB POSTS
     @GetMapping
@@ -121,12 +116,12 @@ public class JobPostController {
     }
 
     @GetMapping("/by-experience-level/{experienceLevel}")
-    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostsByExperienceLevel(
+    public ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostsByExperienceLevel(
             @PathVariable ExperienceLevel experienceLevel,
-            @RequestParam(defaultValue = "0") int pageNo,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "title") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDir) {
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir) {
 
         return jobPostService.getJobPostByExperienceLevel(
                 experienceLevel, pageNo, pageSize, sortBy, sortDir);

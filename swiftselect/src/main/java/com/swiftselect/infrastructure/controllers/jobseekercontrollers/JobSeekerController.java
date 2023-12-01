@@ -4,7 +4,6 @@ import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
-import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
 import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.services.JobSeekerService;
@@ -13,8 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +26,13 @@ public class JobSeekerController {
         return ResponseEntity.ok(
                 new APIResponse<>(
                         "Retrieved Successfully",
-                       JobSeekerListResponse.builder()
-                               .id(jobSeeker.getId())
-                               .firstName(jobSeeker.getFirstName())
-                               .lastName(jobSeeker.getLastName())
-                               .email(jobSeeker.getEmail())
-                               .gender(jobSeeker.getGender())
-                               .build()
+                        JobSeekerListResponse.builder()
+                                .id(jobSeeker.getId())
+                                .firstName(jobSeeker.getFirstName())
+                                .lastName(jobSeeker.getLastName())
+                                .email(jobSeeker.getEmail())
+                                .gender(jobSeeker.getGender())
+                                .build()
                 )
         );
     }

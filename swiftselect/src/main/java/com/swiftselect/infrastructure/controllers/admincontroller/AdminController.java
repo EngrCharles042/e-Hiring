@@ -2,6 +2,7 @@ package com.swiftselect.infrastructure.controllers.admincontroller;
 
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerResponse;
 import com.swiftselect.services.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,5 +22,10 @@ public class AdminController {
     @GetMapping("/employer/{employerId}")
     public ResponseEntity<APIResponse<EmployerResponse>> getEmployerById(@PathVariable Long employerId) {
         return adminService.getEmployerById(employerId);
+    }
+
+    @GetMapping("/jobseeker/{jobSeekerId}")
+    public ResponseEntity<APIResponse<JobSeekerResponse>> getJobSeekerById(@PathVariable Long jobSeekerId) {
+        return adminService.getJobSeekerById(jobSeekerId);
     }
 }

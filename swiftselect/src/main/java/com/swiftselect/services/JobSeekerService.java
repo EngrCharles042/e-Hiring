@@ -1,8 +1,15 @@
 package com.swiftselect.services;
 
+import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
+import com.swiftselect.domain.entities.notification.Notification;
+import com.swiftselect.domain.enums.Industry;
+import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
+import com.swiftselect.payload.request.notificationRequest.SubscriptionRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
@@ -10,6 +17,8 @@ import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface JobSeekerService {
      ResponseEntity<APIResponse<ResetPasswordResponse>> resetPassword(HttpServletRequest request, ResetPasswordRequest resetPasswordRequest);
@@ -62,4 +71,21 @@ public interface JobSeekerService {
      ResponseEntity<APIResponse<String>> newJobPreference(JobPreferenceRequest preferenceRequest);
 
      ResponseEntity<APIResponse<JobSeekerResponsePage>> getAllJobSeekers(int pageNo, int pageSize, String sortBy, String sortDir);
+
+
+
+
+     List<JobSeeker> getSubscribersByIndustry(Industry industry);
+
+     void subscribeJobSeekerToIndustry(SubscriptionRequest request);
+
+     boolean isSubscribed(String jobSeekerId, Industry industry);
+
+     void subscribe(Subscriber subscriber);
+
+     void handleJobPostCreatedEvent(JobPostCreatedEvent event);
+
+     void sendNotification(Notification notification);
+
+     void markNotificationAsRead(Long notificationId);
 }

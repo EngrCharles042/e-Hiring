@@ -36,14 +36,13 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
 
+    ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostByExperienceLevel(ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
+
     ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 
     ResponseEntity<APIResponse<String>> reportJobPost(Long jobId, String comment, ReportCat reportCategory);
 
     ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType);
-
-    ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByExperienceLevel(
-            ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
 
     ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 

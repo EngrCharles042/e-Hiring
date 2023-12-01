@@ -156,6 +156,20 @@ public class AuthServiceImpl implements AuthService {
         Optional<Employer> employerOptional = employerRepository.findByEmail(loginRequest.getEmail());
         Optional<Admin> adminOptional = adminRepository.findByEmail(loginRequest.getEmail());
 
+        if (jobSeekerOptional.isPresent() && !jobSeekerOptional.get().isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new APIResponse<>("notVerified")
+            );
+        } else if (employerOptional.isPresent() && !employerOptional.get().isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new APIResponse<>("notVerified")
+            );
+        } else if (adminOptional.isPresent() && !adminOptional.get().isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new APIResponse<>("notVerified")
+            );
+        }
+
         // Authentication manager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
