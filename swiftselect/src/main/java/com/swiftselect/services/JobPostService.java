@@ -12,6 +12,7 @@ import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
+import com.swiftselect.payload.response.jobpostresponse.JobSearchResponse;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 
@@ -43,6 +44,8 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByExperienceLevel(
             ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
+
+    ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 
     ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);
 }
