@@ -31,6 +31,7 @@ public class JobPost extends Base {
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;
 
+    @Column(name = "job_type")
     @Enumerated(EnumType.STRING)
     private JobType jobType;
 

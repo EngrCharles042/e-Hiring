@@ -21,6 +21,7 @@ import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.PostResponsePage;
+import com.swiftselect.payload.response.jobpostresponse.JobSearchResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.HelperClass;
@@ -309,6 +310,15 @@ public class JobPostServiceImpl implements JobPostService {
                 jobPostResponses, pageable, jobPostsSlice.hasNext());
 
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponseSlice));
+    }
+
+    public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {
+        List<JobPost> jobPostSearch = jobPostRepository.searchJobs(query);
+
+        List<JobSearchResponse> searchResponses = jobPostSearch.stream()
+                .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
+                .toList();
+        return ResponseEntity.ok(new APIResponse<>("search completed",searchResponses));
     }
 
     @Override
