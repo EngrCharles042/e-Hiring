@@ -47,4 +47,6 @@ public interface JobPostService {
     ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 
     ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);
+
+    ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(String state, String country);
 }

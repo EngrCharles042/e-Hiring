@@ -40,6 +40,8 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
             "p.jobType = :jobType OR " +
             "p.jobCategory = :jobCategory")
     List<JobPost> searchJobs(String query, JobType jobType, Industry jobCategory);
+
+    List<JobPost> findByStateAndCountry(String state, String country);
 }
 
 

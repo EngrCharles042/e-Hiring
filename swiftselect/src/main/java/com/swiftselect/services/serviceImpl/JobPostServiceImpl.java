@@ -146,7 +146,8 @@ public class JobPostServiceImpl implements JobPostService {
         jobPost.setTitle(jobPostRequest.getTitle());
         jobPost.setNumOfPeopleToHire(jobPostRequest.getNumOfPeopleToHire());
         jobPost.setDescription(jobPostRequest.getDescription());
-        jobPost.setLocation(jobPostRequest.getLocation());
+        jobPost.setCountry(jobPostRequest.getCountry());
+        jobPost.setState(jobPostRequest.getState());
         jobPost.setEmploymentType(jobPostRequest.getEmploymentType());
         jobPost.setJobType(jobPostRequest.getJobType());
         jobPost.setApplicationDeadline(jobPostRequest.getApplicationDeadline());
@@ -337,5 +338,13 @@ public class JobPostServiceImpl implements JobPostService {
                 .toList();
 
         return ResponseEntity.ok(new APIResponse<>(suggestedJobPosts.toString()));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(String state, String country) {
+
+        List<JobPost> jobPosts = jobPostRepository.findByStateAndCountry(state, country);
+
+        return ResponseEntity.ok(new APIResponse<>("Success", jobPosts));
     }
 }
