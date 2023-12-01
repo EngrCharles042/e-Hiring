@@ -2,10 +2,10 @@ package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
+import com.swiftselect.domain.entities.notification.Notification;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
@@ -16,7 +16,6 @@ import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.*;
-import com.swiftselect.services.EmailSenderService;
 import com.swiftselect.services.FileUpload;
 import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
@@ -40,13 +39,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -71,6 +70,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final SubscriberRepository subscriberRepository;
     private final JavaMailSender mailSender;
     private final Cloudinary cloudinary;
+    private final NotificationRepository notificationRepository;
 
     @Value("${spring.mail.username}")
     private String sendMail;
@@ -503,6 +503,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
+    @Transactional
     public void handleJobPostCreatedEvent(JobPostCreatedEvent event) {
         JobPost jobPost = event.getJobPost();
         Industry jobType = jobPost.getJobCategory();
@@ -521,8 +522,39 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             log.info("Sending notification email to {}: {}", subscriber.getEmail(), subject);
 
+            Notification notification = Notification.builder()
+                    .recipient(subscriber)
+                    .message(subject)
+                    .read(false)
+                    .relatedJobPost(jobPost)
+                    .build();
+
+            notificationRepository.save(notification);
+
+            sendNotification(notification);
+
             sendNotificationEmail(subscriber.getEmail(), subscriber.getFirstName(), subject, description);
         }
+
+    }
+
+    @Override
+    public void sendNotification(Notification notification) {
+        String recipientEmail = notification.getRecipient().getEmail();
+        String subject = "New Notification: " + notification.getMessage();
+        String content = "You have a new notification: " + notification.getMessage();
+
+        helperClass.sendNotificationEmailTosubscribers(
+                notification.getRecipient().getFirstName(),
+                "",
+                mailSender,
+                sendMail,
+                Collections.singletonList(recipientEmail),
+                "New Job Post Notification",
+                "Swift Select Customer Service",
+                subject,
+                content
+        );
     }
 
 
@@ -542,5 +574,15 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                 subject,
                 description
         );
+    }
+
+    @Override
+    @Transactional
+    public void markNotificationAsRead(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new ApplicationException("Notification not found with id: " + notificationId));
+
+        notification.setRead(true);
+        notificationRepository.save(notification);
     }
 }

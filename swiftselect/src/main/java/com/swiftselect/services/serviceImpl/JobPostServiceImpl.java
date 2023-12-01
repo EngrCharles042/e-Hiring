@@ -61,7 +61,7 @@ public class JobPostServiceImpl implements JobPostService {
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         List<Report> reports = reportRepository.findByJobPostEmployer(currentEmployer);
-        if(reports.size()>=2){
+        if(reports.size()>=100){
             throw new ApplicationException("You are Blocked from posting because of excessive reports");
         }
 
@@ -324,7 +324,7 @@ public class JobPostServiceImpl implements JobPostService {
                                 jobPost.getJobCategory().toString().toLowerCase().contains(queryLowerCase) ||
                                 jobPost.getEmployer().getCompanyName().toLowerCase().contains(queryLowerCase)
                 )
-                .collect(Collectors.toList());
+                .toList();
 
         return ResponseEntity.ok(new APIResponse<>(suggestedJobPosts.toString()));
     }

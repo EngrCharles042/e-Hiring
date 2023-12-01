@@ -3,6 +3,7 @@ package com.swiftselect.services;
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.domain.entities.jobseeker.subcriber.Subscriber;
+import com.swiftselect.domain.entities.notification.Notification;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
@@ -83,4 +84,8 @@ public interface JobSeekerService {
      void subscribe(Subscriber subscriber);
 
      void handleJobPostCreatedEvent(JobPostCreatedEvent event);
+
+     void sendNotification(Notification notification);
+
+     void markNotificationAsRead(Long notificationId);
 }
