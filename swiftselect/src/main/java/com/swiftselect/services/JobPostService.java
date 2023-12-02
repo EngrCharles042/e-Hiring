@@ -42,9 +42,8 @@ public interface JobPostService {
     ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType);
 
     ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(Long id);
-    ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 
-    ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);
+    ResponseEntity<APIResponse<List<JobPostResponse>>> searchJobs(String query);
 
-    ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(String state, String country);
+    ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByStateAndCountry(String query);
 }

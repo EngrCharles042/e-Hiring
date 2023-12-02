@@ -4,9 +4,7 @@ import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
-import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,12 +17,9 @@ import java.util.Optional;
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     Optional<JobPost> findByIdAndEmployer(Long id, Employer employer);
 
-    Page<JobPost> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
-
     List<JobPost> findAllByJobType(JobType jobType);
-    Slice<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel, Pageable pageable);
 
-    List<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel);
+    Slice<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel, Pageable pageable);
 
     List<JobPost> findJobPostsByJobTypeOrJobTypeOrJobTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevel(JobType jobType,
                                                                                                                                                                                                                JobType jobType2,
@@ -41,18 +36,15 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
     @Query(value = "SELECT * FROM job_post " +
             "WHERE LOWER(title) LIKE LOWER(CONCAT('%', :query, '%')) " +
-            "OR LOWER(location) LIKE LOWER(CONCAT('%', :query, '%')) " +
-            "OR job_type = :query",
+            "OR LOWER(job_category) LIKE LOWER(CONCAT('%', :query, '%'))",
             nativeQuery = true)
     List<JobPost> searchJobs(@Param("query") String query);
 
-    @Query("SELECT p FROM JobPost p " +
-            "WHERE p.title LIKE CONCAT('%', :query, '%') OR " +
-            "p.jobType = :jobType OR " +
-            "p.jobCategory = :jobCategory")
-    List<JobPost> searchJobs(String query, JobType jobType, Industry jobCategory);
-
-    List<JobPost> findByStateAndCountry(String state, String country);
+    @Query(value = "SELECT * FROM job_post " +
+            "WHERE LOWER(state) LIKE LOWER(CONCAT('%', :query, '%')) " +
+            "OR LOWER(country) LIKE LOWER(CONCAT('%', :query, '%')) ",
+            nativeQuery = true)
+    List<JobPost> findByStateAndCountry(String query);
 }
 
 
