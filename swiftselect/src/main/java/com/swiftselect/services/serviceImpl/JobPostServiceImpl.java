@@ -7,15 +7,13 @@ import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
-import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
-import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
-import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
-import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
+import com.swiftselect.payload.request.jobpostrequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.PostResponsePage;
@@ -66,9 +64,11 @@ public class JobPostServiceImpl implements JobPostService {
 
         jobPost.setEmployer(currentEmployer);
 
-        jobPostRepository.save(jobPost);
+        JobPost savedJobPost = jobPostRepository.save(jobPost);
 
-        JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+        JobPostResponse jobPostResponse = mapper.map(savedJobPost, JobPostResponse.class);
+        jobPostResponse.setLogo(savedJobPost.getEmployer().getProfilePicture());
+        jobPostResponse.setCompanyName(savedJobPost.getEmployer().getCompanyName());
 
         return ResponseEntity.ok(new APIResponse<>("Job post created successfully", jobPostResponse));
     }
@@ -220,6 +220,7 @@ public class JobPostServiceImpl implements JobPostService {
                 .map(jobPost -> {
                     JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
                     jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
 
                     return jobPostResponse;
                 })
@@ -237,6 +238,22 @@ public class JobPostServiceImpl implements JobPostService {
                             .build()
                 )
         );
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(Long id) {
+        JobPost jobPost = jobPostRepository
+                .findById(id)
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
+
+        JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+        jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+        jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "Success",
+                        jobPostResponse));
     }
 
     private Employer getCurrentEmployerFromToken(HttpServletRequest request) {
@@ -306,4 +323,6 @@ public class JobPostServiceImpl implements JobPostService {
 
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponses));
     }
+
+
 }

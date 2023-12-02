@@ -20,6 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "job_post")
 public class JobPost extends Base {
+
     private String title;
 
     private Long numOfPeopleToHire;

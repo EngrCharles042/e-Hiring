@@ -3,6 +3,7 @@ package com.swiftselect.services.serviceImpl;
 import com.swiftselect.domain.entities.admin.Admin;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.Gender;
 import com.swiftselect.domain.enums.Role;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
@@ -16,6 +17,7 @@ import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.payload.response.adminresponse.AdminSignupResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
@@ -60,6 +62,13 @@ public class AuthServiceImpl implements AuthService {
         // Maps the jobSeekerSignup dto to a JobSeeker entity, so it can be saved
         JobSeeker newJobSeeker = modelMapper.map(jobSeekerSignup, JobSeeker.class);
 
+        // Set Profile Pics
+        if (jobSeekerSignup.getGender().equals(Gender.MALE)) {
+            newJobSeeker.setProfilePicture("https://res.cloudinary.com/dpfqbb9pl/image/upload/v1701260428/maleprofile_ffeep9.png");
+        } else {
+            newJobSeeker.setProfilePicture("https://res.cloudinary.com/dpfqbb9pl/image/upload/v1701260428/femaleProfile_yujimz.png");
+        }
+
         // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
         newJobSeeker.setRole(Role.JOB_SEEKER);
 
@@ -94,6 +103,10 @@ public class AuthServiceImpl implements AuthService {
 
         // Maps the EmployerSignup dto to an Employer entity, so it can be saved
         Employer newEmployer = modelMapper.map(employerSignup, Employer.class);
+
+        // Set Profile Pics
+        newEmployer.setProfilePicture("https://res.cloudinary.com/dpfqbb9pl/image/upload/v1701260428/maleprofile_ffeep9.png");
+
 
         // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
         newEmployer.setRole(Role.EMPLOYER);
@@ -147,7 +160,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Return a ResponseEntity of a success message
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new APIResponse<AdminSignupResponse>("Account Created Successfully", signupResponse));
+                .body(new APIResponse<>("Account Created Successfully", signupResponse));
     }
 
     @Override
@@ -191,6 +204,7 @@ public class AuthServiceImpl implements AuthService {
                                             .id(jobSeeker.getId())
                                             .email(jobSeeker.getEmail())
                                             .firstName(jobSeeker.getFirstName())
+                                            .profilePicture(jobSeeker.getProfilePicture())
                                             .lastName(jobSeeker.getLastName())
                                             .gender(jobSeeker.getGender())
                                             .role(jobSeeker.getRole())

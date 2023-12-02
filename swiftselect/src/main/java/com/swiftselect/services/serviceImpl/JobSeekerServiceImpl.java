@@ -55,7 +55,6 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final HttpServletRequest request;
     private final CertificationRepository certificationRepository;
     private final FileUploadImpl fileUpload;
-    private final Cloudinary cloudinary;
 
 
     public JobSeeker getJobSeeker() {

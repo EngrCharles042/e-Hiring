@@ -82,6 +82,8 @@ public class Config {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/job-post/**"),
                                 antMatcher(HttpMethod.PUT, "/job-post/**"))
                         .hasAnyAuthority("EMPLOYER")
+                        .requestMatchers(antMatcher("/users/**"))
+                        .hasAnyAuthority("JOB_SEEKER", "EMPLOYER")
                         .anyRequest()
                         .authenticated()
                 )
