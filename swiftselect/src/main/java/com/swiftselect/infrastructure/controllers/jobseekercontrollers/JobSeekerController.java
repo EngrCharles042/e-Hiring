@@ -4,12 +4,13 @@ import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
-import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
+import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,21 +19,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/job-seeker")
 public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
+    private final ModelMapper mapper;
 
     @GetMapping
-    public ResponseEntity<APIResponse<JobSeekerListResponse>> getJobSeeker() {
+    public ResponseEntity<APIResponse<JobSeekerInfoResponse>> getJobSeeker() {
         JobSeeker jobSeeker = jobSeekerService.getJobSeeker();
         System.out.println(jobSeeker.getFirstName());
         return ResponseEntity.ok(
                 new APIResponse<>(
                         "Retrieved Successfully",
-                        JobSeekerListResponse.builder()
-                                .id(jobSeeker.getId())
-                                .firstName(jobSeeker.getFirstName())
-                                .lastName(jobSeeker.getLastName())
-                                .email(jobSeeker.getEmail())
-                                .gender(jobSeeker.getGender())
-                                .build()
+                        mapper.map(jobSeeker, JobSeekerInfoResponse.class)
                 )
         );
     }

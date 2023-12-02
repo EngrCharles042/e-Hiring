@@ -1,6 +1,5 @@
 package com.swiftselect.infrastructure.controllers.authcontroller;
 
-import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.adminrequest.AdminSignup;
 import com.swiftselect.payload.request.authrequests.ForgotPasswordRequest;
@@ -14,13 +13,10 @@ import com.swiftselect.payload.response.adminresponse.AdminSignupResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.services.AuthService;
-import com.swiftselect.utils.AuthenticationUtils;
 import com.swiftselect.utils.HelperClass;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
