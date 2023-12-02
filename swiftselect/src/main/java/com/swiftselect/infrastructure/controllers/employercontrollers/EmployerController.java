@@ -1,6 +1,7 @@
 package com.swiftselect.infrastructure.controllers.employercontrollers;
 
 import com.swiftselect.domain.entities.employer.Employer;
+import com.swiftselect.payload.request.employerreqests.EmployerProfileContactInfoRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
@@ -10,6 +11,7 @@ import com.swiftselect.services.EmployerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employer")
 public class EmployerController {
     private final EmployerService employerService;
+    private final ModelMapper mapper;
 
 
     @GetMapping
@@ -30,19 +33,7 @@ public class EmployerController {
                 new APIResponse<>(
                         "Retrieved Successfully",
 
-                        EmployerResponse.builder()
-                                .id(employer.getId())
-                                .firstName(employer.getFirstName())
-                                .lastName(employer.getLastName())
-                                .email(employer.getEmail())
-                                .companyDescription(employer.getCompanyDescription())
-                                .companyName(employer.getCompanyName())
-                                .companyType(employer.getCompanyType())
-                                .industry(employer.getIndustry())
-                                .numberOfEmployees(employer.getNumberOfEmployees())
-                                .position(employer.getPosition())
-                                .website(employer.getWebsite())
-                                .build()
+                        mapper.map(employer, EmployerResponse.class)
                 )
         );
     }
@@ -52,9 +43,14 @@ public class EmployerController {
         return employerService.resetPassword(request, resetPasswordRequest);
     }
 
-    @PutMapping("/update-profile")
-    public ResponseEntity<APIResponse<String>> updateProfile(@RequestBody EmployerUpdateProfileRequest profileRequest) {
-        return employerService.updateProfile(profileRequest);
+    @PutMapping("/update-profile-company-info")
+    public ResponseEntity<APIResponse<String>> updateProfileCompanyInfo(@RequestBody EmployerUpdateProfileRequest profileRequest) {
+        return employerService.updateProfileCompanyInfo(profileRequest);
+    }
+
+    @PutMapping("/update-profile-contact-info")
+    public ResponseEntity<APIResponse<String>> updateProfileContactInfo(@RequestBody EmployerProfileContactInfoRequest profileRequest) {
+        return employerService.updateProfileContactInfo(profileRequest);
     }
 
     @DeleteMapping("/delete-job-post/{post-id}")
