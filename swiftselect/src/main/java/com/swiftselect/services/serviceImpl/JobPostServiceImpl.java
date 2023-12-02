@@ -7,6 +7,7 @@ import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
@@ -14,10 +15,7 @@ import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
-import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
-import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
-import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
-import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
+import com.swiftselect.payload.request.jobpostrequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.PostResponsePage;
@@ -71,9 +69,11 @@ public class JobPostServiceImpl implements JobPostService {
 
         jobPost.setEmployer(currentEmployer);
 
-        jobPostRepository.save(jobPost);
+        JobPost savedJobPost = jobPostRepository.save(jobPost);
 
-        JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+        JobPostResponse jobPostResponse = mapper.map(savedJobPost, JobPostResponse.class);
+        jobPostResponse.setLogo(savedJobPost.getEmployer().getProfilePicture());
+        jobPostResponse.setCompanyName(savedJobPost.getEmployer().getCompanyName());
 
         applicationEventPublisher.publishEvent(new JobPostCreatedEvent(this, jobPost));
 
@@ -220,12 +220,18 @@ public class JobPostServiceImpl implements JobPostService {
         // Create pageable instance
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
-        Page<JobPost> jobPosts = jobPostRepository.findAll(pageable);
+        Slice<JobPost> jobPosts = jobPostRepository.findAll(pageable);
 
         List<JobPost> jobPostList = jobPosts.getContent();
 
         List<JobPostResponse> content = jobPostList.stream()
-                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                .map(jobPost -> {
+                    JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+
+                    return jobPostResponse;
+                })
                 .toList();
 
         return ResponseEntity.ok(
@@ -236,11 +242,26 @@ public class JobPostServiceImpl implements JobPostService {
                             .pageNo(jobPosts.getNumber())
                             .last(jobPosts.isLast())
                             .pageSize(jobPosts.getSize())
-                            .totalElement(jobPosts.getTotalElements())
-                            .totalPages(jobPosts.getTotalPages())
+                            .totalElement(jobPosts.getNumberOfElements())
                             .build()
                 )
         );
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(Long id) {
+        JobPost jobPost = jobPostRepository
+                .findById(id)
+                .orElseThrow(() -> new ApplicationException("Post not Found"));
+
+        JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+        jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+        jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "Success",
+                        jobPostResponse));
     }
 
     private Employer getCurrentEmployerFromToken(HttpServletRequest request) {
@@ -347,4 +368,6 @@ public class JobPostServiceImpl implements JobPostService {
 
         return ResponseEntity.ok(new APIResponse<>("Success", jobPosts));
     }
+
+
 }

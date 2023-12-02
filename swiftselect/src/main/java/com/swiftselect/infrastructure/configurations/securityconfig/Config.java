@@ -79,8 +79,11 @@ public class Config {
                         .requestMatchers(antMatcher("/swagger-ui/**"),
                                 antMatcher("/v3/api-docs/**"))
                         .permitAll()
-                        .requestMatchers(antMatcher("/job-post/**"))
-                        .hasAnyAuthority("EMPLOYER", "JOB_SEEKER")
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/job-post/**"),
+                                antMatcher(HttpMethod.PUT, "/job-post/**"))
+                        .hasAnyAuthority("EMPLOYER")
+                        .requestMatchers(antMatcher("/users/**"))
+                        .hasAnyAuthority("JOB_SEEKER", "EMPLOYER")
                         .anyRequest()
                         .authenticated()
                 )

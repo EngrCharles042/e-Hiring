@@ -33,7 +33,7 @@ public abstract class Person extends Base {
     @Column(name = "phone",nullable = false)
     private String phoneNumber;
 
-    private String pictureUrl;
+    private String profilePicture;
 
     private boolean isEnabled;
 

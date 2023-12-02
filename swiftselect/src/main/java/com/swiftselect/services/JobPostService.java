@@ -5,10 +5,7 @@ import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
-import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
-import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
-import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
-import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
+import com.swiftselect.payload.request.jobpostrequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
@@ -44,6 +41,7 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(JobType jobType);
 
+    ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(Long id);
     ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query);
 
     ResponseEntity<APIResponse<List<JobPost>>>  searchJobPost(String query, JobType jobType, Industry jobCategory);

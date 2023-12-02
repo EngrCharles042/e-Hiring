@@ -1,17 +1,13 @@
 package com.swiftselect.payload.response.jobpostresponse;
 
-import com.swiftselect.domain.entities.Report;
-import com.swiftselect.domain.entities.employer.Employer;
-import com.swiftselect.domain.entities.jobpost.Applications;
 import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
 import com.swiftselect.domain.entities.jobpost.NiceToHave;
 import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.enums.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -37,4 +33,9 @@ public class JobPostResponse {
     private YearsOfExp yearsOfExp;
     private EducationLevel educationLevel;
     private String howToApply;
+    private String companyName;
+    private String logo;
+    private Set<JobResponsibilities> responsibilities = new HashSet<>();
+    private Set<Qualification> qualifications = new HashSet<>();
+    private Set<NiceToHave> niceToHaveSet = new HashSet<>();
 }
