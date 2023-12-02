@@ -21,7 +21,8 @@ public class JobPostResponse {
     private String title;
     private Long numOfPeopleToHire;
     private String description;
-    private String location;
+    private String country;
+    private String state;
     private EmploymentType employmentType;
     private JobType jobType;
     private String applicationDeadline;
