@@ -74,6 +74,11 @@ public class AuthController {
         return "invalid";
     }
 
+    @PostMapping("/resend-verification-email")
+    public ResponseEntity<APIResponse<String>> resendVerificationEmail(@RequestBody LoginRequest loginRequest) {
+        return authService.resendVerificationEmail(loginRequest);
+    }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<APIResponse<String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
         return authService.forgotPassword(forgotPasswordRequest.getEmail());

@@ -11,16 +11,20 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class HelperClass {
@@ -80,6 +84,7 @@ public class HelperClass {
         }
     }
 
+    @Async
     public void sendNotificationEmail(
             String firstName,
             String url,
@@ -148,6 +153,45 @@ public class HelperClass {
                 + "</div>"
                 + "</body>";
     }
+    @Async
+    public void sendNotificationEmailTosubscribers(
+            String firstName,
+            String url,
+            JavaMailSender mailSender,
+            String sendMail,
+            List<String> recipients,
+            String action,
+            String serviceProvider,
+            String subject,
+            String description
+    ) {
+        for (String recipient : recipients) {
+            try {
+                String mailContent = "<div style='padding: 1rem; background-color: white; color: black'>"
+                        + "<p style='text-align: center'>"
+                        + "<img src=" + AppConstants.LOGO + " style='width: 8rem; height: 10rem'></p>"
+                        + "<hr style='color: black'>"
+                        + "<p> Hi, " + firstName + " </p>"
+                        + "<p> " + description + " </p>"
+                        + "<a href=" + url + " style='padding: 0.7rem; background-color: #383896; text-decoration: none; border-radius: 0.3rem; color: white'>" + action + "</a> <br>"
+                        + "<p> Thank you. <br> " + serviceProvider + " </p>"
+                        + "</div>";
+
+                MimeMessage message = mailSender.createMimeMessage();
+                var messageHelper = new MimeMessageHelper(message);
+
+                messageHelper.setFrom(sendMail, serviceProvider);
+                messageHelper.setTo(recipient);
+                messageHelper.setSubject(subject);
+                messageHelper.setText(mailContent, true);
+
+                mailSender.send(message);
+            } catch (MailException | MessagingException | UnsupportedEncodingException e) {
+                log.error("Error sending email to {}: {}", recipient, e.getMessage(), e);
+            }
+        }
+    }
+
 
     public String extractFirstName(String email) {
         Optional<JobSeeker> jobSeekerOptional = jobSeekerRepository.findByEmail(email);

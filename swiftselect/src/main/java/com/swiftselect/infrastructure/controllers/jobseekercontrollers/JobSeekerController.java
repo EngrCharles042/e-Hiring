@@ -5,7 +5,6 @@ import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
-import com.swiftselect.payload.response.jsresponse.JobSeekerListResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
@@ -14,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

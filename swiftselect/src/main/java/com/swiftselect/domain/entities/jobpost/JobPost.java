@@ -27,11 +27,14 @@ public class JobPost extends Base {
 
     private String description;
 
-    private String location;
+    private String country;
+
+    private String state;
 
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;
 
+    @Column(name = "job_type")
     @Enumerated(EnumType.STRING)
     private JobType jobType;
 
@@ -39,6 +42,9 @@ public class JobPost extends Base {
 
     @Enumerated(EnumType.STRING)
     private Industry jobCategory;
+
+    @Enumerated(EnumType.STRING)
+    private ExperienceLevel experienceLevel;
 
     private Long maximumPay;
 
@@ -51,9 +57,6 @@ public class JobPost extends Base {
 
     @Enumerated(EnumType.STRING)
     private YearsOfExp yearsOfExp;
-
-    @Enumerated(EnumType.STRING)
-    private ExperienceLevel experienceLevel;
 
     @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;

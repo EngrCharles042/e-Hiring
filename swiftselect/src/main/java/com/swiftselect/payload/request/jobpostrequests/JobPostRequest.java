@@ -23,9 +23,13 @@ public class JobPostRequest {
     @NotBlank(message = "required")
     private String description;
 
-    @Size(min = 5, max = 25 , message = "Location should be between 5 and 25")
+    @Size(min = 2, max = 25 , message = "Country should be between 5 and 25")
     @NotBlank(message = "required")
-    private String location;
+    private String country;
+
+    @Size(min = 2, max = 25 , message = "state should be between 5 and 25")
+    @NotBlank(message = "required")
+    private String state;
 
     @NotNull(message = "required")
     private EmploymentType employmentType;
