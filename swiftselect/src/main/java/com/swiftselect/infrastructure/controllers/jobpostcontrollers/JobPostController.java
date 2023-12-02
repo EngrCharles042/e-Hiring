@@ -184,22 +184,15 @@ public class JobPostController {
                 experienceLevel, pageNo, pageSize, sortBy, sortDir);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<APIResponse<List<JobSearchResponse>>> jobSearchWithKeyword (@RequestParam("query")String query) {
+    @GetMapping("/search/title-or-industry")
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> jobSearchWithKeyword (@RequestParam("query")String query) {
         return jobPostService.searchJobs(query);
     }
 
-    @GetMapping("/search_job_post")
-    public ResponseEntity<APIResponse<List<JobPost>>> searchJobPost(@RequestParam("query") String query, JobType jobType, Industry jobCategory){
-
-        return jobPostService.searchJobPost(query, jobType, jobCategory);
-    }
-
-    @GetMapping("/state-country")
-    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(
-            @RequestParam String state,
-            @RequestParam String country
+    @GetMapping("/search/state-or-country")
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByStateAndCountry(
+            @RequestParam("query") String query
     ) {
-        return jobPostService.getJobPostByStateAndCountry(state, country);
+        return jobPostService.getJobPostByStateAndCountry(query);
     }
 }

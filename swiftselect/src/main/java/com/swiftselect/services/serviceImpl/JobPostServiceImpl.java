@@ -334,39 +334,40 @@ public class JobPostServiceImpl implements JobPostService {
         return ResponseEntity.ok(new APIResponse<>("Job posts retrieved by experience level successfully", jobPostResponseSlice));
     }
 
-    public ResponseEntity<APIResponse<List<JobSearchResponse>>> searchJobs(String query) {
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> searchJobs(String query) {
         List<JobPost> jobPostSearch = jobPostRepository.searchJobs(query);
 
-        List<JobSearchResponse> searchResponses = jobPostSearch.stream()
-                .map(jobPost -> mapper.map(jobPost, JobSearchResponse.class))
+        List<JobPostResponse> searchResponses = jobPostSearch.stream()
+                .map(jobPost -> {
+                    JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+
+                    return jobPostResponse;
+                })
                 .toList();
+
+
         return ResponseEntity.ok(new APIResponse<>("search completed",searchResponses));
     }
 
     @Override
-    public ResponseEntity<APIResponse<List<JobPost>>> searchJobPost(String query, JobType jobType, Industry jobCategory) {
-        List<JobPost> allJobPosts = jobPostRepository.searchJobs(query, jobType, jobCategory);
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByStateAndCountry(String query) {
 
-        String queryLowerCase = query.toLowerCase();
+        List<JobPost> jobPostSearch = jobPostRepository.findByStateAndCountry(query);
 
-        List<JobPost> suggestedJobPosts = allJobPosts.stream()
-                .filter(jobPost ->
-                        jobPost.getTitle().toLowerCase().contains(queryLowerCase) ||
-                                jobPost.getJobType().toString().toLowerCase().contains(queryLowerCase) ||
-                                jobPost.getJobCategory().toString().toLowerCase().contains(queryLowerCase) ||
-                                jobPost.getEmployer().getCompanyName().toLowerCase().contains(queryLowerCase)
-                )
+        List<JobPostResponse> searchResponses = jobPostSearch.stream()
+                .map(jobPost -> {
+                    JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
+                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
+                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+
+                    return jobPostResponse;
+                })
                 .toList();
 
-        return ResponseEntity.ok(new APIResponse<>(suggestedJobPosts.toString()));
-    }
 
-    @Override
-    public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByStateAndCountry(String state, String country) {
-
-        List<JobPost> jobPosts = jobPostRepository.findByStateAndCountry(state, country);
-
-        return ResponseEntity.ok(new APIResponse<>("Success", jobPosts));
+        return ResponseEntity.ok(new APIResponse<>("Success", searchResponses));
     }
 
 
