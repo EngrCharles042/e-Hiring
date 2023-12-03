@@ -107,7 +107,6 @@ public class AuthServiceImpl implements AuthService {
         // Set Profile Pics
         newEmployer.setProfilePicture("https://res.cloudinary.com/dpfqbb9pl/image/upload/v1701260428/maleprofile_ffeep9.png");
 
-
         // Assigning the role and isEnabled gotten to the newJobSeeker to be saved to the database
         newEmployer.setRole(Role.EMPLOYER);
 

@@ -2,10 +2,10 @@ package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
-import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.infrastructure.event.eventpublisher.EventPublisher;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
+import com.swiftselect.payload.request.employerreqests.EmployerProfileContactInfoRequest;
 import com.swiftselect.payload.request.employerreqests.EmployerUpdateProfileRequest;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.response.APIResponse;
@@ -84,7 +84,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<String>> updateProfile(EmployerUpdateProfileRequest updateProfileRequest) {
+    public ResponseEntity<APIResponse<String>> updateProfileCompanyInfo(EmployerUpdateProfileRequest updateProfileRequest) {
         String token = helperClass.getTokenFromHttpRequest(httpRequest);
 
         String email = jwtTokenProvider.getUserName(token);
@@ -96,7 +96,6 @@ public class EmployerServiceImpl implements EmployerService {
         employer.setAddress(updateProfileRequest.getAddress());
         employer.setCountry(updateProfileRequest.getCountry());
         employer.setState(updateProfileRequest.getState());
-        employer.setCity(updateProfileRequest.getCity());
         employer.setIndustry(updateProfileRequest.getIndustry());
         employer.setCompanyType(updateProfileRequest.getCompanyType());
         employer.setNumberOfEmployees(updateProfileRequest.getNumberOfEmployees());
@@ -104,11 +103,24 @@ public class EmployerServiceImpl implements EmployerService {
         employer.setFacebook(updateProfileRequest.getFacebook());
         employer.setTwitter(updateProfileRequest.getTwitter());
         employer.setInstagram(updateProfileRequest.getInstagram());
-        employer.setFirstName(updateProfileRequest.getFirstName());
-        employer.setLastName(updateProfileRequest.getLastName());
-        employer.setPosition(updateProfileRequest.getPosition());
-        employer.setPhoneNumber(updateProfileRequest.getPhoneNumber());
-        employer.setPostalCode(updateProfileRequest.getPostalCode());
+
+        Employer savedEmployer = employerRepository.save(employer);
+
+        return ResponseEntity.ok(new APIResponse<>("Update Successful"));
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<String>> updateProfileContactInfo(EmployerProfileContactInfoRequest updateProfileRequest) {
+        String token = helperClass.getTokenFromHttpRequest(httpRequest);
+
+        String email = jwtTokenProvider.getUserName(token);
+
+        Employer employer = employerRepository.findByEmail(email).get();
+
+        employer.setFirstName(employer.getFirstName());
+        employer.setLastName(employer.getLastName());
+        employer.setPhoneNumber(employer.getPhoneNumber());
+        employer.setPostalCode(employer.getPostalCode());
 
         Employer savedEmployer = employerRepository.save(employer);
 

@@ -18,7 +18,13 @@ public class EmployerResponse {
 
     private String lastName;
 
+    private String address;
+
+    private String state;
+
     private String companyName;
+
+    private String country;
 
     private String companyDescription;
 
@@ -29,6 +35,18 @@ public class EmployerResponse {
     private String website;
 
     private String position;
+
+    private String phoneNumber;
+
+    private String postalCode;
+
+    private String facebook;
+
+    private String twitter;
+
+    private String instagram;
+
+    private String profilePicture;
 
     @Enumerated(value = EnumType.STRING)
     private CompanyType companyType;
