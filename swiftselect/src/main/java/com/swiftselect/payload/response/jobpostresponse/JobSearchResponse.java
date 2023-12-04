@@ -12,9 +12,9 @@ import lombok.*;
 @NoArgsConstructor
 
 public class JobSearchResponse {
-
     private String title;
     private String location;
+
     @Enumerated(EnumType.STRING)
     private JobType workMode;
     }

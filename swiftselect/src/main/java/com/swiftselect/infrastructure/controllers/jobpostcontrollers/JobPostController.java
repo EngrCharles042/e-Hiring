@@ -102,63 +102,13 @@ public class JobPostController {
     // CREATE JOB POST
 
     @PostMapping("/create-job-post")
-    public ResponseEntity<APIResponse<JobPostResponse>> createJobPost (@Valid @RequestBody JobPostRequest jobPostRequest){
+    public ResponseEntity<APIResponse<JobPostResponse>> createJobPost (@Valid @RequestBody JobPostRequest jobPostRequest) {
 
         return jobPostService.createJobPost(jobPostRequest);
     }
 
-    @PostMapping("/{jobPostId}/responsibilities")
-    public ResponseEntity<APIResponse<String>> addResponsibilitiesToJobPost(@PathVariable Long jobPostId,
-                                                                            @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
-
-        return jobPostService.addResponsibilitiesToJobPost(jobPostId, responsibilitiesRequest);
-    }
-
-    @PostMapping("/{jobPostId}/qualifications")
-    public ResponseEntity<APIResponse<String>> addQualificationsToJobPost(@PathVariable Long jobPostId,
-                                                             @Valid @RequestBody Set<QualificationRequest> qualificationRequest){
-
-        return jobPostService.addQualificationToJobPost(jobPostId, qualificationRequest);
-    }
-
-    @PostMapping("/{jobPostId}/nice_to_haves")
-    public ResponseEntity<APIResponse<String>> addNiceToHavesToJobPost(@PathVariable Long jobPostId,
-                                                          @Valid @RequestBody Set<NiceToHaveRequest> niceToHaveRequest) {
-
-        return jobPostService.addNiceToHaveToJobPost(jobPostId, niceToHaveRequest);
-    }
-
 
     // UPDATE JOB POST
-
-    @PutMapping("/{jobPostId}/update-job-post")
-    public ResponseEntity<APIResponse<String>> updateJobPost (@PathVariable Long jobPostId,
-                                                 @Valid @RequestBody JobPostRequest jobPostRequest) {
-
-        return jobPostService.updateJobPost(jobPostId, jobPostRequest);
-    }
-
-    @PutMapping("/{jobPostId}/responsibilities")
-    public ResponseEntity<APIResponse<String>> updateResponsibilitiesToJobPost(@PathVariable Long jobPostId,
-                                                               @Valid @RequestBody Set<JobResponsibilitiesRequest> responsibilitiesRequest){
-
-        return jobPostService.updateResponsibilitiesToJobPost(jobPostId, responsibilitiesRequest);
-    }
-
-    @PutMapping("/{jobPostId}/qualifications")
-    public ResponseEntity<APIResponse<String>> updateQualificationsToJobPost(@PathVariable Long jobPostId,
-                                                             @Valid @RequestBody Set<QualificationRequest> qualificationRequest){
-
-        return jobPostService.updateQualificationToJobPost(jobPostId, qualificationRequest);
-    }
-
-    @PutMapping("/{jobPostId}/nice_to_haves")
-    public ResponseEntity<APIResponse<String>> updateNiceToHavesToJobPost(@PathVariable Long jobPostId,
-                                                          @Valid @RequestBody Set<NiceToHaveRequest> niceToHaveRequest) {
-
-        return jobPostService.updateNiceToHaveToJobPost(jobPostId, niceToHaveRequest);
-    }
-
     @PostMapping("/{jobId}/report")
     public ResponseEntity<APIResponse<String>> reportJobPost(@PathVariable Long jobId,
                                                              @RequestParam String comment,

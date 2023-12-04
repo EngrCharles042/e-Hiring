@@ -1,10 +1,7 @@
 package com.swiftselect.domain.entities.jobpost;
 
 import com.swiftselect.domain.entities.base.Base;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -18,5 +15,6 @@ public class NiceToHave extends Base {
     private String niceToHave;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "jobPost_id")
     private JobPost jobPost;
 }

@@ -56,10 +56,10 @@ public class JobPostServiceImpl implements JobPostService {
     @Override
     public ResponseEntity<APIResponse<JobPostResponse>> createJobPost(JobPostRequest jobPostRequest) {
 
-
         Employer currentEmployer = getCurrentEmployerFromToken(request);
 
         List<Report> reports = reportRepository.findByJobPostEmployer(currentEmployer);
+
         if(reports.size()>=100){
             throw new ApplicationException("You are Blocked from posting because of excessive reports");
         }
@@ -71,6 +71,10 @@ public class JobPostServiceImpl implements JobPostService {
 
         JobPost savedJobPost = jobPostRepository.save(jobPost);
 
+        addResponsibilitiesToJobPost(savedJobPost, jobPostRequest.getResponsibilities());
+        addNiceToHaveToJobPost(savedJobPost, jobPostRequest.getNiceToHave());
+        addQualificationsToJobPost(savedJobPost, jobPostRequest.getQualifications());
+
         JobPostResponse jobPostResponse = mapper.map(savedJobPost, JobPostResponse.class);
         jobPostResponse.setLogo(savedJobPost.getEmployer().getProfilePicture());
         jobPostResponse.setCompanyName(savedJobPost.getEmployer().getCompanyName());
@@ -80,135 +84,40 @@ public class JobPostServiceImpl implements JobPostService {
         return ResponseEntity.ok(new APIResponse<>("Job post created successfully", jobPostResponse));
     }
 
-    @Override
-    public ResponseEntity<APIResponse<String>> addResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
+    private void addResponsibilitiesToJobPost(JobPost jobPost, List<String> responsibilities) {
 
-        JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
-
-        responsibilitiesRequest.forEach(
-                responsibilities -> {
-                    JobResponsibilities responsibility = mapper.map(responsibilities, JobResponsibilities.class);
-                    responsibility.setJobPost(jobPost);
-
-                    jobResponsibilitiesRepository.save(responsibility);
-                }
+        responsibilities.forEach(
+                responsibility -> jobResponsibilitiesRepository.save(
+                        JobResponsibilities.builder()
+                                .responsibility(responsibility)
+                                .jobPost(jobPost)
+                                .build()
+                )
         );
-
-        return ResponseEntity.ok(new APIResponse<>("Responsibilities added successfully"));
     }
 
-    @Override
-    public ResponseEntity<APIResponse<String>> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
+    private void addQualificationsToJobPost(JobPost jobPost, List<String> qualifications) {
 
-        JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
-
-        qualificationReques.forEach(
-                qualification -> {
-                    Qualification qualifications = mapper.map(qualification, Qualification.class);
-                    qualifications.setJobPost(jobPost);
-                    qualificationRepository.save(qualifications);
-                }
+        qualifications.forEach(
+                qualification -> qualificationRepository.save(
+                        Qualification.builder()
+                                .qualificationDetails(qualification)
+                                .jobPost(jobPost)
+                                .build()
+                )
         );
-
-        return ResponseEntity.ok(new APIResponse<>("Qualifications added successfully"));
     }
 
-    @Override
-    public ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
+    private void addNiceToHaveToJobPost(JobPost jobPost, List<String> niceToHave) {
 
-        JobPost jobPost = jobPostRepository.findByIdAndEmployer(postId,currentEmployer)
-                .orElseThrow(()-> new ApplicationException("You are not authorized to manage this job post"));
-
-        niceToHaveReques.forEach(
-                niceToHave -> {
-                    NiceToHave niceToHaves = mapper.map(niceToHave, NiceToHave.class);
-                    niceToHaves.setJobPost(jobPost);
-                    niceToHaveRepository.save(niceToHaves);
-                }
+        niceToHave.forEach(
+                nice2Have -> niceToHaveRepository.save(
+                        NiceToHave.builder()
+                                .niceToHave(nice2Have)
+                                .jobPost(jobPost)
+                                .build()
+                )
         );
-
-        return ResponseEntity.ok(new APIResponse<>("NiceToHave added successfully"));
-    }
-
-    @Override
-    public ResponseEntity<APIResponse<String>> updateJobPost(Long id, JobPostRequest jobPostRequest) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
-
-        JobPost jobPost = jobPostRepository
-                .findByIdAndEmployer(id, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found"));
-
-        jobPost.setTitle(jobPostRequest.getTitle());
-        jobPost.setNumOfPeopleToHire(jobPostRequest.getNumOfPeopleToHire());
-        jobPost.setDescription(jobPostRequest.getDescription());
-        jobPost.setCountry(jobPostRequest.getCountry());
-        jobPost.setState(jobPostRequest.getState());
-        jobPost.setEmploymentType(jobPostRequest.getEmploymentType());
-        jobPost.setJobType(jobPostRequest.getJobType());
-        jobPost.setApplicationDeadline(jobPostRequest.getApplicationDeadline());
-        jobPost.setJobCategory(jobPostRequest.getJobCategory());
-        jobPost.setMaximumPay(jobPostRequest.getMaximumPay());
-        jobPost.setMinimumPay(jobPostRequest.getMinimumPay());
-        jobPost.setPayRate(jobPostRequest.getPayRate());
-        jobPost.setLanguage(jobPostRequest.getLanguage());
-        jobPost.setYearsOfExp(jobPostRequest.getYearsOfExp());
-        jobPost.setEducationLevel(jobPostRequest.getEducationLevel());
-        jobPost.setHowToApply(jobPostRequest.getHowToApply());
-
-        jobPostRepository.save(jobPost);
-
-        return ResponseEntity.ok(new APIResponse<>("Update Successful"));
-    }
-
-    @Override
-    public ResponseEntity<APIResponse<String>> updateResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest) {
-
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
-
-        JobPost jobPost = jobPostRepository
-                .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found"));
-
-        Set<JobResponsibilities> jobResponsibilities = jobPost.getResponsibilities();
-
-        jobResponsibilitiesRepository.deleteAll(jobResponsibilities);
-
-        return addResponsibilitiesToJobPost(postId, responsibilitiesRequest);
-    }
-
-    @Override
-    public ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
-
-        JobPost jobPost = jobPostRepository
-                .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found"));
-
-        Set<Qualification> qualifications = jobPost.getQualifications();
-
-        qualificationRepository.deleteAll(qualifications);
-
-        return addQualificationToJobPost(postId, qualificationReques);
-    }
-
-    @Override
-    public ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveReques) {
-        Employer currentEmployer = getCurrentEmployerFromToken(request);
-
-        JobPost jobPost = jobPostRepository
-                .findByIdAndEmployer(postId, currentEmployer)
-                .orElseThrow(() -> new ApplicationException("Post not Found"));
-
-        Set<NiceToHave> niceToHaves = jobPost.getNiceToHaveSet();
-
-        niceToHaveRepository.deleteAll(niceToHaves);
-
-        return addNiceToHaveToJobPost(postId, niceToHaveReques);
     }
 
     @Override

@@ -6,6 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -37,8 +41,7 @@ public class JobPostRequest {
     @NotNull(message = "required")
     private JobType jobType;
 
-    @NotBlank(message = "required")
-    private String applicationDeadline;
+    private LocalDateTime applicationDeadline;
 
     @NotNull(message = "required")
     private Industry jobCategory;
@@ -63,7 +66,9 @@ public class JobPostRequest {
     @NotNull(message = "required")
     private EducationLevel educationLevel;
 
-    @Size(min = 15, max = 200 , message = "Application description should be between 15 and 200")
-    @NotBlank(message = "required")
-    private String howToApply;
+    private List<String> responsibilities = new ArrayList<>();
+
+    private List<String> niceToHave = new ArrayList<>();
+
+    private List<String> qualifications = new ArrayList<>();
 }
