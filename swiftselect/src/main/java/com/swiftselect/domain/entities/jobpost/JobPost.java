@@ -34,11 +34,10 @@ public class JobPost extends Base {
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;
 
-    @Column(name = "job_type")
     @Enumerated(EnumType.STRING)
     private JobType jobType;
 
-    private String applicationDeadline;
+    private LocalDateTime applicationDeadline;
 
     @Enumerated(EnumType.STRING)
     private Industry jobCategory;
@@ -60,8 +59,6 @@ public class JobPost extends Base {
 
     @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;
-
-    private String howToApply;
 
     @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<NiceToHave> niceToHaveSet = new HashSet<>();

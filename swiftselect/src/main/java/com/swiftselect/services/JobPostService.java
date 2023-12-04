@@ -19,20 +19,6 @@ import java.util.Set;
 public interface JobPostService {
     ResponseEntity<APIResponse<JobPostResponse>> createJobPost(JobPostRequest jobPostRequest);
 
-    ResponseEntity<APIResponse<String>> addResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest);
-
-    ResponseEntity<APIResponse<String>> addQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationReques);
-
-    ResponseEntity<APIResponse<String>> addNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
-
-    ResponseEntity<APIResponse<String>> updateJobPost(Long postId, JobPostRequest jobPostRequest);
-
-    ResponseEntity<APIResponse<String>> updateResponsibilitiesToJobPost(Long postId, Set<JobResponsibilitiesRequest> responsibilitiesRequest);
-
-    ResponseEntity<APIResponse<String>> updateQualificationToJobPost(Long postId, Set<QualificationRequest> qualificationRequest);
-
-    ResponseEntity<APIResponse<String>> updateNiceToHaveToJobPost(Long postId, Set<NiceToHaveRequest> niceToHaveRequest);
-
     ResponseEntity<APIResponse<Slice<JobPostResponse>>> getJobPostByExperienceLevel(ExperienceLevel experienceLevel, int pageNo, int pageSize, String sortBy, String sortDir);
 
     ResponseEntity<APIResponse<PostResponsePage>> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
