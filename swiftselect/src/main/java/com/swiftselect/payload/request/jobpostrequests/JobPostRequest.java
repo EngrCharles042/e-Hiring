@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobPostRequest {
+public class JobPostRequest implements Serializable {
     @Size(min = 5, max = 25 , message = "Title should be between 5 and 25")
     @NotBlank(message = "required")
     private String title;
@@ -35,15 +36,15 @@ public class JobPostRequest {
     @NotBlank(message = "required")
     private String state;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private EmploymentType employmentType;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private JobType jobType;
 
     private LocalDateTime applicationDeadline;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private Industry jobCategory;
 
     @NotNull(message = "required")
@@ -52,18 +53,18 @@ public class JobPostRequest {
     @NotNull(message = "required")
     private Long minimumPay;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private PayRate payRate;
 
     @NotBlank(message = "required")
     private String language;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private YearsOfExp yearsOfExp;
 
     private ExperienceLevel experienceLevel;
 
-    @NotNull(message = "required")
+//    @NotNull(message = "required")
     private EducationLevel educationLevel;
 
     private List<String> responsibilities = new ArrayList<>();

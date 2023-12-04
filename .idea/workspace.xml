@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SQ17-SwiftSelect-Live-Project-Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SQ17-SwiftSelect-Live-Project-Backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/SwiftselectApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/SwiftselectApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/admin/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/admin/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/base/Base.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/base/Base.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/base/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/base/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/employer/Employer.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/employer/Employer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/Applications.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/Applications.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobPost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobResponsibilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobResponsibilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/NiceToHave.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/NiceToHave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/Qualification.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/Qualification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/JobSeeker.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/JobSeeker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Certification.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Certification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Education.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Education.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/JobPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/JobPreference.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/License.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/License.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Skills.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Skills.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/WorkExperience.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/WorkExperience.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/subcriber/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/subcriber/Subscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/notification/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/notification/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Availability.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Availability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/CompanyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/CompanyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/EducationLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/EducationLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/EmploymentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/EmploymentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/ExperienceLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/ExperienceLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Gender.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Gender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Industry.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Industry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/JobType.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/JobType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/PayRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/PayRate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/ReportCat.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/ReportCat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/YearsOfExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/enums/YearsOfExp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/cloudinaryconfig/CloudinaryConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/cloudinaryconfig/CloudinaryConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/kafka/Kafka.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/kafka/Kafka.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/securityconfig/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/configurations/securityconfig/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/admincontroller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/admincontroller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/authcontroller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/authcontroller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/chat/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/chat/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/employercontrollers/EmployerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/employercontrollers/EmployerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/generalcontrollers/GeneralUsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/generalcontrollers/GeneralUsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobapplicationcontroller/JobApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobapplicationcontroller/JobApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobpostcontrollers/JobPostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobpostcontrollers/JobPostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/CreateProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/CreateProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/JobSeekerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/JobSeekerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/UpdateProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/UpdateProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/notificationcontrollers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/notificationcontrollers/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/documentations/SwaggerConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/documentations/SwaggerConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/CompleteRegistrationEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/CompleteRegistrationEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/ForgotPasswordEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/ForgotPasswordEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/JobPostCreatedEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/JobPostCreatedEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/NotificationEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/NotificationEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/NotificationMailEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventlistener/NotificationMailEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventpublisher/EventPublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/eventpublisher/EventPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/CompleteRegistrationEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/CompleteRegistrationEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/ForgotPasswordEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/ForgotPasswordEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/JobPostCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/JobPostCreatedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/NotificationMailEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/event/events/NotificationMailEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/exceptions/ApplicationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/exceptions/ApplicationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/exceptions/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/exceptions/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/CustomerUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/CustomerUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/CoverLetterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/CoverLetterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/MailRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/MailRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/ResumeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/ResumeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/adminrequest/AdminSignup.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/adminrequest/AdminSignup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ForgotPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ForgotPasswordRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ForgotPasswordResetRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ForgotPasswordResetRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ResetPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/authrequests/ResetPasswordRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerProfileContactInfoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerProfileContactInfoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerSignup.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerSignup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerUpdateProfileRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/employerreqests/EmployerUpdateProfileRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/JobPostRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/JobPostRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/JobResponsibilitiesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/JobResponsibilitiesRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/NiceToHaveRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/NiceToHaveRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/QualificationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jobpostrequests/QualificationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/JobSeekerSignup.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/JobSeekerSignup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/CertificationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/CertificationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/EducationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/EducationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSContactInfoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSContactInfoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSLocationInfoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSLocationInfoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSSocialsRequests.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSSocialsRequests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSWorkExperienceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JSWorkExperienceRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JobExpectationsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JobExpectationsRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JobPreferenceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/JobPreferenceRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/LanguageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/LanguageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/LicenseRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/LicenseRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/SkillsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/jsrequests/jsprofilerequests/SkillsRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/notificationRequest/SubscriptionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/notificationRequest/SubscriptionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/APIResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/APIResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/ErrorDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/ErrorDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/JwtAuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/JwtAuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/PostResponsePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/PostResponsePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/adminresponse/AdminSignupResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/adminresponse/AdminSignupResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/authresponse/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/authresponse/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/authresponse/ResetPasswordResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/authresponse/ResetPasswordResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerResponsePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerResponsePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerSignupResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/employerresponse/EmployerSignupResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobApplicationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobApplicationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobSearchResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobSearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerInfoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerListResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerListResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponsePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponsePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerSignupResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerSignupResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/AdminRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/AdminRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/CertificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/CertificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EducationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EducationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EmployerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EmployerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobApplicationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobApplicationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPreferenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPreferenceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobResponsibilitiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobResponsibilitiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobSeekerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobSeekerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/LanguageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/LanguageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/LicenseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/LicenseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NiceToHaveRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NiceToHaveRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NotificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/QualificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/QualificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/ReportRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/ReportRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SkillsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SkillsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SubscriberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SubscriberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/WorkExperienceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/WorkExperienceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/EmailSenderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/EmailSenderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/EmployerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/EmployerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/FileUpload.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/FileUpload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/GeneralUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/GeneralUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobApplicationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobPostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobPostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobSeekerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobSeekerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/EmailSenderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/EmailSenderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/EmployerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/EmployerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/FileUploadImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/FileUploadImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/GeneralUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/GeneralUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobApplicationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobApplicationImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobSeekerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobSeekerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AuthenticationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AuthenticationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/DateUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/HelperClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/HelperClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/RandomTokenGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/RandomTokenGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/SecurityConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/SecurityConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/test/java/com/swiftselect/SwiftselectApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/test/java/com/swiftselect/SwiftselectApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="com.haulmont.jpb.NewClass" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2Z5gsnc5h4FLiNsTYMHWZXm9K3t" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/api-consumption",
+    "last_opened_file_path": "/Users/mac/Desktop/SWIFTSELECTPROJECTLATEST/SQ17-SwiftSelect-Live-Project-Backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="SwiftselectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="API_KEY" value="761868682717488" />
+        <env name="API_SECRET" value="9iGv640bMtBx31khQFhQCpXVUak" />
+        <env name="CHAT_ENGINE_PRIVATE_KEY" value="48c3d381-cfd6-4d7c-9bfe-80bb441290a4" />
+        <env name="CHAT_ENGINE_PROJECT_ID" value="95909330-4295-4156-bd8a-8b70b1e062d7" />
+        <env name="CLOUD_NAME" value="dpfqbb9pl" />
+        <env name="EMAIL" value="swiftselect12@gmail.com" />
+        <env name="PASSWORD" value="jbgooqghhskeozcj" />
+      </envs>
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="swiftselect" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.swiftselect.SwiftselectApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="" />
+      <created>1701717585702</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701717585702</updated>
+      <workItem from="1701717596102" duration="5153000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
