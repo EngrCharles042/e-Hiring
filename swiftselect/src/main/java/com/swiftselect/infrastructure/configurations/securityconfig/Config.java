@@ -2,6 +2,7 @@ package com.swiftselect.infrastructure.configurations.securityconfig;
 
 import com.swiftselect.infrastructure.security.JwtAuthenticationEntryPoint;
 import com.swiftselect.infrastructure.security.JwtAuthenticationFilter;
+import io.swagger.v3.oas.models.PathItem;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
