@@ -2,13 +2,17 @@ package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
+import com.swiftselect.payload.request.jobpostrequests.ReportJobPostRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
+import com.swiftselect.repositories.JobPostRepository;
+import com.swiftselect.services.JobPostService;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
     private final ModelMapper mapper;
+    private final JobPostService jobPostService;
 
     @GetMapping
     public ResponseEntity<APIResponse<JobSeekerInfoResponse>> getJobSeeker() {
@@ -52,5 +57,10 @@ public class JobSeekerController {
                                                                               @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) String sortDir){
 
         return jobSeekerService.getAllJobSeekers(pageNo, pageSize, sortBy, sortDir);
+    }
+
+    @PostMapping("/report")
+    public ResponseEntity<APIResponse<String>> reportJobPost(@Valid @RequestBody ReportJobPostRequest reportJobPostRequest) {
+        return jobPostService.reportJobPost(reportJobPostRequest.getJobId(), reportJobPostRequest.getComment(), reportJobPostRequest.getReportCategory());
     }
 }

@@ -9,10 +9,7 @@ import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
-import com.swiftselect.payload.request.jobpostrequests.JobPostRequest;
-import com.swiftselect.payload.request.jobpostrequests.JobResponsibilitiesRequest;
-import com.swiftselect.payload.request.jobpostrequests.NiceToHaveRequest;
-import com.swiftselect.payload.request.jobpostrequests.QualificationRequest;
+import com.swiftselect.payload.request.jobpostrequests.*;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
@@ -120,13 +117,6 @@ public class JobPostController {
 
 
     // UPDATE JOB POST
-    @PostMapping("/{jobId}/report")
-    public ResponseEntity<APIResponse<String>> reportJobPost(@PathVariable Long jobId,
-                                                             @RequestParam String comment,
-                                                             @RequestParam ReportCat reportCategory) {
-        return jobPostService.reportJobPost(jobId, comment, reportCategory);
-    }
-
     @GetMapping("/jobType")
     public ResponseEntity<APIResponse<List<JobPost>>> getJobPostByJobType(@RequestParam JobType jobType) {
 
