@@ -15,6 +15,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ElmWorkspace"/>
+    <elmProjects />
+    <settings elmCompilerPath="" elmFormatPath="" elmTestPath="" isElmFormatOnSaveEnabled="false" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -66,6 +69,8 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "org.elm.workspace.PROJECT_DISCOVERY": "true",
+    "spring.configuration.checksum": "d457a0bd044a26c234d1d75e1136f922",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -106,6 +111,7 @@
       <updated>1701717585702</updated>
       <workItem from="1701717596102" duration="11600000" />
       <workItem from="1701737532620" duration="8456000" />
+      <workItem from="1701763944714" duration="14635000" />
       <workItem from="1701763497356" duration="6738000" />
       <workItem from="1701785205098" duration="1525000" />
     </task>

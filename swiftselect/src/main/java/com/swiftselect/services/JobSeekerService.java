@@ -77,7 +77,7 @@ public interface JobSeekerService {
 
      List<JobSeeker> getSubscribersByIndustry(Industry industry);
 
-     void subscribeJobSeekerToIndustry(SubscriptionRequest request);
+     void subscribeJobSeekerToIndustry(List<Industry> industries);
 
      boolean isSubscribed(String jobSeekerId, Industry industry);
 
@@ -88,4 +88,6 @@ public interface JobSeekerService {
      void sendNotification(Notification notification);
 
      void markNotificationAsRead(Long notificationId);
+
+     ResponseEntity<APIResponse<List<Notification>>>  getNotifications();
 }

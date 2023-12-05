@@ -473,21 +473,21 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
-    public void subscribeJobSeekerToIndustry(SubscriptionRequest request) {
+    public void subscribeJobSeekerToIndustry(List<Industry> industries) {
         JobSeeker jobSeeker = getJobSeeker();
-        Industry industry = request.getIndustry();
+        for (Industry industry : industries) {
+            if (!isSubscribed(jobSeeker.getId().toString(), industry)) {
+                // If not subscribed, add the subscription
 
-        if (!isSubscribed(jobSeeker.getId().toString(), industry)) {
-            // If not subscribed, add the subscription
+                // Create the Subscriber entity and associate it with the retrieved JobSeeker
+                Subscriber subscriber = Subscriber.builder()
+                        .jobSeeker(jobSeeker)
+                        .subscribedIndustry(industry)
+                        .build();
 
-            // Create the Subscriber entity and associate it with the retrieved JobSeeker
-            Subscriber subscriber = Subscriber.builder()
-                    .jobSeeker(jobSeeker)
-                    .subscribedIndustry(industry)
-                    .build();
-
-            // Save the subscriber details to the database
-            subscribe(subscriber);
+                // Save the subscriber details to the database
+                subscribe(subscriber);
+            }
         }
     }
 
@@ -584,5 +584,15 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
         notification.setRead(true);
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<List<Notification>>> getNotifications() {
+        JobSeeker jobSeeker = getJobSeeker();
+
+        return ResponseEntity.ok(new APIResponse<>(
+                "success",
+                notificationRepository.findAllByRecipient(jobSeeker)
+        ));
     }
 }
