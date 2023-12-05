@@ -42,9 +42,6 @@ public class GlobalExceptionHandler {
             errorModel.setMessage(fe.getDefaultMessage());
             errorModelList.add(errorModel);
         }
-
         return new ResponseEntity<>(errorModelList, HttpStatus.BAD_REQUEST);
-
-
     }
 }
