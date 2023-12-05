@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8169d6b8-412a-4fb3-bca0-b7a9c8742a2d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8169d6b8-412a-4fb3-bca0-b7a9c8742a2d.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobpost/JobPost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobpostcontrollers/JobPostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobpostcontrollers/JobPostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/notificationcontrollers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/notificationcontrollers/NotificationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/notificationRequest/SubscriptionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/request/notificationRequest/SubscriptionRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobPostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobResponsibilitiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobResponsibilitiesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NiceToHaveRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/NiceToHaveRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/QualificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/QualificationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobPostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/JobPostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/AppConstants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701717585702</updated>
       <workItem from="1701717596102" duration="11600000" />
-      <workItem from="1701737532620" duration="8456000" />
+      <workItem from="1701737532620" duration="8991000" />
     </task>
     <servers />
   </component>
