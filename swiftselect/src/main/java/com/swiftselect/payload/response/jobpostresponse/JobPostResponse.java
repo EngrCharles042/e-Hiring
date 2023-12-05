@@ -7,7 +7,9 @@ import com.swiftselect.domain.enums.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,10 +35,10 @@ public class JobPostResponse {
     private String language;
     private String yearsOfExp;
     private String educationLevel;
-    private String howToApply;
     private String companyName;
+    private Long companyId;
     private String logo;
-//    private Set<JobResponsibilities> responsibilities = new HashSet<>();
-//    private Set<Qualification> qualifications = new HashSet<>();
-//    private Set<NiceToHave> niceToHaveSet = new HashSet<>();
+    private List<ResponsibilityResponse> responsibilities = new ArrayList<>();
+    private List<NiceToHaveResponse> niceToHave = new ArrayList<>();
+    private List<QualificationResponse> qualifications = new ArrayList<>();
 }

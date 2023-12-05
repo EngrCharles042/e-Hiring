@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     Optional<JobPost> findByIdAndEmployer(Long id, Employer employer);
 
+    List<JobPost> findJobPostsByEmployerId(Long employer_id);
+
     List<JobPost> findAllByJobType(JobType jobType);
 
     Slice<JobPost> findAllByExperienceLevel(ExperienceLevel experienceLevel, Pageable pageable);

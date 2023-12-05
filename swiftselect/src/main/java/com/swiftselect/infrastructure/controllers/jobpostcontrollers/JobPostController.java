@@ -1,6 +1,9 @@
 package com.swiftselect.infrastructure.controllers.jobpostcontrollers;
 
 import com.swiftselect.domain.entities.jobpost.JobPost;
+import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
+import com.swiftselect.domain.entities.jobpost.NiceToHave;
+import com.swiftselect.domain.entities.jobpost.Qualification;
 import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
@@ -14,7 +17,11 @@ import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.PostResponsePage;
 import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.jobpostresponse.JobSearchResponse;
+import com.swiftselect.payload.response.jobpostresponse.ResponsibilityResponse;
 import com.swiftselect.repositories.JobPostRepository;
+import com.swiftselect.repositories.JobResponsibilitiesRepository;
+import com.swiftselect.repositories.NiceToHaveRepository;
+import com.swiftselect.repositories.QualificationRepository;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -46,11 +53,15 @@ public class JobPostController {
         return jobPostService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
+    @GetMapping("/{employerId}")
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByCompanyId(@PathVariable Long employerId) {
+        return jobPostService.getJobPostByEmployerId(employerId);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(@PathVariable Long id) {
         return jobPostService.getJobPostById(id);
     }
-
 
     @GetMapping("/filter")
     public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPosts(

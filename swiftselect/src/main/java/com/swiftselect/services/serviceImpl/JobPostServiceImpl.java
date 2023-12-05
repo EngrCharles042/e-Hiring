@@ -17,9 +17,8 @@ import com.swiftselect.infrastructure.exceptions.ApplicationException;
 import com.swiftselect.infrastructure.security.JwtTokenProvider;
 import com.swiftselect.payload.request.jobpostrequests.*;
 import com.swiftselect.payload.response.APIResponse;
-import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
+import com.swiftselect.payload.response.jobpostresponse.*;
 import com.swiftselect.payload.response.PostResponsePage;
-import com.swiftselect.payload.response.jobpostresponse.JobSearchResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.HelperClass;
@@ -78,6 +77,7 @@ public class JobPostServiceImpl implements JobPostService {
         JobPostResponse jobPostResponse = mapper.map(savedJobPost, JobPostResponse.class);
         jobPostResponse.setLogo(savedJobPost.getEmployer().getProfilePicture());
         jobPostResponse.setCompanyName(savedJobPost.getEmployer().getCompanyName());
+        jobPostResponse.setCompanyId(savedJobPost.getEmployer().getId());
 
         applicationEventPublisher.publishEvent(new JobPostCreatedEvent(this, jobPost));
 
@@ -135,9 +135,31 @@ public class JobPostServiceImpl implements JobPostService {
 
         List<JobPostResponse> content = jobPostList.stream()
                 .map(jobPost -> {
-                    JobPostResponse jobPostResponse = mapper.map(jobPost, JobPostResponse.class);
-                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
-                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
+                    JobPostResponse jobPostResponse = JobPostResponse.builder()
+                            .id(jobPost.getId())
+                            .updateDate(jobPost.getUpdateDate())
+                            .title(jobPost.getTitle())
+                            .numOfPeopleToHire(jobPost.getNumOfPeopleToHire())
+                            .description(jobPost.getDescription())
+                            .country(jobPost.getCountry())
+                            .state(jobPost.getState())
+                            .employmentType(jobPost.getEmploymentType().toString())
+                            .jobType(jobPost.getJobType().toString())
+                            .applicationDeadline(jobPost.getApplicationDeadline().toString())
+                            .jobCategory(jobPost.getJobCategory().toString())
+                            .maximumPay(jobPost.getMaximumPay())
+                            .minimumPay(jobPost.getMinimumPay())
+                            .payRate(jobPost.getPayRate().toString())
+                            .language(jobPost.getLanguage())
+                            .yearsOfExp(jobPost.getYearsOfExp().toString())
+                            .educationLevel(jobPost.getEducationLevel().toString())
+                            .companyName(jobPost.getEmployer().getCompanyName())
+                            .companyId(jobPost.getEmployer().getId())
+                            .logo(jobPost.getEmployer().getProfilePicture())
+                            .responsibilities(responsibilityConverter(jobResponsibilitiesRepository.findAllByJobPost(jobPost)))
+                            .niceToHave(niceToHaveConverter(niceToHaveRepository.findAllByJobPost(jobPost)))
+                            .qualifications(qualificationConverter(qualificationRepository.findAllByJobPost(jobPost)))
+                            .build();
 
                     return jobPostResponse;
                 })
@@ -155,6 +177,36 @@ public class JobPostServiceImpl implements JobPostService {
                             .build()
                 )
         );
+    }
+
+    private List<ResponsibilityResponse> responsibilityConverter(List<JobResponsibilities> responsibilities) {
+        return responsibilities.stream()
+                .map(responsibility ->
+                    ResponsibilityResponse.builder()
+                            .id(responsibility.getId())
+                            .responsibility(responsibility.getResponsibility())
+                            .build())
+                .toList();
+    }
+
+    private List<NiceToHaveResponse> niceToHaveConverter(List<NiceToHave> niceToHaves) {
+        return niceToHaves.stream()
+                .map(niceToHave ->
+                        NiceToHaveResponse.builder()
+                                .id(niceToHave.getId())
+                                .niceToHave(niceToHave.getNiceToHave())
+                                .build())
+                .toList();
+    }
+
+    private List<QualificationResponse> qualificationConverter(List<Qualification> qualifications) {
+        return qualifications.stream()
+                .map(qualification ->
+                        QualificationResponse.builder()
+                                .id(qualification.getId())
+                                .qualifications(qualification.getQualificationDetails())
+                                .build())
+                .toList();
     }
 
     @Override
@@ -275,9 +327,18 @@ public class JobPostServiceImpl implements JobPostService {
                 })
                 .toList();
 
-
         return ResponseEntity.ok(new APIResponse<>("Success", searchResponses));
     }
 
-
+    @Override
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByEmployerId(Long id) {
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "success",
+                        jobPostRepository.findJobPostsByEmployerId(id).stream()
+                                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                                .toList()
+                )
+        );
+    }
 }
