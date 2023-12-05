@@ -9,5 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SubscriptionRequest {
+
     private Industry industry;
 }

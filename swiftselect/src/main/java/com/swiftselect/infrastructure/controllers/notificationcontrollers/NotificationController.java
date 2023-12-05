@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class NotificationController {
     private final JobSeekerService jobSeekerService;
 
-
     @PostMapping("/subscribe")
     public ResponseEntity<String> subscribeToIndustry(@RequestBody SubscriptionRequest request) {
         jobSeekerService.subscribeJobSeekerToIndustry(request);

@@ -60,13 +60,13 @@ public class JobPost extends Base {
     @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;
 
-    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<NiceToHave> niceToHaveSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<JobResponsibilities> responsibilities = new HashSet<>();
 
-    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "jobPost", cascade = CascadeType.ALL)
     private Set<Qualification> qualifications = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
