@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
