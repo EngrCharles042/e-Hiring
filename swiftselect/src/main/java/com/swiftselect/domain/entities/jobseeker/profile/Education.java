@@ -14,6 +14,7 @@ import lombok.*;
 @Entity
 @Table(name = "education")
 public class Education extends Base {
+    @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;
 
     private String fieldOfStudy;

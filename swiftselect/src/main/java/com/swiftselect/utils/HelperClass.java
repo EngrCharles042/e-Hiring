@@ -3,10 +3,16 @@ package com.swiftselect.utils;
 import com.swiftselect.domain.entities.admin.Admin;
 import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.entities.jobseeker.profile.Certification;
+import com.swiftselect.domain.entities.jobseeker.profile.Education;
+import com.swiftselect.domain.entities.jobseeker.profile.Skills;
+import com.swiftselect.domain.entities.jobseeker.profile.WorkExperience;
+import com.swiftselect.domain.enums.Gender;
+import com.swiftselect.domain.enums.JobType;
+import com.swiftselect.domain.enums.PayRate;
 import com.swiftselect.infrastructure.exceptions.ApplicationException;
-import com.swiftselect.repositories.AdminRepository;
-import com.swiftselect.repositories.EmployerRepository;
-import com.swiftselect.repositories.JobSeekerRepository;
+import com.swiftselect.payload.response.jsresponse.*;
+import com.swiftselect.repositories.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +27,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +38,10 @@ public class HelperClass {
     private final JobSeekerRepository jobSeekerRepository;
     private final EmployerRepository employerRepository;
     private final AdminRepository adminRepository;
+    private final EducationRepository educationRepository;
+    private final WorkExperienceRepository workExperienceRepository;
+    private final SkillsRepository skillsRepository;
+    private final CertificationRepository certificationRepository;
 
     public String getTokenFromHttpRequest(HttpServletRequest request) {
         // Get the bearer token from the http request
@@ -206,4 +217,79 @@ public class HelperClass {
             return adminOptional.get().getFirstName();
         }
     }
+
+    public JobSeekerInfoResponse jobSeekerToJobSeekerInfoResponse(JobSeeker jobSeeker) {
+        return JobSeekerInfoResponse.builder()
+                .id(jobSeeker.getId())
+                .firstName(jobSeeker.getFirstName())
+                .lastName(jobSeeker.getLastName())
+                .email(jobSeeker.getEmail())
+                .phoneNumber(jobSeeker.getPhoneNumber())
+                .profilePicture(jobSeeker.getProfilePicture())
+                .country(jobSeeker.getCountry())
+                .state(jobSeeker.getState())
+                .city(jobSeeker.getCity())
+                .address(jobSeeker.getAddress())
+                .postalCode(jobSeeker.getPostalCode())
+                .facebook(jobSeeker.getFacebook())
+                .twitter(jobSeeker.getTwitter())
+                .instagram(jobSeeker.getInstagram())
+                .gender(jobSeeker.getGender())
+                .dateOfBirth(jobSeeker.getDateOfBirth())
+                .resume(jobSeeker.getResume())
+                .coverLetter(jobSeeker.getCoverLetter())
+                .workExperiences(workExperiencesToWorkExperienceResponses(workExperienceRepository.findAllByJobSeeker(jobSeeker)))
+                .skills(skillsToSkillResponses(skillsRepository.findAllByJobSeeker(jobSeeker)))
+                .certifications(certificationsToCertificationsResponse(certificationRepository.findAllByJobSeeker(jobSeeker)))
+                .education(educationsToEducationResponses(educationRepository.findAllByJobSeeker(jobSeeker)))
+                .build();
+    }
+
+    public List<EducationResponse> educationsToEducationResponses(List<Education> educations) {
+        return educations.stream()
+                .map(education ->
+                    EducationResponse.builder()
+                            .id(education.getId())
+                            .educationLevel(education.getEducationLevel())
+                            .fieldOfStudy(education.getFieldOfStudy())
+                            .yearOfGraduation(education.getYearOfGraduation())
+                            .build()
+                ).toList();
+    }
+
+    public List<WorkExperienceResponse> workExperiencesToWorkExperienceResponses(List<WorkExperience> workExperiences) {
+        return workExperiences.stream()
+                .map(workExperience ->
+                        WorkExperienceResponse.builder()
+                                .id(workExperience.getId())
+                                .companyName(workExperience.getCompanyName())
+                                .jobTitle(workExperience.getJobTitle())
+                                .startDate(workExperience.getStartDate())
+                                .stopDate(workExperience.getStopDate())
+                                .build()
+                ).toList();
+    }
+
+    public List<SkillsResponse> skillsToSkillResponses(List<Skills> skills) {
+        return skills.stream()
+                .map(skill ->
+                        SkillsResponse.builder()
+                                .id(skill.getId())
+                                .skill(skill.getSkill())
+                                .yearsOfExperience(skill.getYearsOfExperience())
+                                .build()
+                ).toList();
+    }
+
+    public List<CertificationsResponse> certificationsToCertificationsResponse(List<Certification> certifications) {
+        return certifications.stream()
+                .map(certification ->
+                        CertificationsResponse.builder()
+                                .id(certification.getId())
+                                .expiration(certification.getExpiration())
+                                .name(certification.getName())
+                                .build()
+                ).toList();
+    }
+
 }

@@ -2,14 +2,9 @@ package com.swiftselect.services.serviceImpl;
 
 import com.swiftselect.domain.entities.Report;
 import com.swiftselect.domain.entities.employer.Employer;
-import com.swiftselect.domain.entities.jobpost.JobPost;
-import com.swiftselect.domain.entities.jobpost.JobResponsibilities;
-import com.swiftselect.domain.entities.jobpost.NiceToHave;
-import com.swiftselect.domain.entities.jobpost.Qualification;
+import com.swiftselect.domain.entities.jobpost.*;
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
-import com.swiftselect.domain.enums.EmploymentType;
 import com.swiftselect.domain.enums.ExperienceLevel;
-import com.swiftselect.domain.enums.Industry;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.ReportCat;
 import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
@@ -32,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,6 +44,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JwtTokenProvider jwtTokenProvider;
     private final JobSeekerRepository jobSeekerRepository;
     private final ReportRepository reportRepository;
+    private final JobApplicationRepository jobApplicationRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
@@ -177,6 +172,17 @@ public class JobPostServiceImpl implements JobPostService {
                                 .qualifications(qualification.getQualificationDetails())
                                 .build())
                 .toList();
+    }
+
+    private List<ApplicationResponse> applicationToApplicationResponse(List<Applications> applications) {
+        return applications.stream()
+                .map(application ->
+                        ApplicationResponse.builder()
+                                .id(application.getId())
+                                .jobSeekerInfo(helperClass.jobSeekerToJobSeekerInfoResponse(application.getJobSeeker()))
+                                .createDate(application.getCreateDate())
+                                .build()
+                ).toList();
     }
 
     @Override
@@ -351,6 +357,7 @@ public class JobPostServiceImpl implements JobPostService {
                         .companyName(jobPost.getEmployer().getCompanyName())
                         .companyId(jobPost.getEmployer().getId())
                         .logo(jobPost.getEmployer().getProfilePicture())
+                        .applications(applicationToApplicationResponse(jobApplicationRepository.findAllByJobPost(jobPost)))
                         .responsibilities(responsibilityConverter(jobResponsibilitiesRepository.findAllByJobPost(jobPost)))
                         .niceToHave(niceToHaveConverter(niceToHaveRepository.findAllByJobPost(jobPost)))
                         .qualifications(qualificationConverter(qualificationRepository.findAllByJobPost(jobPost)))

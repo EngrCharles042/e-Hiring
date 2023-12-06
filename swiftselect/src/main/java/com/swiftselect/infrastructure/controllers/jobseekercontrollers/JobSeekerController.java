@@ -11,6 +11,7 @@ import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
+import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/job-seeker")
 public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
-    private final ModelMapper mapper;
     private final JobPostService jobPostService;
+    private final HelperClass helperClass;
 
     @GetMapping
     public ResponseEntity<APIResponse<JobSeekerInfoResponse>> getJobSeeker() {
@@ -33,7 +34,7 @@ public class JobSeekerController {
         return ResponseEntity.ok(
                 new APIResponse<>(
                         "Retrieved Successfully",
-                        mapper.map(jobSeeker, JobSeekerInfoResponse.class)
+                        helperClass.jobSeekerToJobSeekerInfoResponse(jobSeeker)
                 )
         );
     }

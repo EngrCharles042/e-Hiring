@@ -38,6 +38,7 @@ public class JobPostResponse {
     private String companyName;
     private Long companyId;
     private String logo;
+    private List<ApplicationResponse> applications = new ArrayList<>();
     private List<ResponsibilityResponse> responsibilities = new ArrayList<>();
     private List<NiceToHaveResponse> niceToHave = new ArrayList<>();
     private List<QualificationResponse> qualifications = new ArrayList<>();

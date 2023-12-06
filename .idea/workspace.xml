@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swiftselect/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Education.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/domain/entities/jobseeker/profile/Education.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/JobSeekerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/infrastructure/controllers/jobseekercontrollers/JobSeekerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jobpostresponse/JobPostResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerInfoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/payload/response/jsresponse/JobSeekerResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/CertificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/CertificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EducationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/EducationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobApplicationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/JobApplicationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SkillsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/SkillsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/WorkExperienceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/repositories/WorkExperienceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/services/serviceImpl/JobPostServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/HelperClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/java/com/swiftselect/utils/HelperClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,9 +27,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ElmWorkspace"/>
-    <elmProjects />
-    <settings elmCompilerPath="" elmFormatPath="" elmTestPath="" isElmFormatOnSaveEnabled="false" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -72,10 +79,10 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "org.elm.workspace.PROJECT_DISCOVERY": "true",
-    "spring.configuration.checksum": "d457a0bd044a26c234d1d75e1136f922",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "spring.configuration.checksum": "d457a0bd044a26c234d1d75e1136f922",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {

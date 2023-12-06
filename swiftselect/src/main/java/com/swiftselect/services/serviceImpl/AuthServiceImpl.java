@@ -17,7 +17,6 @@ import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.JwtAuthResponse;
 import com.swiftselect.payload.response.adminresponse.AdminSignupResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerSignupResponse;
-import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerSignupResponse;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.AuthService;
