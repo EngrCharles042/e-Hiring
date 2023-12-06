@@ -47,6 +47,8 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
             "OR LOWER(country) LIKE LOWER(CONCAT('%', :query, '%')) ",
             nativeQuery = true)
     List<JobPost> findByStateAndCountry(String query);
+
+    List<JobPost> findJobPostsByEmployer(Employer employer);
 }
 
 

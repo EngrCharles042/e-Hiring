@@ -1,5 +1,6 @@
 package com.swiftselect.services;
 
+import com.swiftselect.domain.entities.employer.Employer;
 import com.swiftselect.domain.entities.jobpost.JobPost;
 import com.swiftselect.domain.enums.ExperienceLevel;
 import com.swiftselect.domain.enums.Industry;
@@ -34,4 +35,6 @@ public interface JobPostService {
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByStateAndCountry(String query);
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByEmployerId(Long id);
+
+    ResponseEntity<APIResponse<List<JobPostResponse>>> findJobPostsByEmployer();
 }

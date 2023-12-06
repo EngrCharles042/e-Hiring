@@ -7,12 +7,19 @@
     <list default="true" id="8743dd5a-d60a-4bbd-ac0c-99e5f0cb3224" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swiftselect/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/swiftselect/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ElmWorkspace"/>
+    <elmProjects />
+    <settings elmCompilerPath="" elmFormatPath="" elmTestPath="" isElmFormatOnSaveEnabled="false" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -64,6 +71,11 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "org.elm.workspace.PROJECT_DISCOVERY": "true",
+    "spring.configuration.checksum": "d457a0bd044a26c234d1d75e1136f922",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -102,7 +114,9 @@
       <workItem from="1701717596102" duration="11600000" />
       <workItem from="1701737532620" duration="8991000" />
       <workItem from="1701737532620" duration="8456000" />
+      <workItem from="1701763944714" duration="14635000" />
       <workItem from="1701763497356" duration="6738000" />
+      <workItem from="1701785205098" duration="1525000" />
     </task>
     <servers />
   </component>

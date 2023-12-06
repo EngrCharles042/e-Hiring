@@ -3,6 +3,7 @@ package com.swiftselect.infrastructure.exceptions;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
 @Getter
 public class ApplicationException extends RuntimeException {
     private final String customMessage;
@@ -12,7 +13,4 @@ public class ApplicationException extends RuntimeException {
         this.customMessage = customMessage;
     }
 
-    public String getCustomMessage() {
-        return customMessage;
-    }
 }

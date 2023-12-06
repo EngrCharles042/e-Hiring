@@ -133,37 +133,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         List<JobPost> jobPostList = jobPosts.getContent();
 
-        List<JobPostResponse> content = jobPostList.stream()
-                .map(jobPost -> {
-                    JobPostResponse jobPostResponse = JobPostResponse.builder()
-                            .id(jobPost.getId())
-                            .updateDate(jobPost.getUpdateDate())
-                            .title(jobPost.getTitle())
-                            .numOfPeopleToHire(jobPost.getNumOfPeopleToHire())
-                            .description(jobPost.getDescription())
-                            .country(jobPost.getCountry())
-                            .state(jobPost.getState())
-                            .employmentType(jobPost.getEmploymentType().toString())
-                            .jobType(jobPost.getJobType().toString())
-                            .applicationDeadline(jobPost.getApplicationDeadline().toString())
-                            .jobCategory(jobPost.getJobCategory().toString())
-                            .maximumPay(jobPost.getMaximumPay())
-                            .minimumPay(jobPost.getMinimumPay())
-                            .payRate(jobPost.getPayRate().toString())
-                            .language(jobPost.getLanguage())
-                            .yearsOfExp(jobPost.getYearsOfExp().toString())
-                            .educationLevel(jobPost.getEducationLevel().toString())
-                            .companyName(jobPost.getEmployer().getCompanyName())
-                            .companyId(jobPost.getEmployer().getId())
-                            .logo(jobPost.getEmployer().getProfilePicture())
-                            .responsibilities(responsibilityConverter(jobResponsibilitiesRepository.findAllByJobPost(jobPost)))
-                            .niceToHave(niceToHaveConverter(niceToHaveRepository.findAllByJobPost(jobPost)))
-                            .qualifications(qualificationConverter(qualificationRepository.findAllByJobPost(jobPost)))
-                            .build();
-
-                    return jobPostResponse;
-                })
-                .toList();
+        List<JobPostResponse> content = listOfJobPostToListOfJobPostResponse(jobPostList);
 
         return ResponseEntity.ok(
                 new APIResponse<>(
@@ -340,5 +310,51 @@ public class JobPostServiceImpl implements JobPostService {
                                 .toList()
                 )
         );
+    }
+
+    @Override
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> findJobPostsByEmployer() {
+        Employer employer = getCurrentEmployerFromToken(request);
+
+        List<JobPost> jobPosts = jobPostRepository.findJobPostsByEmployer(employer);
+
+        List<JobPostResponse> jobPostResponses = listOfJobPostToListOfJobPostResponse(jobPosts);
+
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "success",
+                        jobPostResponses
+                )
+        );
+    }
+
+    private List<JobPostResponse> listOfJobPostToListOfJobPostResponse(List<JobPost> jobPosts) {
+        return jobPosts.stream()
+                .map(jobPost -> JobPostResponse.builder()
+                        .id(jobPost.getId())
+                        .updateDate(jobPost.getUpdateDate())
+                        .title(jobPost.getTitle())
+                        .numOfPeopleToHire(jobPost.getNumOfPeopleToHire())
+                        .description(jobPost.getDescription())
+                        .country(jobPost.getCountry())
+                        .state(jobPost.getState())
+                        .employmentType(jobPost.getEmploymentType().toString())
+                        .jobType(jobPost.getJobType().toString())
+                        .applicationDeadline(jobPost.getApplicationDeadline().toString())
+                        .jobCategory(jobPost.getJobCategory().toString())
+                        .maximumPay(jobPost.getMaximumPay())
+                        .minimumPay(jobPost.getMinimumPay())
+                        .payRate(jobPost.getPayRate().toString())
+                        .language(jobPost.getLanguage())
+                        .yearsOfExp(jobPost.getYearsOfExp().toString())
+                        .educationLevel(jobPost.getEducationLevel().toString())
+                        .companyName(jobPost.getEmployer().getCompanyName())
+                        .companyId(jobPost.getEmployer().getId())
+                        .logo(jobPost.getEmployer().getProfilePicture())
+                        .responsibilities(responsibilityConverter(jobResponsibilitiesRepository.findAllByJobPost(jobPost)))
+                        .niceToHave(niceToHaveConverter(niceToHaveRepository.findAllByJobPost(jobPost)))
+                        .qualifications(qualificationConverter(qualificationRepository.findAllByJobPost(jobPost)))
+                        .build())
+                .toList();
     }
 }
