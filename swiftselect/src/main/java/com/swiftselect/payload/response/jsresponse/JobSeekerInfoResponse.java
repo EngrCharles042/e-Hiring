@@ -6,16 +6,21 @@ import com.swiftselect.domain.entities.jobseeker.profile.*;
 import com.swiftselect.domain.enums.Gender;
 import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.domain.enums.PayRate;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 public class JobSeekerInfoResponse {
+    Long id;
     String firstName;
     String lastName;
     String email;
@@ -37,4 +42,8 @@ public class JobSeekerInfoResponse {
     String basePay;
     PayRate payRate;
     JobType jobType;
+    List<EducationResponse> education;
+    List<WorkExperienceResponse> workExperiences;
+    List<SkillsResponse> skills;
+    List<CertificationsResponse> certifications;
 }

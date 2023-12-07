@@ -50,11 +50,6 @@ public class JobPostController {
         return jobPostService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
-    @GetMapping("/{employerId}")
-    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByCompanyId(@PathVariable Long employerId) {
-        return jobPostService.getJobPostByEmployerId(employerId);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(@PathVariable Long id) {
         return jobPostService.getJobPostById(id);

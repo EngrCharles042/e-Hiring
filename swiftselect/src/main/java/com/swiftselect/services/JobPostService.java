@@ -32,6 +32,8 @@ public interface JobPostService {
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> searchJobs(String query);
 
+    JobPostResponse jobPostToJobPostResponse(JobPost jobPost);
+
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByStateAndCountry(String query);
 
     ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByEmployerId(Long id);

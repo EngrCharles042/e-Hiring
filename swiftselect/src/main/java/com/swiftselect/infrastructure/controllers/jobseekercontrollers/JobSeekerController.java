@@ -5,12 +5,14 @@ import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jobpostrequests.ReportJobPostRequest;
 import com.swiftselect.payload.response.APIResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
+import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerInfoResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.JobPostRepository;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.services.JobSeekerService;
 import com.swiftselect.utils.AppConstants;
+import com.swiftselect.utils.HelperClass;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +20,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/job-seeker")
 public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
-    private final ModelMapper mapper;
     private final JobPostService jobPostService;
+    private final HelperClass helperClass;
 
     @GetMapping
     public ResponseEntity<APIResponse<JobSeekerInfoResponse>> getJobSeeker() {
@@ -33,7 +37,7 @@ public class JobSeekerController {
         return ResponseEntity.ok(
                 new APIResponse<>(
                         "Retrieved Successfully",
-                        mapper.map(jobSeeker, JobSeekerInfoResponse.class)
+                        helperClass.jobSeekerToJobSeekerInfoResponse(jobSeeker)
                 )
         );
     }
@@ -62,5 +66,10 @@ public class JobSeekerController {
     @PostMapping("/report")
     public ResponseEntity<APIResponse<String>> reportJobPost(@Valid @RequestBody ReportJobPostRequest reportJobPostRequest) {
         return jobPostService.reportJobPost(reportJobPostRequest.getJobId(), reportJobPostRequest.getComment(), reportJobPostRequest.getReportCategory());
+    }
+
+    @PostMapping("/employer")
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByCompanyId(@RequestParam Long employerId) {
+        return jobPostService.getJobPostByEmployerId(employerId);
     }
 }

@@ -12,11 +12,13 @@ import com.swiftselect.infrastructure.event.events.JobPostCreatedEvent;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.request.notificationRequest.SubscriptionRequest;
 import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.NotificationResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import com.swiftselect.repositories.*;
 import com.swiftselect.services.FileUpload;
+import com.swiftselect.services.JobPostService;
 import com.swiftselect.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +72,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private final SubscriberRepository subscriberRepository;
     private final JavaMailSender mailSender;
     private final NotificationRepository notificationRepository;
+    private final JobPostService jobPostService;
 
     @Value("${spring.mail.username}")
     private String sendMail;
@@ -587,12 +590,27 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
-    public ResponseEntity<APIResponse<List<Notification>>> getNotifications() {
+    public ResponseEntity<APIResponse<List<NotificationResponse>>> getNotifications() {
         JobSeeker jobSeeker = getJobSeeker();
+
+        List<Notification> notifications = notificationRepository.findAllByRecipientOrderByCreateDate(jobSeeker);
+
+        List<NotificationResponse> notificationResponses = notifications.stream()
+                .map(notification -> NotificationResponse.builder()
+                        .id(notification.getId())
+                        .message(notification.getMessage())
+                        .jobPostId(notification.getRelatedJobPost().getId())
+                        .companyName(notification.getRelatedJobPost().getEmployer().getCompanyName())
+                        .logo(notification.getRelatedJobPost().getEmployer().getProfilePicture())
+                        .read(notification.isRead())
+                        .jobPostResponse(jobPostService.jobPostToJobPostResponse(notification.getRelatedJobPost()))
+                        .createTime(String.valueOf(notification.getCreateDate()).substring(11, 16))
+                        .build()
+                ).toList();
 
         return ResponseEntity.ok(new APIResponse<>(
                 "success",
-                notificationRepository.findAllByRecipient(jobSeeker)
+                notificationResponses
         ));
     }
 }

@@ -73,6 +73,10 @@ public class Config {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/auth/**"),
                                 antMatcher(HttpMethod.GET, "/auth/**"))
                         .permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/job-post/employer"))
+                        .hasAnyAuthority("JOB_SEEKER", "EMPLOYER")
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/notification/**"))
+                        .permitAll()
                         .requestMatchers(antMatcher("/chat/**"))
                         .permitAll()
                         .requestMatchers(antMatcher("/job-seeker/**"))
@@ -105,7 +109,7 @@ public class Config {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(List.of("http://127.0.0.1:1123"));
-        configuration.setAllowedMethods(List.of("POST", "GET", "DELETE", "PUT"));
+        configuration.setAllowedMethods(List.of("POST", "GET", "DELETE", "PUT", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

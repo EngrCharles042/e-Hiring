@@ -11,8 +11,10 @@ import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jsrequests.jsprofilerequests.*;
 import com.swiftselect.payload.request.notificationRequest.SubscriptionRequest;
 import com.swiftselect.payload.response.APIResponse;
+import com.swiftselect.payload.response.NotificationResponse;
 import com.swiftselect.payload.response.authresponse.ResetPasswordResponse;
 import com.swiftselect.payload.response.employerresponse.EmployerResponsePage;
+import com.swiftselect.payload.response.jobpostresponse.JobPostResponse;
 import com.swiftselect.payload.response.jsresponse.JobSeekerResponsePage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -89,5 +91,5 @@ public interface JobSeekerService {
 
      void markNotificationAsRead(Long notificationId);
 
-     ResponseEntity<APIResponse<List<Notification>>>  getNotifications();
+     ResponseEntity<APIResponse<List<NotificationResponse>>>  getNotifications();
 }

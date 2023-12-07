@@ -18,4 +18,10 @@ public class JobSeekerResponse {
     private String email;
 
     private Gender gender;
+
+    private String facebook;
+
+    private String instagram;
+
+    private String twitter;
 }
