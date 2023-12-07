@@ -312,7 +312,7 @@ public class JobPostServiceImpl implements JobPostService {
                 new APIResponse<>(
                         "success",
                         jobPostRepository.findJobPostsByEmployerId(id).stream()
-                                .map(jobPost -> mapper.map(jobPost, JobPostResponse.class))
+                                .map(this::jobPostToJobPostResponse)
                                 .toList()
                 )
         );
@@ -336,7 +336,12 @@ public class JobPostServiceImpl implements JobPostService {
 
     private List<JobPostResponse> listOfJobPostToListOfJobPostResponse(List<JobPost> jobPosts) {
         return jobPosts.stream()
-                .map(jobPost -> JobPostResponse.builder()
+                .map(this::jobPostToJobPostResponse)
+                .toList();
+    }
+
+    public JobPostResponse jobPostToJobPostResponse(JobPost jobPost) {
+        return JobPostResponse.builder()
                         .id(jobPost.getId())
                         .updateDate(jobPost.getUpdateDate())
                         .title(jobPost.getTitle())
@@ -361,7 +366,6 @@ public class JobPostServiceImpl implements JobPostService {
                         .responsibilities(responsibilityConverter(jobResponsibilitiesRepository.findAllByJobPost(jobPost)))
                         .niceToHave(niceToHaveConverter(niceToHaveRepository.findAllByJobPost(jobPost)))
                         .qualifications(qualificationConverter(qualificationRepository.findAllByJobPost(jobPost)))
-                        .build())
-                .toList();
+                        .build();
     }
 }
