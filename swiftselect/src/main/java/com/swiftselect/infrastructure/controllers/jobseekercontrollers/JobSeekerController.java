@@ -1,6 +1,9 @@
 package com.swiftselect.infrastructure.controllers.jobseekercontrollers;
 
 import com.swiftselect.domain.entities.jobseeker.JobSeeker;
+import com.swiftselect.domain.enums.EmploymentType;
+import com.swiftselect.domain.enums.ExperienceLevel;
+import com.swiftselect.domain.enums.JobType;
 import com.swiftselect.payload.request.authrequests.ResetPasswordRequest;
 import com.swiftselect.payload.request.jobpostrequests.ReportJobPostRequest;
 import com.swiftselect.payload.response.APIResponse;
@@ -29,6 +32,7 @@ public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
     private final JobPostService jobPostService;
     private final HelperClass helperClass;
+    private final JobPostRepository jobPostRepository;
 
     @GetMapping
     public ResponseEntity<APIResponse<JobSeekerInfoResponse>> getJobSeeker() {
@@ -71,5 +75,45 @@ public class JobSeekerController {
     @PostMapping("/employer")
     public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPostByCompanyId(@RequestParam Long employerId) {
         return jobPostService.getJobPostByEmployerId(employerId);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPosts(
+            @RequestParam(required = false) JobType REMOTE,
+            @RequestParam(required = false) JobType HYBRID,
+            @RequestParam(required = false) JobType ON_SITE,
+            @RequestParam(required = false) EmploymentType FULL_TIME,
+            @RequestParam(required = false) EmploymentType PART_TIME,
+            @RequestParam(required = false) EmploymentType CONTRACT,
+            @RequestParam(required = false) EmploymentType TEMPORARY,
+            @RequestParam(required = false) ExperienceLevel ENTRY_LEVEL,
+            @RequestParam(required = false) ExperienceLevel JUNIOR_LEVEL,
+            @RequestParam(required = false) ExperienceLevel MID_LEVEL,
+            @RequestParam(required = false) ExperienceLevel SENIOR_LEVEL,
+            @RequestParam(required = false) ExperienceLevel EXPERT_LEVEL
+    ) {
+
+        return ResponseEntity.ok(
+                new APIResponse<>(
+                        "successful",
+                        jobPostRepository.findJobPostsByJobTypeOrJobTypeOrJobTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevelOrderByCreateDateDesc(
+                                        REMOTE,
+                                        HYBRID,
+                                        ON_SITE,
+                                        FULL_TIME,
+                                        PART_TIME,
+                                        CONTRACT,
+                                        TEMPORARY,
+                                        ENTRY_LEVEL,
+                                        JUNIOR_LEVEL,
+                                        MID_LEVEL,
+                                        SENIOR_LEVEL,
+                                        EXPERT_LEVEL
+                                ).stream()
+                                .map(jobPostService::jobPostToJobPostResponse
+                                )
+                                .toList()
+                )
+        );
     }
 }

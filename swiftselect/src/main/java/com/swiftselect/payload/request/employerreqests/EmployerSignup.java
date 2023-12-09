@@ -14,19 +14,19 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployerSignup {
-    @Size(min = 2, max = 25, message = "company name must be at least 2 characters")
+    @Size(min = 2, max = 125, message = "company name must be at least 2 characters")
     @NotBlank(message = "company name must not be blank")
     String companyName;
 
-    @Size(min = 10, max = 150, message = "company description must be at least 10 characters")
+    @Size(min = 10, max = 250, message = "company description must be at least 10 characters")
     @NotBlank(message = "company name must not be blank")
     String companyDescription;
 
-    @Size(min = 3, max = 35, message = "address must be at least 3 characters")
+    @Size(min = 3, max = 250, message = "address must be at least 3 characters")
     @NotBlank(message = "Address is required")
     String address;
 
-    @Size(min = 3, max = 25, message = "country must be at least 3 characters")
+    @Size(min = 3, max = 150, message = "country must be at least 3 characters")
     @NotBlank(message = "Country cannot be blank")
     String country;
 
@@ -38,7 +38,7 @@ public class EmployerSignup {
     @NotBlank(message = "City cannot be empty")
     String city;
 
-    @Size(min = 8, max = 50)
+    @Size(min = 8, max = 150)
     @Email(message = "E-mail must be valid")
     @NotBlank(message = "E-mail required")
     String email;
@@ -53,7 +53,7 @@ public class EmployerSignup {
     @NotBlank(message = "firstName must not be blank")
     String firstName;
 
-    @Size(min = 2, max = 25, message = "lastName must be at least 2 characters")
+    @Size(min = 2, max = 125, message = "lastName must be at least 2 characters")
     @NotBlank(message = "lastName must not be blank")
     String lastName;
 
@@ -61,7 +61,7 @@ public class EmployerSignup {
     @NotBlank(message = "Please input a valid number")
     String phoneNumber;
 
-    @Size(min = 6, max = 15, message = "password must be at least 6 characters")
+    @Size(min = 6, max = 55, message = "password must be at least 6 characters")
     @NotBlank(message = "password must not be blank")
     String password;
 }

@@ -21,6 +21,7 @@ import com.swiftselect.repositories.NiceToHaveRepository;
 import com.swiftselect.repositories.QualificationRepository;
 import com.swiftselect.services.JobPostService;
 import com.swiftselect.utils.AppConstants;
+import com.swiftselect.utils.HelperClass;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,7 @@ public class JobPostController {
     private final ModelMapper modelMapper;
     private final JobPostService jobPostService;
     private final JobPostRepository jobPostRepository;
+    private final HelperClass helperClass;
 
     // GET ALL JOB POSTS
     @GetMapping
@@ -53,51 +55,6 @@ public class JobPostController {
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse<JobPostResponse>> getJobPostById(@PathVariable Long id) {
         return jobPostService.getJobPostById(id);
-    }
-
-    @GetMapping("/filter")
-    public ResponseEntity<APIResponse<List<JobPostResponse>>> getJobPosts(
-            @RequestParam(required = false) JobType REMOTE,
-            @RequestParam(required = false) JobType HYBRID,
-            @RequestParam(required = false) JobType ON_SITE,
-            @RequestParam(required = false) EmploymentType FULL_TIME,
-            @RequestParam(required = false) EmploymentType PART_TIME,
-            @RequestParam(required = false) EmploymentType CONTRACT,
-            @RequestParam(required = false) EmploymentType TEMPORARY,
-            @RequestParam(required = false) ExperienceLevel ENTRY_LEVEL,
-            @RequestParam(required = false) ExperienceLevel JUNIOR_LEVEL,
-            @RequestParam(required = false) ExperienceLevel MID_LEVEL,
-            @RequestParam(required = false) ExperienceLevel SENIOR_LEVEL,
-            @RequestParam(required = false) ExperienceLevel EXPERT_LEVEL
-    ) {
-
-        return ResponseEntity.ok(
-                new APIResponse<>(
-                        "successful",
-                        jobPostRepository.findJobPostsByJobTypeOrJobTypeOrJobTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrEmploymentTypeOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevelOrExperienceLevel(
-                                        REMOTE,
-                                        HYBRID,
-                                        ON_SITE,
-                                        FULL_TIME,
-                                        PART_TIME,
-                                        CONTRACT,
-                                        TEMPORARY,
-                                        ENTRY_LEVEL,
-                                        JUNIOR_LEVEL,
-                                        MID_LEVEL,
-                                        SENIOR_LEVEL,
-                                        EXPERT_LEVEL
-                                ).stream()
-                                .map(jobPost -> {
-                                    JobPostResponse jobPostResponse = modelMapper.map(jobPost, JobPostResponse.class);
-                                    jobPostResponse.setCompanyName(jobPost.getEmployer().getCompanyName());
-                                    jobPostResponse.setLogo(jobPost.getEmployer().getProfilePicture());
-
-                                    return jobPostResponse;
-                                })
-                                .toList()
-                )
-        );
     }
 
 

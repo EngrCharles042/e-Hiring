@@ -17,8 +17,8 @@ import java.util.Map;
 
 @RestController
 public class ChatController {
-    private static String CHAT_ENGINE_PROJECT_ID = "95909330-4295-4156-bd8a-8b70b1e062d7";
-    private static String CHAT_ENGINE_PRIVATE_KEY = "48c3d381-cfd6-4d7c-9bfe-80bb441290a4";
+    private static String CHAT_ENGINE_PROJECT_ID = "c412161a-cac6-4c07-8c07-72e63019ead5";
+    private static String CHAT_ENGINE_PRIVATE_KEY = "ed2aeca4-6c32-4a82-b5db-e00857258fb2";
 
     @CrossOrigin
     @RequestMapping(path = "/chat/login", method = RequestMethod.POST)
