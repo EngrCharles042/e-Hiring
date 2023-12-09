@@ -77,6 +77,8 @@ public class Config {
                         .hasAnyAuthority("JOB_SEEKER", "EMPLOYER")
                         .requestMatchers(antMatcher(HttpMethod.GET, "/notification/**"))
                         .permitAll()
+                        .requestMatchers(antMatcher("/job-post/filter/**"))
+                        .permitAll()
                         .requestMatchers(antMatcher("/chat/**"))
                         .permitAll()
                         .requestMatchers(antMatcher("/job-seeker/**"))

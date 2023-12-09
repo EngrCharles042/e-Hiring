@@ -521,7 +521,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
                     "Description: " + jobPost.getDescription() + "\n" +
                     "Country: " + jobPost.getCountry() + "\n" +
                     "State: " + jobPost.getState() + "\n" +
-                    "Application Deadline: " + jobPost.getApplicationDeadline();
+                    "Application Deadline: " + jobPost.getApplicationDeadline() + "\n" +
+                    "<a href=\"http://127.0.0.1:1123/\">Click here to enter the application</a>";
 
             log.info("Sending notification email to {}: {}", subscriber.getEmail(), subject);
 
@@ -534,7 +535,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
             notificationRepository.save(notification);
 
-            sendNotification(notification);
+//            sendNotification(notification);
 
             sendNotificationEmail(subscriber.getEmail(), subscriber.getFirstName(), subject, description);
         }
@@ -543,21 +544,21 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 
     @Override
     public void sendNotification(Notification notification) {
-        String recipientEmail = notification.getRecipient().getEmail();
-        String subject = "New Notification: " + notification.getMessage();
-        String content = "You have a new notification: " + notification.getMessage();
-
-        helperClass.sendNotificationEmailTosubscribers(
-                notification.getRecipient().getFirstName(),
-                "",
-                mailSender,
-                sendMail,
-                Collections.singletonList(recipientEmail),
-                "New Job Post Notification",
-                "Swift Select Customer Service",
-                subject,
-                content
-        );
+//        String recipientEmail = notification.getRecipient().getEmail();
+//        String subject = "New Notification: " + notification.getMessage();
+//        String content = "You have a new notification: " + notification.getMessage();
+//
+//        helperClass.sendNotificationEmailTosubscribers(
+//                notification.getRecipient().getFirstName(),
+//                "",
+//                mailSender,
+//                sendMail,
+//                Collections.singletonList(recipientEmail),
+//                "New Job Post Notification",
+//                "Swift Select Customer Service",
+//                subject,
+//                content
+//        );
     }
 
 
@@ -593,7 +594,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     public ResponseEntity<APIResponse<List<NotificationResponse>>> getNotifications() {
         JobSeeker jobSeeker = getJobSeeker();
 
-        List<Notification> notifications = notificationRepository.findAllByRecipientOrderByCreateDate(jobSeeker);
+        List<Notification> notifications = notificationRepository.findAllByRecipientOrderByCreateDateDesc(jobSeeker);
 
         List<NotificationResponse> notificationResponses = notifications.stream()
                 .map(notification -> NotificationResponse.builder()

@@ -12,15 +12,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobSeekerSignup {
-    @Size(min = 2, max = 25, message = "name must be at least 2 characters")
+    @Size(min = 2, max = 125, message = "name must be at least 2 characters")
     @NotBlank(message = "name must not be blank")
     String firstName;
 
-    @Size(min = 2, max = 25, message = "name must be at least 2 characters")
+    @Size(min = 2, max = 125, message = "name must be at least 2 characters")
     @NotBlank(message = "name must not be blank")
     String lastName;
 
-    @Size(min = 6, max = 15, message = "password must be at least 6 characters")
+    @Size(min = 6, max = 65, message = "password must be at least 6 characters")
     @NotBlank(message = "password must not be blank")
     String password;
 
